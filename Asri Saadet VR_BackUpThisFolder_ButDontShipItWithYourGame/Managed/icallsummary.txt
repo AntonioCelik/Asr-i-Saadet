@@ -536,6 +536,7 @@ UnityEngine.GameObject::GetComponent
 UnityEngine.GameObject::GetComponentInChildren
 UnityEngine.GameObject::GetComponentInParent
 UnityEngine.GameObject::Internal_AddComponentWithType
+UnityEngine.GameObject::Find
 UnityEngine.GameObject::FindGameObjectsWithTag
 UnityEngine.GameObject::get_transform
 UnityEngine.GeometryUtility::TestPlanesAABB_Injected
@@ -646,7 +647,6 @@ UnityEngine.GUIUtility::Internal_GetDefaultSkin
 UnityEngine.GUIUtility::get_pixelsPerPoint
 UnityEngine.GUIUtility::get_compositionString
 UnityEngine.GUIUtility::get_systemCopyBuffer
-UnityEngine.GUIUtility::AlignRectToDevice_Injected
 UnityEngine.GUIUtility::BeginContainer
 UnityEngine.GUIUtility::BeginContainerFromOwner
 UnityEngine.GUIUtility::Internal_EndContainer
@@ -737,6 +737,7 @@ UnityEngine.Light::get_shadows
 UnityEngine.Light::get_type
 UnityEngine.Light::get_shadowResolution
 UnityEngine.Light::get_cookie
+UnityEngine.LineRenderer::get_useWorldSpace
 UnityEngine.LineRenderer::SetColorGradient
 UnityEngine.LineRenderer::SetPosition_Injected
 UnityEngine.LineRenderer::SetPositions
@@ -889,6 +890,7 @@ UnityEngine.Physics2D::get_queriesHitTriggers
 UnityEngine.Physics2D::GetRayIntersectionAll_Internal_Injected
 UnityEngine.PhysicsScene::Internal_RaycastTest_Injected
 UnityEngine.PhysicsScene::Internal_Raycast_Injected
+UnityEngine.PhysicsScene::IsValid_Internal_Injected
 UnityEngine.PhysicsScene::Query_SphereCast_Injected
 UnityEngine.PhysicsScene::Internal_RaycastNonAlloc_Injected
 UnityEngine.PhysicsScene::Internal_SphereCastNonAlloc_Injected
@@ -899,6 +901,7 @@ UnityEngine.PhysicsScene2D::RaycastArray_Internal_Injected
 UnityEngine.PhysicsScene2D::RaycastList_Internal_Injected
 UnityEngine.PhysicsScene2D::GetRayIntersection_Internal_Injected
 UnityEngine.PhysicsScene2D::Raycast_Internal_Injected
+UnityEngine.PhysicsSceneExtensions::GetPhysicsScene_Internal_Injected
 UnityEngine.Playables.PlayableHandle::IsValid_Injected
 UnityEngine.Playables.PlayableHandle::GetPlayableType_Injected
 UnityEngine.PlayerConnectionInternal::IsConnected
@@ -1134,6 +1137,7 @@ UnityEngine.RenderTexture::get_graphicsFormat
 UnityEngine.RenderTexture::GetActive
 UnityEngine.RenderTexture::GetTemporary_Internal_Injected
 UnityEngine.RenderTexture::get_dimension
+UnityEngine.Resources::UnloadUnusedAssets
 UnityEngine.Resources::GetBuiltinResource
 UnityEngine.ResourcesAPIInternal::Load
 UnityEngine.ResourcesAPIInternal::FindObjectsOfTypeAll
@@ -1292,13 +1296,13 @@ UnityEngine.TextCore.LowLevel.FontEngine::TryGetGlyphWithIndexValue_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::TryGetGlyphWithUnicodeValue_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::TryGetSystemFontReference_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::GetFaceInfo_Internal
-UnityEngine.TextCore.LowLevel.FontEngine::GetGlyphPairAdjustmentRecordsFromMarshallingArray
+UnityEngine.TextCore.LowLevel.FontEngine::GetPairAdjustmentRecordsFromMarshallingArray
 UnityEngine.TextCore.LowLevel.FontEngine::InitializeFontEngine_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::LoadFontFace_With_Size_And_FaceIndex_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::LoadFontFace_With_Size_FromFont_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::LoadFontFace_With_Size_and_FaceIndex_FromFont_Internal
 UnityEngine.TextCore.LowLevel.FontEngine::LoadFontFace_With_Size_by_FamilyName_and_StyleName_Internal
-UnityEngine.TextCore.LowLevel.FontEngine::PopulatePairAdjustmentRecordMarshallingArray_from_GlyphIndexes
+UnityEngine.TextCore.LowLevel.FontEngine::PopulatePairAdjustmentRecordMarshallingArray_from_KernTable
 UnityEngine.TextCore.LowLevel.FontEngine::GetGlyphIndex
 UnityEngine.TextCore.LowLevel.FontEngine::ResetAtlasTexture
 UnityEngine.TextCore.LowLevel.FontEngine::SetTextureUploadMode
@@ -1323,6 +1327,9 @@ UnityEngine.Texture::set_anisoLevel
 UnityEngine.Texture::set_filterMode
 UnityEngine.Texture::set_mipMapBias
 UnityEngine.Texture::set_wrapMode
+UnityEngine.Texture::set_wrapModeU
+UnityEngine.Texture::set_wrapModeV
+UnityEngine.Texture::set_wrapModeW
 UnityEngine.Texture::get_filterMode
 UnityEngine.Texture::GetDimension
 UnityEngine.Texture::get_wrapMode
@@ -1330,8 +1337,8 @@ UnityEngine.Texture2D::Internal_CreateImpl
 UnityEngine.Texture2D::ReinitializeImpl
 UnityEngine.Texture2D::ReinitializeWithFormatImpl
 UnityEngine.Texture2D::get_isReadable
-UnityEngine.Texture2D::GetRawImageDataSize
 UnityEngine.Texture2D::GetWritableImageData
+UnityEngine.Texture2D::GetRawImageDataSize
 UnityEngine.Texture2D::ApplyImpl
 UnityEngine.Texture2D::GetPixelBilinearImpl_Injected
 UnityEngine.Texture2D::ReadPixelsImpl_Injected
@@ -1444,6 +1451,7 @@ UnityEngine.UISystemProfilerApi::AddMarker
 UnityEngine.UISystemProfilerApi::BeginSample
 UnityEngine.UISystemProfilerApi::EndSample
 UnityEngine.UnityLogWriter::WriteStringToUnityLogImpl
+UnityEngine.Vector3::Slerp_Injected
 UnityEngine.XR.InputDevices::IsDeviceValid
 UnityEngine.XR.InputDevices::SendHapticImpulse
 UnityEngine.XR.InputDevices::TryGetFeatureValue_Quaternionf
@@ -1473,6 +1481,7 @@ UnityEngine.XR.XRDisplaySubsystem::TryGetDisplayRefreshRate
 UnityEngine.XR.XRDisplaySubsystem::TryGetMotionToPhoton
 UnityEngine.XR.XRDisplaySubsystem::GetPreferredMirrorBlitMode
 UnityEngine.XR.XRDisplaySubsystem::GetRenderPassCount
+UnityEngine.XR.XRDisplaySubsystem::MarkTransformLateLatched
 UnityEngine.XR.XRDisplaySubsystem::SetMSAALevel
 UnityEngine.XR.XRDisplaySubsystem::set_disableLegacyRenderer
 UnityEngine.XR.XRDisplaySubsystem::set_sRGB
