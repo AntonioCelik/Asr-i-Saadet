@@ -137,10 +137,6 @@ Library: /Users/hasanyurdagul/Downloads/Asr-i-Saadet-main/Asr-i-Saadet/Temp/Stag
 --compilation-defines=ENABLE_BURST_1_0_0_OR_NEWER
 --compilation-defines=USING_ANIMATION_MODULE
 --compilation-defines=USING_PHYSICS2D_MODULE
---compilation-defines=UNITY_INPUT_SYSTEM
---compilation-defines=XR_MGMT_GTE_320
---compilation-defines=TIMELINE_FRAMEACCURATE
---compilation-defines=UNITY_ANALYTICS
 --compilation-defines=USING_URP
 --compilation-defines=UNITY_PHYSICS
 --compilation-defines=UNITY_ANIMATION
@@ -148,6 +144,10 @@ Library: /Users/hasanyurdagul/Downloads/Asr-i-Saadet-main/Asr-i-Saadet/Temp/Stag
 --compilation-defines=UNITY_WEBREQUEST_TEXTURE
 --compilation-defines=USING_URP_12_OR_NEWER
 --compilation-defines=UNITY_SHADER_GRAPH_12_OR_NEWER
+--compilation-defines=UNITY_INPUT_SYSTEM
+--compilation-defines=XR_MGMT_GTE_320
+--compilation-defines=TIMELINE_FRAMEACCURATE
+--compilation-defines=UNITY_ANALYTICS
 --generate-link-xml=Temp/burst.link.xml
 --temp-folder=/Users/hasanyurdagul/Downloads/Asr-i-Saadet-main/Asr-i-Saadet/Temp/Burst
 --key-folder=/Applications/Unity/Hub/Editor/2021.3.24f1/PlaybackEngines/AndroidPlayer
