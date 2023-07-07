@@ -2,20 +2,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour {
-    private static MenuManager instance;
-    private const string MainScene = "Hauptszene";
+    public static MenuManager Instance { get; private set; }
     [SerializeField] private GameObject mainPage;
     [SerializeField] private GameObject optionsPage;
 
     private void Awake() {
-        if (instance == null)
-            instance = this;
-        else
+        if (Instance == null) {
+            Instance = this;
+        }
+        else if (Instance != this) {
             Destroy(this.gameObject);
+            return;
+        }
     }
 
     public void StartGame() {
-        SceneManager.LoadScene(MainScene);
+        SceneManager.LoadScene(1); // Load game scene
     }
 
     public void OpenOptionsPage() {
