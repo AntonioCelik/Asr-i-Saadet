@@ -31715,27 +31715,27 @@ PrefabInstance:
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
       propertyPath: scent
-      value: 24.6
+      value: 6.12
       objectReference: {fileID: 0}
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
       propertyPath: awareness
-      value: 10.7
+      value: 3.91
       objectReference: {fileID: 0}
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
       propertyPath: showGizmos
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
       propertyPath: wanderZone
-      value: 5.32
+      value: 4.67
       objectReference: {fileID: 0}
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
       propertyPath: drawScentRange
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
@@ -31745,7 +31745,7 @@ PrefabInstance:
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
       propertyPath: drawAwarenessRange
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114009100225796694, guid: 82432984c7cfb7f40af9d8caaf71f926,
         type: 3}
@@ -41297,6 +41297,31 @@ PrefabInstance:
     - target: {fileID: 4303067238997750, guid: 3e862f40cc8ad65468baa9837635c9c8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389504973745632, guid: 3e862f40cc8ad65468baa9837635c9c8,
+        type: 3}
+      propertyPath: movementStates.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389504973745632, guid: 3e862f40cc8ad65468baa9837635c9c8,
+        type: 3}
+      propertyPath: movementStates.Array.data[0].moveSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389504973745632, guid: 3e862f40cc8ad65468baa9837635c9c8,
+        type: 3}
+      propertyPath: movementStates.Array.data[0].stateName
+      value: Running
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389504973745632, guid: 3e862f40cc8ad65468baa9837635c9c8,
+        type: 3}
+      propertyPath: movementStates.Array.data[0].turnSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 114389504973745632, guid: 3e862f40cc8ad65468baa9837635c9c8,
+        type: 3}
+      propertyPath: movementStates.Array.data[0].animationBool
+      value: isRunning
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e862f40cc8ad65468baa9837635c9c8, type: 3}
@@ -78815,6 +78840,16 @@ PrefabInstance:
         type: 3}
       propertyPath: constainedToWanderZone
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 25511945054143294, guid: 81c3e640da93ff644973aab33c31cd34,
+        type: 3}
+      propertyPath: deathStates.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 25511945054143294, guid: 81c3e640da93ff644973aab33c31cd34,
+        type: 3}
+      propertyPath: attackingStates.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81c3e640da93ff644973aab33c31cd34, type: 3}
