@@ -1,52 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class MenuManager2 : MonoBehaviour
-{
-    public GameObject baslangic;
-    public GameObject yurume;
-    public GameObject tutma;
-    public GameObject startGame;      
+public class MenuManager2 : MonoBehaviour {
+    public static MenuManager2 Instance { get; private set; }
+    [SerializeField] private GameObject mainPage;
+    [SerializeField] private GameObject yurumePage;
+    [SerializeField] private GameObject tutmaBirakmaPage;
+    [SerializeField] private GameObject oyunaBaslaPage;
 
+  
 
-
-    void Start()
-    {
-        // Başlangıçta ekstra UI elementlerini gizle
-        yurume.SetActive(false);
-        tutma.SetActive(false);
-        startGame.SetActive(false);
+    public void StartGame() {
+        SceneManager.LoadScene(1); // Load game scene
     }
 
-    public void OnExitButtonClicked()
-    {
-        SceneManager.LoadScene("X"); // "X" burada Exit butonuna basıldığında gidilecek sahnenin adıdır
+    public void OpenYurumePage() {
+        mainPage.SetActive(false);
+        yurumePage.SetActive(true);
+    }
+    public void OpenTutmaPage() {
+        yurumePage.SetActive(false);
+        tutmaBirakmaPage.SetActive(true);
+    }
+    public void OpenOyunaBaslaPage() {
+        tutmaBirakmaPage.SetActive(false);
+        oyunaBaslaPage.SetActive(true);
     }
 
-    public void OnStartButtonClicked()
-    {
-        yurume.SetActive(true);
-        baslangic.SetActive(false);
-        
-    }
+    
 
-    public void OnContinueButtonClicked()
-    {
-        
-        tutma.SetActive(true);
-        yurume.SetActive(false);
-    }
-    public void OnContinue2ButtonClicked()
-    {
-        
-        tutma.SetActive(false);
-        startGame.SetActive(true);
-    }
-    public void OnStartGameButtonClicked()
-    {
-        SceneManager.LoadScene("Y"); // "Y" burada Oyuna Başla butonuna basıldığında gidilecek sahnenin adıdır
+    public void QuitGame() {
+        Application.Quit();
     }
 }
