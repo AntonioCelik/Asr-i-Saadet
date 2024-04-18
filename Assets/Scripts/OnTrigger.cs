@@ -9,7 +9,6 @@ using UnityEngine.Events;
 public class OnTrigger : MonoBehaviour
 {
     public string requiredTag = string.Empty;
-
     [Serializable] public class TriggerEvent : UnityEvent<Collider> { }
 
     // When the object enters a collision
