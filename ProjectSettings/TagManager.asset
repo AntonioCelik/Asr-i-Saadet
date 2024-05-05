@@ -4,7 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Stair
+  - WallRun
+  - Climb
+  - Fly
   - Character
+  - Animal
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -21,15 +27,15 @@ TagManager:
   - 
   - 
   - 
+  - BodyPart
   - 
   - 
   - 
   - 
+  - Animal
   - 
   - 
-  - 
-  - 
-  - 
+  - Enemy
   - 
   - 
   - 
