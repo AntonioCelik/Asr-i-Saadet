@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.72538453, g: 0.79272527, b: 0.8295931, a: 1}
+  m_IndirectSpecularColor: {r: 0.4849924, g: 0.5915705, b: 0.65520734, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7037,6 +7037,7 @@ MonoBehaviour:
   UpdateAI: 0.2
   stoppingDistance: 1.68
   PointStoppingDistance: 0.6
+  additiveStopDistance: 0
   slowingDistance: 0
   UseScale: 1
   targetHeight: 5
@@ -24418,6 +24419,9 @@ MonoBehaviour:
     OnElementDamage:
       m_PersistentCalls:
         m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
   elements: []
   profiles: []
   Editor_Tabs1: 0
@@ -26301,6 +26305,9 @@ MonoBehaviour:
     ActivationTime: 0
   CloneStates: 1
   OverrideStartState: {fileID: 0}
+  activeState: {fileID: 0}
+  lastState: {fileID: 0}
+  queueState: {fileID: 0}
   groundLayer:
     UseConstant: 1
     ConstantValue:
@@ -36233,6 +36240,9 @@ MonoBehaviour:
     ActivationTime: 0
   CloneStates: 1
   OverrideStartState: {fileID: 0}
+  activeState: {fileID: 0}
+  lastState: {fileID: 0}
+  queueState: {fileID: 0}
   groundLayer:
     UseConstant: 1
     ConstantValue:
@@ -39405,6 +39415,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     OnElementDamage:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatEmpty:
       m_PersistentCalls:
         m_Calls: []
   elements: []
@@ -65214,6 +65227,7 @@ MonoBehaviour:
   UpdateAI: 0.2
   stoppingDistance: 1.68
   PointStoppingDistance: 0.6
+  additiveStopDistance: 0
   slowingDistance: 0
   UseScale: 1
   targetHeight: 5

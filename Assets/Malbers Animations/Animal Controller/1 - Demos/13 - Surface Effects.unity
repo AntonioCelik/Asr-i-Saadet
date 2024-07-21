@@ -447,6 +447,9 @@ MonoBehaviour:
     OnElementDamage:
       m_PersistentCalls:
         m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
   elements: []
   profiles: []
   Editor_Tabs1: 0
@@ -1086,6 +1089,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     OnElementDamage:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatEmpty:
       m_PersistentCalls:
         m_Calls: []
   elements: []
@@ -1942,6 +1948,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     OnElementDamage:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatEmpty:
       m_PersistentCalls:
         m_Calls: []
   elements: []

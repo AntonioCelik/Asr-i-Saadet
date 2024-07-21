@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4849924, g: 0.5915705, b: 0.65520734, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -930,7 +930,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -962,6 +961,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -1871,7 +1871,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -1903,6 +1902,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls: []

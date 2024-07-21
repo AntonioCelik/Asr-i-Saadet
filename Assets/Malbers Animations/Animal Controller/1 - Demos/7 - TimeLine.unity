@@ -507,8 +507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945d0655ec416b543b9def277885559e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: 0
   Lerp: 2
+  Position: 0
   SlideAmount: 0.25
   SlideThreshold: 30
   SlideDamp: 20
@@ -516,7 +516,9 @@ MonoBehaviour:
     Slide: 1
     IgnoreRotation: 1
     MinAngle: 0
-  ActivationAngle: 180
+    ActivationAngle: 0
+    AdditiveForwardSpeed: 0
+    AdditiveHorizontalSpeed: 0
   OnEnter:
     rid: -2
   OnExit:
@@ -12492,7 +12494,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -12524,6 +12525,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -12795,7 +12797,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -12827,6 +12828,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -13864,7 +13866,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -13896,6 +13897,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 1
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -14013,7 +14015,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -14045,6 +14046,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 1
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -14318,7 +14320,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -14350,6 +14351,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -15731,7 +15733,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -15763,6 +15764,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -16285,7 +16287,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -16317,6 +16318,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -17235,7 +17237,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -17267,6 +17268,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -18064,7 +18066,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -18096,6 +18097,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -18713,7 +18715,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -18745,6 +18746,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -19529,7 +19531,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -19561,6 +19562,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -20065,7 +20067,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -20097,6 +20098,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:
@@ -20496,7 +20498,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -20528,6 +20529,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls:

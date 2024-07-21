@@ -10805,6 +10805,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  strafeOnUnequip:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   AimIKRight: {fileID: 0}
   AimIKLeft: {fileID: 0}
   TwoHandIK:
@@ -16202,6 +16206,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5269563833209068777, guid: 9133169553a02d0418a8c61561fcc4bb,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
     - target: {fileID: 8140637814876227737, guid: 9133169553a02d0418a8c61561fcc4bb,
         type: 3}
       propertyPath: stats.Array.data[0].EditorTabs
@@ -22014,6 +22023,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  strafeOnUnequip:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   AimIKRight: {fileID: 0}
   AimIKLeft: {fileID: 0}
   TwoHandIK:
@@ -22200,7 +22213,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23428,6 +23441,10 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   strafeOnEquip:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  strafeOnUnequip:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
@@ -34643,6 +34660,10 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   strafeOnEquip:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  strafeOnUnequip:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}

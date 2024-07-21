@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1355568772}
-  m_IndirectSpecularColor: {r: 0.7304493, g: 0.7985106, b: 0.8354521, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7790,7 +7790,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: -99
     Variable: {fileID: 0}
-  ZoneID: 0
   m_abilityStatus: 0
   AbilityTime: 3
   Force:
@@ -7822,6 +7821,7 @@ MonoBehaviour:
   JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
+  PrepareModeZone: 1
   OnEnter:
     m_PersistentCalls:
       m_Calls: []
@@ -17573,6 +17573,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3428635456135994509, guid: aa3adfd5958b2114592cdff1ec26c7de,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 3569818586178586399, guid: aa3adfd5958b2114592cdff1ec26c7de,
         type: 3}
       propertyPath: triggerInteraction
@@ -17618,6 +17623,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -31.89
       objectReference: {fileID: 0}
+    - target: {fileID: 8036673463397498024, guid: aa3adfd5958b2114592cdff1ec26c7de,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

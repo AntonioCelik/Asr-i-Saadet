@@ -7363,6 +7363,9 @@ MonoBehaviour:
     ActivationTime: 0
   CloneStates: 1
   OverrideStartState: {fileID: 0}
+  activeState: {fileID: 0}
+  lastState: {fileID: 0}
+  queueState: {fileID: 0}
   groundLayer:
     UseConstant: 1
     ConstantValue:
@@ -9001,7 +9004,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   TurnLimit: 45
-  rootMotion:
+  GlobalRootMotion:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
@@ -9800,6 +9803,9 @@ MonoBehaviour:
     OnElementDamage:
       m_PersistentCalls:
         m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
   elements:
   - element: {fileID: 11400000, guid: 951aaa6113759be4f86dbc0c288e7a04, type: 2}
     multiplier:
@@ -10277,6 +10283,7 @@ MonoBehaviour:
   animal: {fileID: 95444453729787667}
   modes:
   - {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
+  ExcludeAbilities: 
   ignoreStates:
   - {fileID: 11400000, guid: adfa24f62d6db4d40a1d837f4ec1a6e9, type: 2}
   KeepCurrentTarget:
@@ -10335,6 +10342,7 @@ MonoBehaviour:
   modes:
   - {fileID: 11400000, guid: 29bdac49b8510e74db1c074ba91fbe3f, type: 2}
   - {fileID: 11400000, guid: 87cd5a9f71d66f84493bd68df8277f21, type: 2}
+  ExcludeAbilities: 
   ignoreStates:
   - {fileID: 11400000, guid: adfa24f62d6db4d40a1d837f4ec1a6e9, type: 2}
   KeepCurrentTarget:
@@ -10392,6 +10400,7 @@ MonoBehaviour:
   animal: {fileID: 95444453729787667}
   modes:
   - {fileID: 11400000, guid: dc411047be38d924fbfc67128f6957f2, type: 2}
+  ExcludeAbilities: 
   ignoreStates:
   - {fileID: 11400000, guid: adfa24f62d6db4d40a1d837f4ec1a6e9, type: 2}
   KeepCurrentTarget:
@@ -38363,7 +38372,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

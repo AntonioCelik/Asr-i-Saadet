@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4849924, g: 0.5915705, b: 0.65520734, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7652,6 +7652,9 @@ MonoBehaviour:
     OnElementDamage:
       m_PersistentCalls:
         m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
   elements: []
   profiles: []
   Editor_Tabs1: 0
@@ -11506,6 +11509,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
+    Round:
+      UseConstant: 1
+      ConstantValue: -1
+      Variable: {fileID: 0}
     multiplier:
       UseConstant: 1
       ConstantValue: 1
@@ -11620,6 +11627,10 @@ MonoBehaviour:
     DisableOnEmpty:
       UseConstant: 1
       ConstantValue: 0
+      Variable: {fileID: 0}
+    Round:
+      UseConstant: 1
+      ConstantValue: -1
       Variable: {fileID: 0}
     multiplier:
       UseConstant: 1
@@ -11788,6 +11799,7 @@ MonoBehaviour:
   Stances: []
   modes:
   - active: 1
+    TemporalActivation: 1
     ignoreLowerModes: 1
     hasCoolDown: 0
     Input: Attack1
@@ -11995,6 +12007,7 @@ MonoBehaviour:
     m_Source: {fileID: 0}
     ActivationTime: 0
   - active: 1
+    TemporalActivation: 1
     ignoreLowerModes: 0
     hasCoolDown: 0
     Input: 
@@ -12198,6 +12211,7 @@ MonoBehaviour:
     m_Source: {fileID: 0}
     ActivationTime: 0
   - active: 1
+    TemporalActivation: 1
     ignoreLowerModes: 0
     hasCoolDown: 0
     Input: 
@@ -12401,6 +12415,7 @@ MonoBehaviour:
     m_Source: {fileID: 0}
     ActivationTime: 0
   - active: 1
+    TemporalActivation: 1
     ignoreLowerModes: 0
     hasCoolDown: 0
     Input: Action
@@ -12961,6 +12976,9 @@ MonoBehaviour:
     ActivationTime: 0
   CloneStates: 1
   OverrideStartState: {fileID: 0}
+  activeState: {fileID: 0}
+  lastState: {fileID: 0}
+  queueState: {fileID: 0}
   groundLayer:
     UseConstant: 1
     ConstantValue:
@@ -13517,7 +13535,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   TurnLimit: 120
-  rootMotion:
+  GlobalRootMotion:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
@@ -13912,6 +13930,7 @@ MonoBehaviour:
   UpdateAI: 0.2
   stoppingDistance: 1.5
   PointStoppingDistance: 0.6
+  additiveStopDistance: 0
   slowingDistance: 0
   UseScale: 1
   targetHeight: 5
