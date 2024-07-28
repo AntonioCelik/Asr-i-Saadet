@@ -11,6 +11,9 @@ TagManager:
   - Character
   - Animal
   - Water
+  - quest1
+  - tas
+  - es
   layers:
   - Default
   - TransparentFX

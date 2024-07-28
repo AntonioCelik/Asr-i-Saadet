@@ -1,4 +1,0 @@
-repository "Asr-i Saadet@antoniocelik@cloud"
-  path "/"
-    br "/main"
-    co "/main"
