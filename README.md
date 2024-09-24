@@ -1,6 +1,6 @@
 # Asr-i Saadet
 
-## Local de hesabinizi entegre etmek icin (local folder icin yapmazniz gerekiyor)
+## Local de hesabinizi entegre etmek icin (local folder icin yapmaniz gerekiyor)
 
 ```
 git config --global user.name "Adınız"
