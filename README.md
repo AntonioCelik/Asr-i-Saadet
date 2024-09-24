@@ -1,12 +1,6 @@
 # Asr-i Saadet
 
-## Get Started
-
-```
-https://github.com/AntonioCelik/Asr-i-Saadet.git
-```
-
-## Local de hesabi entegre etmek icin
+## Local de hesabinizi entegre etmek icin (local folder icin yapmazniz gerekiyor)
 
 ```
 git config --global user.name "Adınız"
@@ -35,7 +29,7 @@ git rev-parse --show-toplevel
 - Let's say you do not have local repository you would clone this repository like so
 
 ```
-git clone https://github.com/rtg-wispermed/Patient_trajectory_public.git
+git clone https://github.com/AntonioCelik/Asr-i-Saadet.git
 
 ```
 This will initialize the git and download all the content from default branch.
@@ -58,7 +52,7 @@ git status
 Assume, someone else made some changes before you and commited them. You would want to update your local repository.( Actually it makes sense to do it before start working because we are small group and no one would write a code that conflicts with other codes.) Run command:
 
 ```
-git pull patient-public main
+git pull 
 
 ```
 Then, you stage your changes. The '.' means you want to stage all of your changes.
@@ -73,7 +67,7 @@ git commit -m "your commit message"
 Lastly, you must push your commit to the main branch.
 
 ```
-git push patient-public main
+git push main
 ```
 
 If there is no conflicting code, above commands should work. However, if you think the you should modify (or modified) the code in a way that it would conflict, here is how to create a new branch and start a pull request to be compared and merged with the main branch.
