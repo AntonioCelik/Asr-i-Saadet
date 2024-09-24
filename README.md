@@ -85,7 +85,7 @@ git branch <new-branch-name>
 
 git checkout <new-branch-name>
 
-git commit -am "message"
+git commit -m "message"
 
 git push origin <new-branch-name>
 ```
