@@ -17,4 +17,4 @@ MonoBehaviour:
   value: 'You can use [Lerp Material Property] assets to change a Property over time.
 
     E.g.
-    The _Emmision is increased when the Animal touches the Health Pack'
+    The parameter ''_Emmision'' is animated when the Animal touches the Health Pack'

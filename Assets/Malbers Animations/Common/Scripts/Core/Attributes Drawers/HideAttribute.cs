@@ -151,7 +151,7 @@ namespace MalbersAnimations
             SerializedProperty sourcePropertyValue;
 
             //Get the full relative property path of the sourcefield so we can have nested hiding.Use old method when dealing with arrays
-          //  if (!property.isArray)
+            //  if (!property.isArray)
             {
                 //returns the property path of the property we want to apply the attribute to
                 string propertyPath = property.propertyPath;

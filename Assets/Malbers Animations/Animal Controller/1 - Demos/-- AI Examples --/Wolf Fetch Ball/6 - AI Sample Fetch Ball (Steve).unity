@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1281922324}
-  m_IndirectSpecularColor: {r: 0.4849924, g: 0.5915705, b: 0.65520734, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -471,7 +470,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2350f0ddd3227e94e8e90df581a3ec7b, type: 2}
+  - {fileID: 2100000, guid: 19e3838ceadd39d48a476e0a9a6e6515, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -588,6 +587,11 @@ PrefabInstance:
       propertyPath: MoveAgentOnMovingTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 618367561019557128, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 777501663697548374, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: debug
@@ -632,7 +636,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnItemDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 608095561}
+      objectReference: {fileID: 0}
     - target: {fileID: 777501663697548374, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: OnItemPicked.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -647,7 +651,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnItemPicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 608095561}
+      objectReference: {fileID: 0}
     - target: {fileID: 777501663697548374, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: CanPickUp.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -744,10 +748,20 @@ PrefabInstance:
       propertyPath: m_AimTarget.ConstantValue
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3531666411491656798, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4483569251118249797, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_StoppingDistance
       value: 1.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 4654937940680463528, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577946832772373446, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -833,12 +847,12 @@ PrefabInstance:
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: Editor_Tabs2
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -1011,7 +1025,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7170917154932408398, guid: d520239042c144f438232f9375004dc2, type: 3}
+    - {fileID: 618367561019557128, guid: d520239042c144f438232f9375004dc2, type: 3}
+    - {fileID: 3531666411491656798, guid: d520239042c144f438232f9375004dc2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1115,7 +1132,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2350f0ddd3227e94e8e90df581a3ec7b, type: 2}
+  - {fileID: 2100000, guid: 19e3838ceadd39d48a476e0a9a6e6515, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1610,12 +1627,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1088307713}
   m_SourcePrefab: {fileID: 100100000, guid: 9133169553a02d0418a8c61561fcc4bb, type: 3}
---- !u!1 &608095561 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7528048343861120787, guid: d520239042c144f438232f9375004dc2,
-    type: 3}
-  m_PrefabInstance: {fileID: 271844060}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &733587754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,7 +1728,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2350f0ddd3227e94e8e90df581a3ec7b, type: 2}
+  - {fileID: 2100000, guid: 19e3838ceadd39d48a476e0a9a6e6515, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2861,7 +2872,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.10666666
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 899bea4082a9d824ebf741d13ec658ac, type: 2}
   m_BuildHeightMesh: 0
@@ -2986,7 +2997,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2350f0ddd3227e94e8e90df581a3ec7b, type: 2}
+  - {fileID: 2100000, guid: 19e3838ceadd39d48a476e0a9a6e6515, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3635,6 +3646,8 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0.6545739, b: 1, a: 0.27058825}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!225 &1658313140174017528
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3723,29 +3736,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Brain: {fileID: 0}
-  updateMode: 0
+  unscaledTime:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   priority: 10
   cameraSide: 1
+  CameraDistance:
+    UseConstant: 1
+    ConstantValue: 6
+    Variable: {fileID: 0}
   Target:
     UseConstant: 0
     ConstantValue: {fileID: 0}
     Variable: {fileID: 11400000, guid: e759cb94eee3fcd4bb2f749b1dbda0a8, type: 2}
-  CamPivot: {fileID: 0}
   look:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: 81ebbdea0e8140745b486bad86246321, type: 2}
-  invertX:
+  useUpVector: 0
+  upVector:
     UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  invertY:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  CameraDistance:
-    UseConstant: 1
-    ConstantValue: 6
+    ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
   XMultiplier:
     UseConstant: 1
@@ -3767,9 +3779,35 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 15
     Variable: {fileID: 0}
+  lerpPosition:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertX:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertY:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  CurrentDevice:
+    UseConstant: 1
+    ConstantValue: Mouse
+    Variable: {fileID: 0}
+  UsingMouse:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  GamepadMult:
+    UseConstant: 1
+    ConstantValue: 100
+    Variable: {fileID: 0}
   OnActiveCamera:
     m_PersistentCalls:
       m_Calls: []
+  _cinemachineTargetYaw: 0
+  _cinemachineTargetPitch: 0
 --- !u!114 &2302223610688111030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4088,6 +4126,9 @@ MonoBehaviour:
   OnInputDisabled:
     m_PersistentCalls:
       m_Calls: []
+  OnUsingGamePad:
+    m_PersistentCalls:
+      m_Calls: []
   IgnoreOnPause:
     UseConstant: 1
     ConstantValue: 1
@@ -4106,9 +4147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Align: 0
-  AlignPos: 0
   AlignTime: 0.15
-  AlignDistance: 1
   PickDelay:
     UseConstant: 1
     ConstantValue: 0.15
@@ -4137,6 +4176,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  canBePicked:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   m_AutoPick:
     UseConstant: 1
     ConstantValue: 0
@@ -4145,6 +4188,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 655925
     Variable: {fileID: 0}
+  holder: -1
   OnFocused:
     m_PersistentCalls:
       m_Calls:
@@ -4163,6 +4207,9 @@ MonoBehaviour:
   OnFocusedBy:
     m_PersistentCalls:
       m_Calls: []
+  OnUnfocusedBy:
+    m_PersistentCalls:
+      m_Calls: []
   OnPicked:
     m_PersistentCalls:
       m_Calls:
@@ -4179,6 +4226,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPickedFailed:
+    m_PersistentCalls:
+      m_Calls: []
   OnPrePicked:
     m_PersistentCalls:
       m_Calls:
@@ -4212,10 +4262,39 @@ MonoBehaviour:
   OnPreDropped:
     m_PersistentCalls:
       m_Calls: []
+  FocusedByReaction:
+    rid: -2
+  UnFocusedByReaction:
+    rid: -2
+  PickedReaction:
+    rid: -2
+  PrePickedReaction:
+    rid: -2
+  DroppedReaction:
+    rid: -2
+  PreDroppedReaction:
+    rid: -2
   rb: {fileID: 0}
+  DestroyRbOnPick:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   m_colliders:
   - {fileID: 58641874554006497}
+  kinematicOnPick:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  disableColliders:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   EditorTabs: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &3012248688734719216
 GameObject:
   m_ObjectHideFlags: 0
@@ -4267,6 +4346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Event: {fileID: 11400000, guid: 774c7acaf3bb1304fb314cd4bd618fcb, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 0
@@ -4333,10 +4413,15 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   ShowEvents: 1
   SelectedEvent: 0
 --- !u!114 &5146056326186313168
@@ -4596,6 +4681,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 8942318350600416917}
@@ -4930,6 +5016,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 8388609
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 5736035092562225473}
@@ -5167,7 +5254,11 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  IKHandPoint:
+  IKHandLeft:
+    UseConstant: 1
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 0}
+  IKHandRight:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
@@ -5295,6 +5386,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnReloadStart:
+    m_PersistentCalls:
+      m_Calls: []
   OnReload:
     m_PersistentCalls:
       m_Calls: []
@@ -5329,6 +5423,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0, b: 0.25899887, a: 0.2088263}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!54 &5736035092562225480
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5710,6 +5806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Event: {fileID: 11400000, guid: cfce411abff063746991a004eab64938, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 1
@@ -5824,10 +5921,15 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   ShowEvents: 1
   SelectedEvent: 0
 --- !u!114 &8151603082768698230
@@ -5851,6 +5953,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
+  cycle: 1
   HideOffScreen: {fileID: 0}
   ResetOnDisable: 0
   HideOnNull: 0
@@ -6171,6 +6274,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 8942318350600416917}
@@ -6386,17 +6490,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5472d22282f85745834021dd59fc302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Align: 1
-  AlignPos: 1
-  AlignTime: 0.15
-  AlignDistance: 1
+  Align: 0
+  AlignTime: 0
   PickDelay:
     UseConstant: 1
     ConstantValue: 0.3
     Variable: {fileID: 0}
   DropDelay:
     UseConstant: 1
-    ConstantValue: 0.3
+    ConstantValue: 0.1
     Variable: {fileID: 0}
   coolDown:
     UseConstant: 1
@@ -6418,6 +6520,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  canBePicked:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   m_AutoPick:
     UseConstant: 1
     ConstantValue: 0
@@ -6426,6 +6532,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 25
     Variable: {fileID: 0}
+  holder: -1
   OnFocused:
     m_PersistentCalls:
       m_Calls: []
@@ -6437,6 +6544,21 @@ MonoBehaviour:
           MalbersAnimations
         m_MethodName: SetValue
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnUnfocusedBy:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1700862161}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6461,6 +6583,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  OnPickedFailed:
+    m_PersistentCalls:
+      m_Calls: []
   OnPrePicked:
     m_PersistentCalls:
       m_Calls:
@@ -6506,9 +6631,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  FocusedByReaction:
+    rid: -2
+  UnFocusedByReaction:
+    rid: -2
+  PickedReaction:
+    rid: -2
+  PrePickedReaction:
+    rid: -2
+  DroppedReaction:
+    rid: -2
+  PreDroppedReaction:
+    rid: -2
   rb: {fileID: 0}
+  DestroyRbOnPick:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   m_colliders: []
-  EditorTabs: 1
+  kinematicOnPick:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  disableColliders:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  EditorTabs: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!54 &8942318350600416920
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6721,6 +6875,9 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   m_height: 0.5
   m_arriveLookAt: 1
+  m_TargetLimit: 0
+  m_targeterStopDistance: 0.2
+  m_WaitTargeterDistance: 4
   OnTargetArrived:
     m_PersistentCalls:
       m_Calls: []
@@ -6761,6 +6918,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 8942318350600416917}
@@ -6998,7 +7156,11 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  IKHandPoint:
+  IKHandLeft:
+    UseConstant: 1
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 0}
+  IKHandRight:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
@@ -7138,6 +7300,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnReloadStart:
+    m_PersistentCalls:
+      m_Calls: []
   OnReload:
     m_PersistentCalls:
       m_Calls: []

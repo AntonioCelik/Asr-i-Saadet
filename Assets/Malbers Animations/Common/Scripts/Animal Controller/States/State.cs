@@ -260,10 +260,10 @@ namespace MalbersAnimations.Controller
             {
                 var colorDeb = "orange";
 
-                if (ActiveState == null) 
-                { DebugingState($"Activating [{name}] failed. There's no active State (First Creation)", colorDeb);   return false;  }
+                if (ActiveState == null)
+                { DebugingState($"Activating [{name}] failed. There's no active State (First Creation)", colorDeb); return false; }
                 if (animal.JustActivateState)
-                { DebugingState($"Activating [{name}] failed. Another state was just activated", colorDeb);   return false;  }
+                { DebugingState($"Activating [{name}] failed. Another state was just activated", colorDeb); return false; }
                 if (!Active || IsSleep)
                 { DebugingState($"Activating [{name}] failed. State is disabled or Animal is set to Sleep", colorDeb); return false; }
                 if (ActiveState.Priority > Priority && ActiveState.IgnoreLowerStates)
@@ -274,8 +274,8 @@ namespace MalbersAnimations.Controller
                 { DebugingState($"Activating [{name}] failed. State is still in on Enter Cooldown", colorDeb); return false; }
                 if (OnHoldByReset)
                 { DebugingState($"Activating [{name}] failed. State [On Hold by Reset]. It needs other states to Reset it", colorDeb); return false; }
-             
-                if (ActiveState.IsPending )
+
+                if (ActiveState.IsPending)
                 {
                     if (ActiveState.Priority < Priority)
                     {
@@ -284,8 +284,9 @@ namespace MalbersAnimations.Controller
                         return true;
                     }
 
-                    DebugingState($"Activating [{name}] failed. The Current State is Pending.. it has not enter its Main Animation", colorDeb); 
-                    return false; }
+                    DebugingState($"Activating [{name}] failed. The Current State is Pending.. it has not enter its Main Animation", colorDeb);
+                    return false;
+                }
 
                 //if ((CurrentActiveState == null)         //Means there's no active State (First Creation)
                 //|| animal.JustActivateState              //AnotherState was just activated
@@ -306,7 +307,7 @@ namespace MalbersAnimations.Controller
         private void DebugingState(string value, string color1 = "white")
         {
 #if UNITY_EDITOR
-           if (animal.debugStates) Debug.Log($"<B>[{animal.name}]</B> → <color={color1}>{value}</color>", animal);
+            if (animal.debugStates) Debug.Log($"<B>[{animal.name}]</B> → <color={color1}>{value}</color>", animal);
 #endif
         }
 
@@ -347,7 +348,7 @@ namespace MalbersAnimations.Controller
         protected State CurrentActiveState => ActiveState;
 
         /// <summary>Can the State use the TryExitMethod</summary>
-        public bool CanExit  { get; internal set; }
+        public bool CanExit { get; internal set; }
         //{
         //    get => canExit;
         //    internal set
@@ -492,6 +493,8 @@ namespace MalbersAnimations.Controller
             transform = animal.transform;
 
             AwakeState();
+
+            TryOverride = true;
         }
 
 
@@ -537,7 +540,7 @@ namespace MalbersAnimations.Controller
             ResetState();
             ResetStateValues();
 
-            CurrentExitTime = -EnterCooldown * 5;
+
 
             //DirectionalVelocity = transform.forward; //As default the Directional is the Transform.forward
 
@@ -657,7 +660,6 @@ namespace MalbersAnimations.Controller
         {
             if (CheckQueuedState()) { return; }
 
-
             //CHECK IF CURRENT STATE is PENDING AND IS it HAS LOWER PRIORITY
             if (ActiveState.IsPending)
             {
@@ -670,7 +672,8 @@ namespace MalbersAnimations.Controller
 
             animal.Check_Queue_States(ID); //Check if a queue State was released
 
-            DisableModes_Temp(false, animal.LastState.DisableModes); //Release the modes 
+            if (animal.LastState != this)
+                DisableModes_Temp(false, animal.LastState.DisableModes); //Release the modes 
 
             //Wake UP the State that is no longer on QUEUE and it was activated! (PRIORITY FOR THE QUEDED STATES)!
             if (animal.QueueReleased)
@@ -689,7 +692,8 @@ namespace MalbersAnimations.Controller
             SetSpeed(); //Set the Speed on the New State
             MovementAxisMult = Vector3.one;
 
-            DisableModes_Temp(true, DisableModes);
+            if (animal.LastState != this)
+                DisableModes_Temp(true, DisableModes);
 
             //IsActiveState = true;                       //Set this state as the Active State
             CanExit = false;
@@ -724,7 +728,7 @@ namespace MalbersAnimations.Controller
             }
         }
 
-        private void DisableModes_Temp(bool disable, List<ModeID> modelist)
+        public void DisableModes_Temp(bool disable, List<ModeID> modelist)
         {
             //Disable Temporarily the modes the States
             if (modelist != null && modelist.Count > 0)
@@ -772,9 +776,9 @@ namespace MalbersAnimations.Controller
             {
                 //We need to set is as pending since we have not enter this states animations yet IMPORTANT IF we are not activating outselves
                 IsPending = true;
-               // PendingExit = true;
+                // PendingExit = true;
 
-               // animal.LastState.EnterExitEvent?.OnExit.Invoke();
+                // animal.LastState.EnterExitEvent?.OnExit.Invoke();
             }
             else
             {
@@ -782,8 +786,8 @@ namespace MalbersAnimations.Controller
                 IsPending = false;
                 //Clear the Anim Tag so it can enter again to the same Animation Again
                 //  Debug.Log("ENTERING FROM THE SAME STATE ");
-            } 
-            EnterExitEvent?.OnEnter.Invoke(); 
+            }
+            EnterExitEvent?.OnEnter.Invoke();
         }
 
         /// <summary>Search on the Internal Speed Set which one it can be used</summary>
@@ -798,7 +802,7 @@ namespace MalbersAnimations.Controller
                 {
                     animal.CurrentSpeedSet = set;                   //Set a new Speed Set 
                     animal.CurrentSpeedIndex = set.CurrentIndex;                   //Set a new Speed Set 
-                  //  Debug.Log($"Animal.CurrentSpeedSet: {animal.CurrentSpeedSet.name}");
+                                                                                   //  Debug.Log($"Animal.CurrentSpeedSet: {animal.CurrentSpeedSet.name}");
                     return;
                 }
             }
@@ -823,21 +827,27 @@ namespace MalbersAnimations.Controller
             IsSleepFromStance = false;
             OnQueue = false;
             OnActiveQueue = false;
-            CurrentExitTime = Time.time;
+            CurrentExitTime = Time.time; //Set the Current Exit Time to the Current Time when a state exits 
+
             MovementAxisMult = Vector3.one;
 
             EnterStatus = -1; //Reset Enter Status
-            // IsActiveState = false;
+                              // IsActiveState = false;
 
+            ResetInputOnFailed();
+
+            foreach (var tags in TagModifiers) tags.Entered = false; //Teset the enter tag
+
+        }
+
+        protected virtual void ResetInputOnFailed()
+        {
             if (resetInputOnFailed)
             {
                 InputValue = false;
                 //THIS IS CAUSING AN ISSUE WHEN MULTIPLE STATES ARE SUBSCRIBED TO THE SAME STATE
                 animal.InputSource?.ResetInput(Input);
             }
-
-            foreach (var tags in TagModifiers) tags.Entered = false; //Teset the enter tag
-
         }
 
         /// <summary>Restore some of the Animal Parameters when the State exits</summary>
@@ -858,7 +868,7 @@ namespace MalbersAnimations.Controller
             if (HasResetFrom)
             {
                 OnHoldByReset = true;
-               // Debugging("OnHoldByReset {Until any state of the Reset list gets active}");
+                // Debugging("OnHoldByReset {Until any state of the Reset list gets active}");
             }
         }
 
@@ -872,7 +882,6 @@ namespace MalbersAnimations.Controller
             if (animal.State_Float != 0f)
                 animal.State_SetFloat(Mathf.MoveTowards(animal.State_Float, value, time));
         }
-
 
         /// <summary>Exit Status Value of the State</summary>
         public void SetExitStatus(int value) => animal.State_SetExitStatus(value);
@@ -918,11 +927,16 @@ namespace MalbersAnimations.Controller
         {
             if (!IsActiveState) return;// this need to be ignored if the State has not Started yet
 
-            // Debug.Log($" <B>[Main: {MainTagHash}]  [New: {animTagHash}]  [In Core Anim: {InCoreAnimation}]</B>");
+            //Debug.Log($" <B>[State:{name}. Main: {MainTagHash}]  [New: {animTagHash}]  [In Core Anim: {InCoreAnimation}]</B>");
 
             //Check Tags on the State Animations
-            if (MainTagHash == animTagHash)
+            if (MainTagHash == animTagHash || animTagHash == 0)
             {
+                if (animTagHash == 0)
+                    Debug.Log($"<b>[{name}]</b> The Current Animation State does not have any animation Tag.\n" +
+                        $"The Animation State needs at least the animation Tag [{ID.name}]." +
+                        $"\n See: <b>https://malbersanimations.gitbook.io/animal-controller/quickstart/common-issues#states-are-not-getting-active</b>");
+
                 General.Modify(animal);
 
                 if (!InCoreAnimation)
@@ -939,6 +953,8 @@ namespace MalbersAnimations.Controller
                 if (AnimTag != null)
                 {
                     AnimTag.modifier.Modify(animal); //Modify it always (not just once)
+
+                    InCoreAnimation = false;
 
                     if (!AnimTag.Entered)
                     {
@@ -974,9 +990,9 @@ namespace MalbersAnimations.Controller
             animal.SprintUpdate();
 
             SendMessagesTags(GeneralMessage); //Send the Messages to the Animal Controller
-           
+
             InvokeEnterPendingFalse();
-           
+
             if (ResetLastState) animal.LastState_Reset();
 
             EnterCoreAnimation();
@@ -988,6 +1004,7 @@ namespace MalbersAnimations.Controller
             {
                 IsPending = false;
                 animal.OnStateChange.Invoke(ID);//Invoke the Event only when the State is no longer Pending
+                animal.OnState(ID);
             }
         }
 
@@ -1013,12 +1030,12 @@ namespace MalbersAnimations.Controller
         /// <summary>Enable the State using an Input. Example :Fly, Jump </summary>
         internal void ActivatebyInput(bool value)
         {
-           // Debug.Log("BY INPUT");
+            // Debug.Log("BY INPUT");
             InputValue = value;
             if (!Active) return; //Do not reactivate if we are already active
 
             //Skip if the Input to Exit is the same as the input to enter and we are already on this state
-            if (ExitInput == Input && IsActiveState) { return; } 
+            if (ExitInput == Input && IsActiveState) { return; }
 
 
             if (value && IsSleep                //If the State is sleep 
@@ -1128,7 +1145,7 @@ namespace MalbersAnimations.Controller
         {
 #if UNITY_EDITOR
             if (m_debug && animal.debugStates)
-                Debug.Log($"<B>[{animal.name}]</B> → <B>[{this.GetType().Name}]</B> → <color=white>{value}</color>", animal);
+                Debug.Log($"<B>[{animal.name}]</B> → <B>[{this.GetType().Name}]</B> → <color=white>{value}</color>", this);
 #endif
         }
         #endregion 
@@ -1174,13 +1191,21 @@ namespace MalbersAnimations.Controller
             return InputValue && CanBeActivated;
         }
 
+        /// <summary>Try Override is an extra Value you can change outside the Animal Controller to have an extra filter to set the Automatic Try Activate state
+        /// Default value is true
+        /// </summary>
+        public virtual bool TryOverride { get; set; }
+
+
+
+
         public virtual void StatebyInput()
         {
             //Reset input if the State is sleep
             if (IsSleep) return;
             if (animal.LockInput) return;
-                
-            if (TryActivate())
+
+            if (TryActivate() && TryOverride)
             {
                 Activate();      //Enable the State if is not already active
             }
@@ -1216,7 +1241,7 @@ namespace MalbersAnimations.Controller
         /// <summary> Use this method to draw a custom inspector on the States</summary>
         public virtual bool CustomStateInspector() => false;
         #endregion
-         
+
         internal virtual void Reset()
         {
             ID = MTools.GetInstance<StateID>(StateIDName); //Auto Fill the State ID Value
@@ -1629,6 +1654,7 @@ namespace MalbersAnimations.Controller
             {
                 using (new EditorGUI.DisabledGroupScope(true))
                 {
+                    EditorGUILayout.FloatField("Priority", M.Priority);
                     using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
                     {
                         EditorGUIUtility.labelWidth = 50;
@@ -1640,7 +1666,7 @@ namespace MalbersAnimations.Controller
                             EditorGUILayout.ToggleLeft("OnQueue", M.OnQueue);
                             EditorGUILayout.ToggleLeft("On Active Queue", M.OnActiveQueue);
                             EditorGUILayout.ToggleLeft("Pending", M.IsPending);
-                           // EditorGUILayout.ToggleLeft("Pending Exit", M.PendingExit);
+                            // EditorGUILayout.ToggleLeft("Pending Exit", M.PendingExit);
                             EditorGUILayout.ToggleLeft("Sleep From State", M.IsSleepFromState);
                             EditorGUILayout.ToggleLeft("Sleep", M.IsSleep);
                         }
@@ -1657,7 +1683,7 @@ namespace MalbersAnimations.Controller
                         }
                         EditorGUIUtility.labelWidth = 0;
 
-                        // Repaint();
+                        Repaint(); //Repaint the Editor to show the changes
                     }
                 }
             }
@@ -1737,7 +1763,7 @@ namespace MalbersAnimations.Controller
                 do EditorGUILayout.PropertyField(property, true);
                 while (property.NextVisible(false));
             }
-        } 
+        }
     }
 
 

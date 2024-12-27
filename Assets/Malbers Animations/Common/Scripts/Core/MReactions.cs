@@ -59,11 +59,27 @@ namespace MalbersAnimations.Reactions
             }
         }
 
+
+        public void React(int index)
+        {
+            if (reaction != null && reaction is ListReaction list)
+            {
+                index = Mathf.Clamp(index, 0, list.reactions.Count - 1);
+                list.reactions[index]?.React(Target);
+            }
+            else
+            {
+                Debug.LogError("Reaction is Empty. Please use any reaction", this);
+            }
+        }
+
+
         public void React(Component newAnimal)
         {
             if (reaction != null)
             {
                 Target = reaction.VerifyComponent(newAnimal);
+
                 reaction.TryReact(Target);
             }
             else
@@ -174,7 +190,7 @@ namespace MalbersAnimations.Reactions
                 }
             }
 
-            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            // using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(reaction);

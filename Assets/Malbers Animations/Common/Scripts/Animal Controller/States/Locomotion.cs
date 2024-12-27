@@ -91,19 +91,32 @@ namespace MalbersAnimations.Controller
 
         public override void Activate()
         {
-            animal.UseSprintState = true; //Update that the state can use sprint
+            //Update that the state can use sprint ??
+            animal.UseSprintState = true;
 
             base.Activate();
-            
-            //When entering Locomotion the State set the Status the current Speed Modifier. but only when the smooth vertical is off (Weird bug)
-            if (!animal.UseSmoothVertical)
-            SetEnterStatus((int)animal.CurrentSpeedModifier.Vertical.Value); 
-            
+
+            ////When entering Locomotion the State set the Status the current Speed Modifier. but only when the smooth vertical is off (Weird bug)
+            //if (!animal.UseSmoothVertical)
+            //    SetEnterStatus((int)animal.CurrentSpeedModifier.Vertical.Value);
+
+
+            //When entering Locomotion from Idle
+            //    if (animal.LastState.ID.ID == 0) //From Idle
+
+            //********* NEWWWWWWWWWWWWW CHECK if it works for everybody
+            if (!animal.UseSmoothVertical || animal.UseSmoothVertical && animal.RawInputAxis.magnitude > 0.7)
+                SetEnterStatus((int)animal.CurrentSpeedModifier.Vertical.Value);
+
             CheckCurrentWallProfile(animal.CurrentSpeedIndex);
 
             animal.OnMovementDetected.AddListener(OnMovementDetected);
 
             OnMovementDetected(true); //REcord that the movement has started
+
+            //Calculate Delta Angle again!!! IMPORTANT!!! BEFORE THE ANIMATOR
+            InputAxisUpdate();
+
         }
 
         public override void ExitState()
@@ -114,11 +127,13 @@ namespace MalbersAnimations.Controller
 
         private void OnMovementDetected(bool movementDetected)
         {
-
             //Means the input has been released
-            if (!movementDetected)
+            if (InCoreAnimation && IsActiveState && !movementDetected)
             {
-                SetExitStatus((int)animal.CurrentSpeedModifier.Vertical.Value); //Use the Enter Status to check the speed
+                var exitstatus = !(animal.sprint && animal.UseSprintState && !animal.CurrentSpeedSetIsLocked)
+                    ? animal.CurrentSpeedIndex : animal.CurrentSpeedSet.SprintIndex;
+
+                SetExitStatus(exitstatus); //Use the Enter Status to check the speed
 
                 //Add an extra movement Detected when the Input is released so the Animal Can calculate a Exit Animations well,
                 //but do not do it if the animal is rotatin at direction
@@ -134,11 +149,11 @@ namespace MalbersAnimations.Controller
         }
         public override void EnterCoreAnimation()
         {
-            SetExitStatus(0);
+            SetExitStatus(0); //Reset the Exit Status once the Enter Animation is playing
+            SetEnterStatus((int)CurrentSpeed.Vertical.Value); //Use the Enter Status to check the speed
+            animal.TryAnimParameter(animal.hash_LastState, 1); //Reset the Last State Animator Parameter (CHANGE VELOCITIES ARE NOT ALLOWED)
 
-            if (animal.LastState.ID == StateEnum.Climb) animal.ResetCameraInput(); //HACK
-            //Keep the Enter Speed on the State Enter Parameter.
-            SetEnterStatus((int)animal.CurrentSpeedModifier.Vertical.Value);
+            if (animal.LastState.ID == StateEnum.Climb) animal.ResetCameraInput(); //HACK\
 
             if (ResetIntertia.Value) animal.ResetInertiaSpeed();  //BUG THAT IT WAS MAKING GO FASTER WHEN ENTERING LOCOMOTION
 
@@ -146,9 +161,11 @@ namespace MalbersAnimations.Controller
 
         public override void EnterTagAnimation()
         {
-            if (CurrentAnimTag == EnterTagHash) //Using Enter Animation Tag, set the vertical smooth to the velocity 
+            //Using Enter Animation Tag, set the vertical smooth to the velocity 
+            if (CurrentAnimTag == EnterTagHash)
             {
                 animal.VerticalSmooth = animal.CurrentSpeedModifier.Vertical;
+                SetEnterStatus(0);
             }
         }
 
@@ -181,13 +198,13 @@ namespace MalbersAnimations.Controller
                 {
                     animal.MovementAxis.z = 1;
                     animal.MovementAxisRaw.z = 1;
-                   // animal.movementAxisRaw.z = 1;
+                    // animal.movementAxisRaw.z = 1;
                 }
-                else
-                {
-                    SetExitStatus(0);
-                    animal.VerticalSmooth = 0; //This makes the Idle State ready to be played??
-                }
+                //else
+                //{
+                //    SetExitStatus(0);
+                //    animal.VerticalSmooth = 0; //This makes the Idle State ready to be played??
+                //}
             }
         }
 
@@ -256,7 +273,7 @@ namespace MalbersAnimations.Controller
         private void Anti_Fall()
         {
             if (AntiFall)
-            {   
+            {
                 MovementAxisMult = Vector3.one;
 
                 if (animal.UseCameraInput)
@@ -327,7 +344,7 @@ namespace MalbersAnimations.Controller
                 {
                     var MainPivotPointBack = animal.Has_Pivot_Hip ? animal.Pivot_Hip.World(transform) : animal.Pivot_Chest.World(transform);
                     MainPivotPointBack += Forward * -(FallRayBackwards * ScaleFactor);
-                   
+
 
                     var RayMultiplier = animal.Pivot_Multiplier * ScaleFactor; //Get the Multiplier
                     Debug.DrawRay(MainPivotPointBack, -Up * RayMultiplier, Color.white);
@@ -373,12 +390,12 @@ namespace MalbersAnimations.Controller
             var RayMultiplier = animal.Pivot_Multiplier * FallMultiplier; //Get the Multiplier
             var MainPivotPoint = animal.Pivot_Chest.World(animal.transform);
 
-            var FrontCenter = MainPivotPoint + (animal.Forward * frontDistance * scale); //Calculate ahead the falling ray
-            var FrontLeft = FrontCenter + (animal.Right * frontSpace * scale);
-            var FrontRight = FrontCenter + (-animal.Right * frontSpace * scale);
-            var BackCenter = MainPivotPoint - (animal.Forward * BackDistance * scale); //Calculate ahead the falling ray
-            var BackLeft = BackCenter + (animal.Right * BackSpace * scale);
-            var BackRight = BackCenter + (-animal.Right * BackSpace * scale);
+            var FrontCenter = MainPivotPoint + (frontDistance * scale * animal.Forward); //Calculate ahead the falling ray
+            var FrontLeft = FrontCenter + (frontSpace * scale * animal.Right);
+            var FrontRight = FrontCenter + (frontSpace * scale * -animal.Right);
+            var BackCenter = MainPivotPoint - (BackDistance * scale * animal.Forward); //Calculate ahead the falling ray
+            var BackLeft = BackCenter + (BackSpace * scale * animal.Right);
+            var BackRight = BackCenter + (BackSpace * scale * -animal.Right);
 
             Debug.DrawRay(FrontCenter, Dir * RayMultiplier, DebugColor);
             Debug.DrawRay(FrontLeft, Dir * RayMultiplier, DebugColor);

@@ -46,7 +46,7 @@ namespace MalbersAnimations.HAP
         {
             float DeltaTime = animator.updateMode == AnimatorUpdateMode.AnimatePhysics ? Time.fixedDeltaTime : Time.deltaTime;
             var TargetRot = animator.rootRotation;
-            var TargetPos = rider.RiderRoot.position += (animator.velocity * DeltaTime * AnimalScaleFactor * (Fix ? Fix.time : 1) * AnimationMult);
+            var TargetPos = rider.RiderRoot.position += ((Fix ? Fix.time : 1) * AnimalScaleFactor * AnimationMult * DeltaTime * animator.velocity);
 
             float norm_time = stateInfo.normalizedTime; //State Normalized time
 
@@ -81,7 +81,7 @@ namespace MalbersAnimations.HAP
                         float y = Mathf.LerpUnclamped(TargetPos.y, Mount_Position.y, Fix.PosYCurve.Evaluate(norm_time) * Fix.Position.y);
                         float z = Mathf.LerpUnclamped(TargetPos.z, Mount_Position.z, Fix.PosZCurve.Evaluate(norm_time) * Fix.Position.z);
 
-                        Vector3 newPos = new Vector3(x, y, z);
+                        Vector3 newPos = new(x, y, z);
 
                         TargetPos = newPos;
                     }
@@ -102,9 +102,7 @@ namespace MalbersAnimations.HAP
                 TargetRot = Quaternion.Lerp(TargetRot, Mount_Rotation, MovetoMountPoint.Evaluate(norm_time));
             }
 
-            rider.MountRotation = TargetRot;
-            rider.MountPosition = TargetPos;
-            rider.Mount_TargetTransform();
+            rider.Mount_TargetTransform(TargetPos, TargetRot);
         }
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

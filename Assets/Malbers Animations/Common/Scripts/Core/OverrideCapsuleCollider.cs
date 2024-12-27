@@ -1,6 +1,6 @@
 using UnityEngine;
 using MalbersAnimations.Scriptables;
-using MalbersAnimations.Utilities;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -52,13 +52,16 @@ namespace MalbersAnimations
         public bool enabled;
         public bool isTrigger;
         public Vector3 center;
-        public float height;
-        public int direction;
-        public float radius;
+        [Min(0)] public float height;
+        [Tooltip("[0: XAxis] [1:Y Axis] [2:Z Axis]")]
+        [Min(0)] public int direction;
+        [Min(0)] public float radius;
         public PhysicMaterial material;
 
         [Utilities.Flag]
         public CapsuleModifier modify;
+
+        public readonly bool IsNull => modify == 0;
 
         public OverrideCapsuleCollider(CapsuleCollider collider)
         {
@@ -69,10 +72,9 @@ namespace MalbersAnimations
             height = collider.height;
             radius = collider.radius;
             direction = collider.direction;
-            material = collider.material;
-            modify = 0;
+            material = collider.sharedMaterial;
+            modify = (CapsuleModifier)(-1);
         }
-
 
         public void Modify(CapsuleCollider collider)
         {
@@ -86,8 +88,6 @@ namespace MalbersAnimations
             if (Modify(CapsuleModifier.direction)) collider.direction = direction;
             if (Modify(CapsuleModifier.material)) collider.material = material;
         }
-
-
         public bool Modify(CapsuleModifier modifier) => (modify & modifier) == modifier;
 
         public static bool Modify(int modify, CapsuleModifier modifier) => (modify & (int)modifier) == (int)modifier;
@@ -162,7 +162,7 @@ namespace MalbersAnimations
                     {
                         if (GUI.Button(AddButtonRect, plus, UnityEditor.EditorStyles.helpBox))
                         {
-                            MTools.CreateScriptableAsset(variable, MTools.GetPropertyType(variable), MTools.GetSelectedPathOrFallback());
+                            MTools.CreateScriptableAsset(variable, MalbersEditor.GetSelectedPathOrFallback());
 #if UNITY_2020_1_OR_NEWER
                             GUIUtility.ExitGUI(); //Unity Bug!
 #endif
@@ -200,12 +200,9 @@ namespace MalbersAnimations
             if (activeProperties == 0) return base.GetPropertyHeight(property, label);
 
             float lines = (activeProperties + 1);
-            return 20 * lines; 
+            return 20 * lines;
         }
     }
-
-
-
 
     [CustomPropertyDrawer(typeof(OverrideCapsuleCollider))]
     public class OverrideCapsuleColliderDrawer : PropertyDrawer
@@ -301,10 +298,10 @@ namespace MalbersAnimations
             var modify = property.FindPropertyRelative("modify");
             int ModifyValue = modify.intValue;
 
-          
+
 
             if (Modify(ModifyValue, CapsuleModifier.enabled)) activeProperties++;
-            
+
             if (Modify(ModifyValue, CapsuleModifier.center))
             {
                 var center = property.FindPropertyRelative("center");

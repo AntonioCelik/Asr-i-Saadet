@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -125,6 +124,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &60870260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4249162463598201140, guid: f41bd41d79ffdd7479f84c7035bb697e,
+    type: 3}
+  m_PrefabInstance: {fileID: 492395811}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &76517558
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,13 +215,156 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1716470679}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &327074273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327074274}
+  m_Layer: 0
+  m_Name: Characters
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &327074274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327074273}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5170218139197283503}
+  - {fileID: 1875335356}
+  - {fileID: 60870260}
+  - {fileID: 436202729}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &436202728
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 327074274}
+    m_Modifications:
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 43985004378718041, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+        type: 3}
+      propertyPath: m_Name
+      value: Steve Player
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9c48d1fd6bf45244a96eadfdeed449c3, type: 3}
+--- !u!4 &436202729 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 38380242135992867, guid: 9c48d1fd6bf45244a96eadfdeed449c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 436202728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &441585001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 441585002}
+  m_Layer: 0
+  m_Name: Cameras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &441585002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441585001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1263158223}
+  - {fileID: 1473104464}
+  - {fileID: 1228135692}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &492395811
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 327074274}
     m_Modifications:
     - target: {fileID: 4248502775473930830, guid: f41bd41d79ffdd7479f84c7035bb697e,
         type: 3}
@@ -281,7 +429,7 @@ PrefabInstance:
     - target: {fileID: 4279326906189182492, guid: f41bd41d79ffdd7479f84c7035bb697e,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4279326906189182492, guid: f41bd41d79ffdd7479f84c7035bb697e,
         type: 3}
@@ -311,12 +459,74 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2120272012}
   m_SourcePrefab: {fileID: 100100000, guid: f41bd41d79ffdd7479f84c7035bb697e, type: 3}
---- !u!1 &609550622 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9118537194212093909, guid: 9133169553a02d0418a8c61561fcc4bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1978119124}
-  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &722959945
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 441585002}
+    m_Modifications:
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863971561695705687, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+        type: 3}
+      propertyPath: m_Name
+      value: CM Third Person Aim
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3c753f6872830434c84cdc8ea6be6c8e, type: 3}
 --- !u!114 &860856702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,6 +682,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.8100034, b: 0, a: 1}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!1 &1033756756
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +845,86 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2128595883}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1173399272
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 327074274}
+    m_Modifications:
+    - target: {fileID: 406475058203906938, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_Name
+      value: Sword Collectable
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bcff32db73dac7344b4cac585b0ef97f, type: 3}
+--- !u!4 &1228135692 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1863971561695705686, guid: 3c753f6872830434c84cdc8ea6be6c8e,
+    type: 3}
+  m_PrefabInstance: {fileID: 722959945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1263158223 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4119520939028466838, guid: 720829b02a1ccb84a8307ef4b36695d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1778853213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1273563043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -703,7 +995,7 @@ GameObject:
   - component: {fileID: 1298280300}
   - component: {fileID: 1298280299}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -834,7 +1126,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: de3f4753ad99ddd4791206d831d03b71, type: 2}
+  - {fileID: 2100000, guid: b0b501c3512ce624b9748a60334e82a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -926,13 +1218,19 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 886348572}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1473104464 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4973453112627144, guid: 7721b17458de7274da9fb6df12db1326,
+    type: 3}
+  m_PrefabInstance: {fileID: 1514005825}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1514005825
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 441585002}
     m_Modifications:
     - target: {fileID: 1086986387696008, guid: 7721b17458de7274da9fb6df12db1326, type: 3}
       propertyPath: m_Name
@@ -960,15 +1258,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4973453112627144, guid: 7721b17458de7274da9fb6df12db1326, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4973453112627144, guid: 7721b17458de7274da9fb6df12db1326, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4973453112627144, guid: 7721b17458de7274da9fb6df12db1326, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4973453112627144, guid: 7721b17458de7274da9fb6df12db1326, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1036,7 +1334,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.10666666
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 33af2a3ea328e544daa080e12dc27127, type: 2}
   m_BuildHeightMesh: 0
@@ -1191,7 +1489,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 441585002}
     m_Modifications:
     - target: {fileID: 4119520939028466833, guid: 720829b02a1ccb84a8307ef4b36695d3,
         type: 3}
@@ -1226,17 +1524,17 @@ PrefabInstance:
     - target: {fileID: 4119520939028466838, guid: 720829b02a1ccb84a8307ef4b36695d3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4119520939028466838, guid: 720829b02a1ccb84a8307ef4b36695d3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4119520939028466838, guid: 720829b02a1ccb84a8307ef4b36695d3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4119520939028466838, guid: 720829b02a1ccb84a8307ef4b36695d3,
         type: 3}
@@ -1258,6 +1556,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 720829b02a1ccb84a8307ef4b36695d3, type: 3}
+--- !u!4 &1875335356 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 408049198354436900, guid: bcff32db73dac7344b4cac585b0ef97f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1173399272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1879052332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1407,236 +1711,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1879052332}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1978119124
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3415436920391874293, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: AlignToDamage.ConstantValue
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4595917772443496120, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170218139084480737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: Ability_Tabs
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: Editor_Tabs1
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: Editor_Tabs2
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: showModeList
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: Editor_EventTabs
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].ID
-      value: 
-      objectReference: {fileID: 11400000, guid: adfa24f62d6db4d40a1d837f4ec1a6e9,
-        type: 2}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 11400000, guid: fcdaeba03067b684da1eb88d61847702,
-        type: 2}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 609550622}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Invoke
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MalbersAnimations.Events.MEvent, MalbersAnimations
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281882, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: OnEnterExitStates.Array.data[3].OnEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281883, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_Name
-      value: Steve
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281883, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5175850389906281883, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7117139279136766616, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: Editor_Tabs1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8140637814876227737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: stats.Array.data[0].value.ConstantValue
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 8140637814876227737, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: stats.Array.data[0].maxValue.ConstantValue
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 8563053589258241712, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: internalComponents.Array.data[12].active
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8790713313664549436, guid: 9133169553a02d0418a8c61561fcc4bb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9133169553a02d0418a8c61561fcc4bb, type: 3}
 --- !u!1 &2120272010 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8926424730090583023, guid: f41bd41d79ffdd7479f84c7035bb697e,
@@ -1661,6 +1735,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.8100034, b: 0, a: 1}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!1001 &2128595883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1781,6 +1857,16 @@ PrefabInstance:
     - target: {fileID: 224099771466802532, guid: fc0ba8caed599c844aea169a458f10e0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7078212305564347742, guid: fc0ba8caed599c844aea169a458f10e0,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7078212305564347742, guid: fc0ba8caed599c844aea169a458f10e0,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2591,7 +2677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &433848557486888490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2624,6 +2710,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   m_aimOrigin: {fileID: 370390862412358834}
   m_Smoothness: 20
+  horizontalLerp: 10
   m_aimLayer:
     UseConstant: 1
     ConstantValue:
@@ -3432,6 +3519,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 5175850389784078805}
@@ -3946,7 +4034,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9b107053097c14488f89b3a03230878, type: 2}
+  - {fileID: 2100000, guid: 5684603a9700a5f498dba8ffeac2e1b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4378,6 +4466,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.47070277, b: 0, a: 0.5882353}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!1 &2838278307981425334
 GameObject:
   m_ObjectHideFlags: 0
@@ -9330,6 +9420,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  ignoreStatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   trigger: {fileID: 0}
   Editor_Tabs1: 0
 --- !u!114 &2980788068667628321
@@ -9846,7 +9940,7 @@ MonoBehaviour:
       ActivationTime: 0
     CoolDown:
       UseConstant: 1
-      ConstantValue: 0
+      ConstantValue: 0.5
       Variable: {fileID: 0}
     states: []
     FinishTime: 0
@@ -10187,7 +10281,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   DisableOnSleep: 0
   debug: 0
-  selectedComboEditor: 2
+  selectedComboEditor: 3
   references:
     version: 2
     RefIds:
@@ -10413,6 +10507,9 @@ MonoBehaviour:
     OnElementDamage:
       m_PersistentCalls:
         m_Calls: []
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
   elements:
   - element: {fileID: 11400000, guid: 951aaa6113759be4f86dbc0c288e7a04, type: 2}
     multiplier:
@@ -10441,8 +10538,9 @@ MonoBehaviour:
       type: {class: ModeReaction, ns: MalbersAnimations.Reactions, asm: MalbersAnimations}
       data:
         Active: 1
-        useLocalTarget: 0
-        LocalTarget: {fileID: 0}
+        localComponent:
+          component: {fileID: 0}
+          useLocal: 0
         delay: 0
         type: 0
         ID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
@@ -10593,6 +10691,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.99197686, b: 0, a: 0}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!1 &3671060912723765867
 GameObject:
   m_ObjectHideFlags: 0
@@ -20240,6 +20340,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  Tags: []
   Layer:
     UseConstant: 1
     ConstantValue:
@@ -20250,6 +20351,7 @@ MonoBehaviour:
   Distance: 2.25
   AlignTime: 0.2
   FrontOffet: 0.15
+  IgnoreClose: 1
   AlignCurve:
     serializedVersion: 2
     m_Curve:
@@ -20275,6 +20377,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   debugColor: {r: 0.9568628, g: 0.5647059, b: 0.1764706, a: 0}
+  EditorTab: 0
   debug: 0
 --- !u!114 &3726253709442222599
 MonoBehaviour:
@@ -20314,6 +20417,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 5175850389784078805}
@@ -20599,6 +20703,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  Tags: []
   Layer:
     UseConstant: 1
     ConstantValue:
@@ -20609,6 +20714,7 @@ MonoBehaviour:
   Distance: 1.5
   AlignTime: 0.2
   FrontOffet: 0.15
+  IgnoreClose: 1
   AlignCurve:
     serializedVersion: 2
     m_Curve:
@@ -20634,6 +20740,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   debugColor: {r: 1, g: 0.49523813, b: 0, a: 0}
+  EditorTab: 0
   debug: 0
 --- !u!114 &3911946752151468133
 MonoBehaviour:
@@ -20649,6 +20756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Event: {fileID: 11400000, guid: de2d0ec684288bf4991c5760679163b3, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 0
@@ -20715,11 +20823,17 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   - Event: {fileID: 11400000, guid: f871acb72d0966245abfa3647afb1512, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 0
@@ -20786,11 +20900,17 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   - Event: {fileID: 11400000, guid: a02ee990674df2e4b9ed7904b6caa5c9, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 1
@@ -20845,11 +20965,17 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   - Event: {fileID: 11400000, guid: d90802e16232cb9458e3607cf827b02c, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 1
@@ -20917,11 +21043,17 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   - Event: {fileID: 11400000, guid: 42e8e011e038e3840bad20396017d8ef, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 1
@@ -20989,11 +21121,17 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   - Event: {fileID: 11400000, guid: 214b51183d6e6c2499b63a2fac1123a3, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 1
@@ -21061,10 +21199,15 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   ShowEvents: 1
   SelectedEvent: 0
 --- !u!1 &3929183713503734776
@@ -21896,6 +22039,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  Tags: []
   Layer:
     UseConstant: 1
     ConstantValue:
@@ -21906,6 +22050,7 @@ MonoBehaviour:
   Distance: 1
   AlignTime: 0.2
   FrontOffet: 0.15
+  IgnoreClose: 1
   AlignCurve:
     serializedVersion: 2
     m_Curve:
@@ -21931,6 +22076,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   debugColor: {r: 1, g: 0.49523813, b: 0, a: 0}
+  EditorTab: 0
   debug: 0
 --- !u!195 &4727745216083031056
 NavMeshAgent:
@@ -21972,6 +22118,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.47070277, b: 0, a: 0.5882353}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!4 &4823199142535977154
 Transform:
   m_ObjectHideFlags: 0
@@ -22255,7 +22403,7 @@ Animator:
   m_GameObject: {fileID: 5175850389784078805}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d9a8fb1864c033e4b990da223ac23ead, type: 3}
-  m_Controller: {fileID: 9100000, guid: a7144e52215069f469de4b21bdeb2c7d, type: 2}
+  m_Controller: {fileID: 9100000, guid: d67ef26053ecdb74698940934ce480f6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
@@ -22323,7 +22471,7 @@ Transform:
   m_GameObject: {fileID: 5175850389784078805}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.13887443, z: -0, w: -0.9903101}
-  m_LocalPosition: {x: 1.85, y: 0, z: 12.16}
+  m_LocalPosition: {x: -10.3879385, y: 0, z: 16.608837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22332,7 +22480,7 @@ Transform:
   - {fileID: 9219519177062994480}
   - {fileID: 4591837826442888254}
   - {fileID: 1879052333}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 327074274}
   m_LocalEulerAnglesHint: {x: 0, y: -344.035, z: 0}
 --- !u!1 &5171458190960921556
 GameObject:
@@ -22412,7 +22560,7 @@ MonoBehaviour:
   showStateList: 1
   debugStates: 0
   debugStances: 0
-  debugModes: 1
+  debugModes: 0
   debugGizmos: 1
   Runtime_Tabs1: 0
   Runtime_Tabs2: 4
@@ -22422,31 +22570,31 @@ MonoBehaviour:
   - active: 1
     state: {fileID: 11400000, guid: 94bb3c1bfa0653544bbad344b1f5dfed, type: 2}
     priority: 13
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 1e0a5a206cb55c347be9a6ae6b5a464d, type: 2}
     priority: 12
   - active: 1
     state: {fileID: 11400000, guid: ec91106ad0e8f954a8bb6f9df13b3cd8, type: 2}
     priority: 11
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 56536b33237bdbc43a5b582c46f7a917, type: 2}
     priority: 10
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 7f91101f0d5c5304fa7a84976e6186d6, type: 2}
     priority: 9
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: a0549cfb3eac3974aa117c7a829971f2, type: 2}
     priority: 8
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 791ca7168f4e90c48ba89e90ee127cbb, type: 2}
     priority: 7
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 69f2a595a121db64495a8abec43bfed7, type: 2}
     priority: 5
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 698771e0c05a62842a2326e1432fa202, type: 2}
     priority: 5
-  - active: 1
+  - active: 0
     state: {fileID: 11400000, guid: 7b72c0b611d93124d9de1c556424ddc9, type: 2}
     priority: 4
   - active: 1
@@ -22506,6 +22654,17 @@ MonoBehaviour:
     states: []
     StateQueue: []
     DisableStances: []
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: 5338df2a5c63c6b4a8049349b3eb0171, type: 2}
     enabled:
       UseConstant: 1
@@ -22543,6 +22702,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
     - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
     DisableStances: []
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: fb28eb0d24b07c44c94e9a2d720ab7ec, type: 2}
     enabled:
       UseConstant: 1
@@ -22581,6 +22751,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
     - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
     DisableStances: []
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: 92690791ccabd28408aa7f6e9839e11c, type: 2}
     enabled:
       UseConstant: 1
@@ -22619,6 +22800,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
     DisableStances:
     - {fileID: 11400000, guid: fb28eb0d24b07c44c94e9a2d720ab7ec, type: 2}
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: 422e9d4668ef878498a2dbfc2e5a2681, type: 2}
     enabled:
       UseConstant: 1
@@ -22657,6 +22849,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
     DisableStances:
     - {fileID: 11400000, guid: fb28eb0d24b07c44c94e9a2d720ab7ec, type: 2}
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: d07842543a41c8a408d06c350166b949, type: 2}
     enabled:
       UseConstant: 1
@@ -22695,6 +22898,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
     - {fileID: 11400000, guid: 3fbb696c31f7ed846b7ec9b2f76fd0e5, type: 2}
     DisableStances: []
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: ce5658b20345a934080d687e0549de24, type: 2}
     enabled:
       UseConstant: 1
@@ -22733,6 +22947,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
     - {fileID: 11400000, guid: 3fbb696c31f7ed846b7ec9b2f76fd0e5, type: 2}
     DisableStances: []
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   - ID: {fileID: 11400000, guid: b0f0ad2a9c24bb947944211d1b277f0c, type: 2}
     enabled:
       UseConstant: 1
@@ -22771,6 +22996,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
     - {fileID: 11400000, guid: 3fbb696c31f7ed846b7ec9b2f76fd0e5, type: 2}
     DisableStances: []
+    OverrideCapsule: 0
+    newCapsule:
+      name: 
+      enabled: 0
+      isTrigger: 0
+      center: {x: 0, y: 0, z: 0}
+      height: 0
+      direction: 0
+      radius: 0
+      material: {fileID: 0}
+      modify: 0
   modes:
   - active: 1
     TemporalActivation: 1
@@ -22802,6 +23038,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -22890,6 +23130,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -22975,6 +23219,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -23057,6 +23305,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -23171,6 +23423,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -23253,6 +23509,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -23341,6 +23601,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -23423,6 +23687,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -23549,6 +23817,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -23632,6 +23904,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -23721,6 +23997,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -23804,6 +24084,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -23969,6 +24253,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.1
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -24057,6 +24345,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.1
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -24147,6 +24439,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.25
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -24235,6 +24531,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.25
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -24325,6 +24625,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.25
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 11400000, guid: 1826bca017ee8e540a5d92a355c10d60, type: 2}
@@ -24414,6 +24718,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.25
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 11400000, guid: 1826bca017ee8e540a5d92a355c10d60, type: 2}
@@ -24502,6 +24810,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.25
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -24630,6 +24942,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -24750,6 +25066,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -24874,6 +25194,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -24957,6 +25281,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -25039,6 +25367,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -25161,6 +25493,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -25243,6 +25579,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -25365,6 +25705,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -25448,6 +25792,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -25530,6 +25878,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -25652,6 +26004,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -25735,6 +26091,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -25817,6 +26177,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -25939,6 +26303,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -26023,6 +26391,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -26109,6 +26481,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -26193,6 +26569,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.3
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -26279,6 +26659,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.4
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -26364,6 +26748,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.1
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -26448,6 +26836,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.1
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -26535,6 +26927,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.1
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 11400000, guid: 1826bca017ee8e540a5d92a355c10d60, type: 2}
@@ -26620,6 +27016,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.1
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -26707,6 +27107,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.1
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -26791,6 +27195,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.1
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -26877,6 +27285,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.1
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -26961,6 +27373,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.1
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -27085,6 +27501,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.4
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -27167,6 +27587,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -27251,6 +27675,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.3
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -27333,6 +27761,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.3
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -27417,6 +27849,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.3
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -27499,6 +27935,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.3
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -27621,6 +28061,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -27703,6 +28147,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -27787,6 +28235,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -27870,6 +28322,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0.2
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 0
       modifier: {fileID: 0}
@@ -27952,6 +28408,10 @@ MonoBehaviour:
       ClipDelay:
         UseConstant: 1
         ConstantValue: 0.2
+        Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
         Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
@@ -28074,6 +28534,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -28154,6 +28618,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -28278,6 +28746,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -28360,6 +28832,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -28486,6 +28962,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -28568,6 +29048,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -28656,6 +29140,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -28741,6 +29229,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -28823,6 +29315,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -28949,6 +29445,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -29029,6 +29529,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -29115,6 +29619,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -29198,6 +29706,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -29278,6 +29790,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -29425,6 +29941,8 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 11400000, guid: 82b56333ef707594286dde72d69ebafd, type: 2}
+  additivePosLog: 0
+  additiveRotLog: 0
   isPlayer:
     UseConstant: 1
     ConstantValue: 0
@@ -29488,6 +30006,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  kinematicTimeline: 1
   OnStrafe:
     m_PersistentCalls:
       m_Calls:
@@ -30969,7 +31488,7 @@ MonoBehaviour:
       Variable: {fileID: 0}
     position:
       UseConstant: 1
-      ConstantValue: 4.908939
+      ConstantValue: 0
       Variable: {fileID: 0}
     lerpPosition:
       UseConstant: 1
@@ -30993,7 +31512,49 @@ MonoBehaviour:
       Variable: {fileID: 0}
     lerpAnimator:
       UseConstant: 1
-      ConstantValue: 5
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    strafeSpeed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpStrafe:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+  SprintSpeed:
+    name: Default
+    Vertical:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    position:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpPosition:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    lerpPosAnim:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    rotation:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpRotAnim:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    animator:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    lerpAnimator:
+      UseConstant: 1
+      ConstantValue: 4
       Variable: {fileID: 0}
     strafeSpeed:
       UseConstant: 1
@@ -31092,12 +31653,6 @@ MonoBehaviour:
   OnFreeMovement:
     m_PersistentCalls:
       m_Calls: []
-  OnStateActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
   OnStateProfile:
     m_PersistentCalls:
       m_Calls: []
@@ -31128,6 +31683,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPreTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGroundChangesGravity:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStateActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnEnterExitStates:
   - ID: {fileID: 11400000, guid: 975403cc10f8cec46a3caa6ed4e3d6c5, type: 2}
     OnEnter:
@@ -31360,8 +31927,9 @@ MonoBehaviour:
       type: {class: StatReaction, ns: MalbersAnimations.Reactions, asm: MalbersAnimations}
       data:
         Active: 1
-        useLocalTarget: 0
-        LocalTarget: {fileID: 0}
+        localComponent:
+          component: {fileID: 0}
+          useLocal: 0
         delay: 0
         modifiers:
         - ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
@@ -31382,8 +31950,9 @@ MonoBehaviour:
       type: {class: StatReaction, ns: MalbersAnimations.Reactions, asm: MalbersAnimations}
       data:
         Active: 1
-        useLocalTarget: 0
-        LocalTarget: {fileID: 0}
+        localComponent:
+          component: {fileID: 0}
+          useLocal: 0
         delay: 0
         modifiers:
         - ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
@@ -36285,6 +36854,8 @@ MonoBehaviour:
   DebugColor: {r: 0.3018868, g: 0, b: 0.16491872, a: 0.30588236}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!1 &5306545190518063736
 GameObject:
   m_ObjectHideFlags: 0
@@ -36322,6 +36893,10 @@ MonoBehaviour:
     Variable: {fileID: 0}
   aim: {fileID: 447518047047942034}
   Targets: {fileID: 11400000, guid: 1a69e13d366af4b49bc1d9e96ca49bbc, type: 2}
+  NextTargetTime:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   debug: 0
   OnTargetChanged:
     m_PersistentCalls:
@@ -36350,6 +36925,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTargetAimAssist:
+    m_PersistentCalls:
+      m_Calls: []
   OnLockingTarget:
     m_PersistentCalls:
       m_Calls:
@@ -36707,54 +37285,212 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51aadafe0cedb841ac535263babb1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RootBone: {fileID: 5170218139197283503}
+  Owner: {fileID: 4853938620678676847}
   Meshes:
   - Name: Hair
+    name:
+      UseConstant: 1
+      ConstantValue: 
+      Variable: {fileID: 0}
     Active: 1
     meshes:
     - {fileID: 9219519177062994832}
     - {fileID: 7942925756148374188}
     - {fileID: 0}
-    Current: 1
-    OnActiveMesh:
+    MeshItems:
+    - ItemName: Hair The SuperMan
+      Mesh: {fileID: 9219519177062994832}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 9219519177060569456}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    - ItemName: Hair_02
+      Mesh: {fileID: 7942925756148374188}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 8561880555103689843}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    - ItemName: Empty
+      Mesh: {fileID: 0}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers: []
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    Current: 0
+    CurrentMeshItemIndex: 0
+    OnSetMeshChange:
       m_PersistentCalls:
         m_Calls: []
   - Name: Ears
+    name:
+      UseConstant: 1
+      ConstantValue: 
+      Variable: {fileID: 0}
     Active: 1
     meshes:
     - {fileID: 9219519177062994838}
     - {fileID: 757588304106028715}
+    MeshItems:
+    - ItemName: Ears Default
+      Mesh: {fileID: 9219519177062994838}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 9219519177060569462}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    - ItemName: Ears Elf
+      Mesh: {fileID: 757588304106028715}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 1978329875979236849}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
     Current: 1
-    OnActiveMesh:
+    CurrentMeshItemIndex: 0
+    OnSetMeshChange:
       m_PersistentCalls:
         m_Calls: []
   - Name: Eyebrows
+    name:
+      UseConstant: 1
+      ConstantValue: 
+      Variable: {fileID: 0}
     Active: 1
     meshes:
     - {fileID: 9219519177062994836}
     - {fileID: 1572152498036010415}
+    MeshItems:
+    - ItemName: EyeBrows
+      Mesh: {fileID: 9219519177062994836}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 9219519177060569460}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    - ItemName: Eyebrows_02
+      Mesh: {fileID: 1572152498036010415}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 8761921833417485591}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
     Current: 1
-    OnActiveMesh:
+    CurrentMeshItemIndex: 0
+    OnSetMeshChange:
       m_PersistentCalls:
         m_Calls: []
   - Name: Beard
+    name:
+      UseConstant: 1
+      ConstantValue: 
+      Variable: {fileID: 0}
     Active: 1
     meshes:
     - {fileID: 4458801360286531429}
     - {fileID: 0}
-    Current: 0
-    OnActiveMesh:
+    MeshItems:
+    - ItemName: Beard_01
+      Mesh: {fileID: 4458801360286531429}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers:
+      - {fileID: 8538405407548125012}
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    - ItemName: Empty
+      Mesh: {fileID: 0}
+      Parent: {fileID: 0}
+      HideSet: 
+      materials: []
+      Renderers: []
+      MeshOn:
+        rid: -2
+      MeshOff:
+        rid: -2
+      EditorTab: 0
+      MainRenderer: {fileID: 0}
+    Current: 1
+    CurrentMeshItemIndex: 0
+    OnSetMeshChange:
       m_PersistentCalls:
         m_Calls: []
   showMeshesList: 1
+  debug: 0
   Pinned:
     Name: NameHere
+    name:
+      UseConstant: 1
+      ConstantValue: 
+      Variable: {fileID: 0}
     Active: 1
     meshes: []
+    MeshItems: []
     Current: 0
-    OnActiveMesh:
+    CurrentMeshItemIndex: 0
+    OnSetMeshChange:
       m_PersistentCalls:
         m_Calls: []
+  OnMeshChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  MeshItemUpdated: 1
+  selectedMeshIndex: 0
   random: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &5721513208940097512
 GameObject:
   m_ObjectHideFlags: 0
@@ -37111,7 +37847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &6154535067723125813
 GameObject:
   m_ObjectHideFlags: 0
@@ -37306,6 +38042,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 5175850389784078805}
@@ -42173,6 +42910,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.47070277, b: 0, a: 0.5882353}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!114 &6488438811169810543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42192,7 +42931,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   currentState: {fileID: 11400000, guid: 01bb9e7f93a8dde409e963ef79021579, type: 2}
   DisableAIOnDeath: 1
-  debug: 1
+  debug: 0
   debugAIStates: 1
   OnTaskStarted:
     m_PersistentCalls:
@@ -42681,8 +43420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 580e703fe3c4ea64a855a7104b1d92f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExitByMode: 0
   SmoothEquip: 0
+  ExitByMode: 0
   UseWeaponsOnlyWhileRiding: 1
   animal: {fileID: 5175850389784078804}
   DropPoint: {fileID: 4338022416146224962}
@@ -42690,6 +43429,14 @@ MonoBehaviour:
   StoreWeaponModeID: {fileID: 11400000, guid: 908d4f1fe671c064cbb3045eeb113742, type: 2}
   UnarmedModeID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
   comboManager: {fileID: 3223312137449449203}
+  mainAttackBranch:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  secondAttackBranch:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   IgnoreHandOffset:
     UseConstant: 1
     ConstantValue: 0
@@ -42950,6 +43697,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.99197686, b: 0, a: 0}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!114 &7283999026334133910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42964,8 +43713,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 4727745216083031056}
   animal: {fileID: 5175850389784078804}
-  disableInput: 1
-  enableInput: 1
+  DisableInputAIOn: 1
+  EnableInputAIOff: 1
   StopAgentOn:
   - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
   - {fileID: 11400000, guid: c44e7e8d6840aa243b6c33ec85052763, type: 2}
@@ -42975,8 +43724,11 @@ MonoBehaviour:
   UpdateAI: 0.2
   stoppingDistance: 1.5
   PointStoppingDistance: 0.6
+  additiveStopDistance: 0
   slowingDistance: 0
   UseScale: 1
+  InterruptModeOnTarget: 1
+  ClearTargetOnDisable: 1
   targetHeight: 5
   StopOnTargetTooHigh: 1
   LookAtOffset: 1
@@ -43001,8 +43753,9 @@ MonoBehaviour:
   OnDisabled:
     m_PersistentCalls:
       m_Calls: []
+  AirDestinationState: {fileID: 0}
   AgentTransform: {fileID: 2637936031819479734}
-  Editor_Tabs1: 2
+  Editor_Tabs1: 0
 --- !u!1 &7301653997927061919
 GameObject:
   m_ObjectHideFlags: 0
@@ -43132,6 +43885,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    UpdateAfterCompare: 0
   - active: 1
     name: 'Stamina Greater Than '
     description: 'Enable the Dodge Mode if the Stamina is greater than 25.
@@ -43171,6 +43925,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    UpdateAfterCompare: 0
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -43224,10 +43979,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  events: 0
   OnStart:
     m_PersistentCalls:
       m_Calls: []
   OnEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnable:
+    m_PersistentCalls:
+      m_Calls: []
+  onDisable:
     m_PersistentCalls:
       m_Calls: []
   previewPosition: 0
@@ -43603,6 +44365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb769e7b671f1642b42d0a739c994ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EvaluateOnEnable: 0
   conditions:
   - {fileID: 8954162347174495202}
   - {fileID: 6368020931491961676}
@@ -43929,9 +44692,13 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 5
       Variable: {fileID: 0}
-    InmuneTime:
+    ImmuneTime:
       UseConstant: 1
       ConstantValue: 0.1
+      Variable: {fileID: 0}
+    immune:
+      UseConstant: 1
+      ConstantValue: 0
       Variable: {fileID: 0}
     resetTo: 1
     isPercent: 1
@@ -44035,7 +44802,11 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 15
       Variable: {fileID: 0}
-    InmuneTime:
+    ImmuneTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    immune:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
@@ -44189,7 +44960,11 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    InmuneTime:
+    ImmuneTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    immune:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
@@ -44292,6 +45067,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.41411152, b: 0, a: 1}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!114 &8198671528574850477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44509,6 +45286,7 @@ MonoBehaviour:
   Holder: {fileID: 546567813091226723}
   PosOffset: {x: 0, y: 0, z: 0}
   RotOffset: {x: 0, y: 0, z: 0}
+  extraHolders: []
   Tags: []
   Layer:
     UseConstant: 1
@@ -44986,9 +45764,10 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 9469b9d667245ac45902fe656bdf9eaf, type: 2}
     - {fileID: 2100000, guid: fd65c5410af71544b820416308454d5d, type: 2}
     - {fileID: 2100000, guid: d9b107053097c14488f89b3a03230878, type: 2}
+    - {fileID: 2100000, guid: 5684603a9700a5f498dba8ffeac2e1b4, type: 2}
     Linked: 0
     Master: 0
-    current: 2
+    current: 3
     HasLODs: 1
     LODs:
     - {fileID: 1978329875979236849}
@@ -45084,14 +45863,18 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  AnimatePhysics: 1
   aimer: {fileID: 447518047047942034}
-  LimitAngle:
+  LookAtLimit:
+    minValue: 90
+    maxValue: 120
+  TrackParameter:
     UseConstant: 1
-    ConstantValue: 90
+    ConstantValue: LookAt
     Variable: {fileID: 0}
-  Smoothness:
+  Lerp:
     UseConstant: 1
-    ConstantValue: 8
+    ConstantValue: 5
     Variable: {fileID: 0}
   onlyTargets:
     UseConstant: 1
@@ -45110,6 +45893,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   debug: 1
+  GizmoRadius: 1
 --- !u!4 &8941683598857246309
 Transform:
   m_ObjectHideFlags: 0
@@ -45397,6 +46181,8 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0.47070277, b: 0, a: 0.5882353}
   DrawAxis: 0
   AxisSize: 0.65
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
 --- !u!4 &9171726008792383699
 Transform:
   m_ObjectHideFlags: 0
@@ -45513,6 +46299,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  ignoreStatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   trigger: {fileID: 0}
   Editor_Tabs1: 1
 --- !u!137 &9219519177057551028
@@ -45535,7 +46325,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9b107053097c14488f89b3a03230878, type: 2}
+  - {fileID: 2100000, guid: 5684603a9700a5f498dba8ffeac2e1b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -45566,61 +46356,61 @@ SkinnedMeshRenderer:
   - {fileID: 2164822581182524350}
   - {fileID: 4216243162477676296}
   - {fileID: 1672478805393261788}
-  - {fileID: 7048219962389470802}
   - {fileID: 4825754727682363973}
+  - {fileID: 7048219962389470802}
   - {fileID: 567204190368729853}
   - {fileID: 8000160144169589034}
   - {fileID: 955800904516185914}
   - {fileID: 3197433337488526648}
-  - {fileID: 6679536341651200629}
   - {fileID: 7078796381019553363}
+  - {fileID: 6679536341651200629}
   - {fileID: 450554243127887685}
+  - {fileID: 9219519177062994480}
   - {fileID: 607534439374509921}
   - {fileID: 1399133033627750824}
+  - {fileID: 6418732162151269910}
   - {fileID: 4940435813313395615}
-  - {fileID: 2139638561643812610}
   - {fileID: 31287935590662919}
   - {fileID: 3869489798372065299}
-  - {fileID: 4310840263763356261}
+  - {fileID: 2139638561643812610}
   - {fileID: 6969510284292853764}
+  - {fileID: 4310840263763356261}
   - {fileID: 6900707792401517986}
   - {fileID: 1425648130813483598}
-  - {fileID: 6418732162151269910}
   - {fileID: 1639742851317471508}
   - {fileID: 7728700013876528378}
   - {fileID: 7698220793623718401}
   - {fileID: 2968270971530539616}
   - {fileID: 7051925563173494919}
-  - {fileID: 1398440579389057215}
   - {fileID: 2514246141219832630}
+  - {fileID: 1398440579389057215}
   - {fileID: 1461290578019738605}
   - {fileID: 3097454994733741152}
   - {fileID: 7748930907276815593}
+  - {fileID: 546567813091226723}
   - {fileID: 3211609840419532805}
   - {fileID: 311649820452719940}
   - {fileID: 1877942898096339416}
-  - {fileID: 9219519177062994480}
-  - {fileID: 546567813091226723}
   - {fileID: 8941683598857246309}
+  - {fileID: 762277836248067498}
   - {fileID: 2998273108008779756}
-  - {fileID: 3969432121248299607}
   - {fileID: 6602476521926653668}
   - {fileID: 206271052710762297}
+  - {fileID: 3969432121248299607}
   - {fileID: 5617067125475332418}
+  - {fileID: 1373569902307174576}
   - {fileID: 3858515148533855590}
   - {fileID: 5373732005828551769}
   - {fileID: 4319832905202457224}
-  - {fileID: 762277836248067498}
   - {fileID: 5448433308439541638}
   - {fileID: 2104045641122310339}
-  - {fileID: 1373569902307174576}
   - {fileID: 393571255226529482}
   - {fileID: 1361615008560790738}
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 9219519177062994480}
   m_AABB:
-    m_Center: {x: 0.023568556, y: 0.000027805567, z: -0.011495411}
-    m_Extent: {x: 0.18602772, y: 0.6568327, z: 0.9491578}
+    m_Center: {x: 0.023510568, y: 0.0013578534, z: -0.010554433}
+    m_Extent: {x: 0.18596977, y: 0.6582188, z: 0.94821346}
   m_DirtyAABB: 0
 --- !u!33 &9219519177059570608
 MeshFilter:
@@ -45758,7 +46548,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d9b107053097c14488f89b3a03230878, type: 2}
+  - {fileID: 2100000, guid: 5684603a9700a5f498dba8ffeac2e1b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -45890,7 +46680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &9219519177062764468
 GameObject:
   m_ObjectHideFlags: 0
@@ -46025,12 +46815,9 @@ SceneRoots:
   - {fileID: 1298280302}
   - {fileID: 1033756758}
   - {fileID: 1388019720}
-  - {fileID: 1978119124}
-  - {fileID: 1778853213}
-  - {fileID: 1514005825}
+  - {fileID: 441585002}
   - {fileID: 1048259435}
-  - {fileID: 492395811}
   - {fileID: 76517561}
-  - {fileID: 5170218139197283503}
   - {fileID: 1273563043}
   - {fileID: 1681398651}
+  - {fileID: 327074274}

@@ -21,7 +21,7 @@ MonoBehaviour:
   send: 0
   interval:
     UseConstant: 1
-    ConstantValue: 0
+    ConstantValue: 1
     Variable: {fileID: 0}
   WaitForAllTasks: 0
   waitForTask: -1

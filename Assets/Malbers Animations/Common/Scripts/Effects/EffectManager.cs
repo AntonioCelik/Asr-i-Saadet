@@ -1,6 +1,5 @@
 ﻿using MalbersAnimations.Events;
-using MalbersAnimations.Scriptables; 
-using System.Collections;
+using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +21,9 @@ namespace MalbersAnimations.Utilities
 
         public int SelectedEffect = -1;
         public bool debug;
+
+        private Effect Pin_Effect;
+
         private void Awake()
         {
             foreach (var e in Effects)
@@ -45,6 +47,23 @@ namespace MalbersAnimations.Utilities
                 foreach (var effect in effects) Play(effect);
         }
 
+
+        public virtual void Effect_Pin(string name)
+        {
+            Pin_Effect = Effects.Find(effect => effect.Name == name && effect.active == true);
+        }
+
+
+        public virtual void Effect_Pin(int ID)
+        {
+            Pin_Effect = Effects.Find(effect => effect.ID == ID && effect.active == true);
+        }
+
+
+        public virtual void Effect_Pin_Root(Transform root)
+        {
+            Pin_Effect.root = root;
+        }
 
         /// <summary>Plays an Effect using its ID value</summary>
         public virtual void PlayEffect(string name)
@@ -86,32 +105,36 @@ namespace MalbersAnimations.Utilities
             {
                 foreach (var e in effects)
                 {
-                    StopEffect(e);
+                    StopEffect(e, e.Instance);
                 }
             }
         }
 
-        public virtual void StopEffect(Effect e)
+        public virtual void StopEffect(Effect e, GameObject instance)
         {
-            //Stop the Reaction
-            e.OnStopReaction?.React(Owner);
-            e.OnStop.Invoke();
-
-            e.IsPlaying = false;
-
-            if (e.effect != null)
+            //Stop the Effect only if is playing
+            if (e.IsPlaying)
             {
-                if (!e.effect.IsPrefab())
+                e.OnStopReaction?.React(Owner);
+                e.OnStop.Invoke();
+
+                e.IsPlaying = false;
+
+                if (e.effect != null)
                 {
-                    if (e.disableOnStop) e.Instance?.SetActive(false);
+                    if (!e.effect.IsPrefab())
+                    {
+                        if (e.disableOnStop)
+                            instance?.SetActive(false);
+                    }
+                    else
+                        Destroy(instance);
+
                 }
-                else
-                    Destroy(e.Instance);
 
+                if (debug)
+                    Debug.Log($"<B>{Owner.name}</B> Effect Stop: <B>[{e.Name}]</B>", (instance != null ? instance : this));
             }
-
-            if (debug)
-                Debug.Log($"<B>{Owner.name}</B> Effect Stop: <B>[{e.Name}]</B>", this);
         }
 
 
@@ -121,18 +144,18 @@ namespace MalbersAnimations.Utilities
             var effects = Effects.FindAll(effect => effect.Name == name && effect.active == true);
             Stop_Effects(effects);
         }
- 
+
 
         protected virtual void Play(Effect e)
         {
             //e.Modifier?.PreStart(e);        //Execute the Method PreStart Effect if it has a modifier
 
-            if (e.IsPlaying) return; //Do not play a effect that is already playing
+            if (e.effect != null && e.IsPlaying) return; //Do not play a effect that is already playing
 
             //Delay an action
             this.Delay_Action(e.delay,
                 () =>
-                { 
+                {
                     e.IsPlaying = true;
 
                     //Play Audio
@@ -171,9 +194,7 @@ namespace MalbersAnimations.Utilities
                                 if (e.isChild)
                                 {
                                     e.Instance.transform.parent = e.root;
-                                    e.Instance.transform.localPosition = e.Offset.Position;
-                                    e.Instance.transform.localEulerAngles = e.Offset.Rotation;
-                                    e.Instance.transform.localScale = e.Offset.Scale; //Scale the Effect
+                                    e.Offset.RestoreTransform(e.Instance.transform); //Restore the Offset
                                 }
                                 else
                                 {
@@ -198,21 +219,20 @@ namespace MalbersAnimations.Utilities
                             if (e.IsTrailRenderer) e.IsTrailRenderer.Clear();
                             if (e.IsParticleSystem) e.IsParticleSystem.Play();
                         }
-                      
+                    }
 
-                        if (e.life > 0)
-                        {
-                            this.Delay_Action(e.life, () => StopEffect(e));
-                        }
+                    if (e.life > 0)
+                    {
+                        this.Delay_Action(e.life, () => StopEffect(e, e.Instance));
                     }
 
                     if (debug)
-                        Debug.Log($"<B>{Owner.name}</B> Effect Play: <B>[{e.Name}]</B>", this);
+                        Debug.Log($"<B>{Owner.name}</B> Effect Play: <B>[{e.Name}]</B>", (e.Instance != null ? e.Instance : this));
 
                     e.OnPlay.Invoke();                 //Invoke the Play Event
                     e.OnPlayReaction?.React(Owner);    //Play the Reaction
                 }
-            ); 
+            );
         }
 
 
@@ -352,15 +372,15 @@ namespace MalbersAnimations.Utilities
         public bool disableOnStop = true;
         public bool useRootRotation = true;
         public GameObject effect;
-        public TransformOffset Offset = new TransformOffset(1);
+        public TransformOffset Offset = new(1);
         public AudioSource audioSource;
         public AudioClipReference Clip;
 
         /// <summary>Life of the Effect</summary>
-        public float life = 10f;
+        [Min(0)] public float life = 10f;
 
         /// <summary>Delay Time to execute the effect after is called.</summary>
-        public float delay;
+        [Min(0)] public float delay;
         public float scale = 1f;
 
         ///// <summary>Scriptable Object to Modify anything you want before, during or after the effect is invoked</summary>
@@ -472,8 +492,8 @@ namespace MalbersAnimations.Utilities
                             string prefabTooltip = "";
 
                             var is_Prefab = false;
-                            
-                            if (eff.objectReferenceValue != null) 
+
+                            if (eff.objectReferenceValue != null)
                                 is_Prefab = (eff.objectReferenceValue as GameObject).IsPrefab();
 
                             if (eff.objectReferenceValue != null && is_Prefab)
@@ -482,14 +502,14 @@ namespace MalbersAnimations.Utilities
                             }
                             EditorGUILayout.PropertyField(Element.FindPropertyRelative("effect"), new GUIContent("Effect " + prefabTooltip, "The Prefab or gameobject which holds the Effect(Particles, transforms)"));
 
-                            if (is_Prefab )
+                            if (is_Prefab)
                                 EditorGUILayout.PropertyField(Element.FindPropertyRelative("scale"), new GUIContent("Scale", "Scale the Prefab object"));
 
-                            if (effect.effect != null)
-                                EditorGUILayout.PropertyField(Element.FindPropertyRelative("life"), new GUIContent("Life", "Duration of the Effect. The Effect will be destroyed after the Life time has passed"));
+
+                            EditorGUILayout.PropertyField(Element.FindPropertyRelative("life"), new GUIContent("Life", "Duration of the Effect. The Effect will be destroyed after the Life time has passed"));
 
                             EditorGUILayout.PropertyField(Element.FindPropertyRelative("delay"), new GUIContent("Delay", "Time before playing the Effect"));
-                            
+
 
                             if (eff.objectReferenceValue != null && !(eff.objectReferenceValue as GameObject).IsPrefab())
                                 EditorGUILayout.PropertyField(Element.FindPropertyRelative("disableOnStop"), new GUIContent("Disable On Stop", "if the Effect is not a prefab the gameOBject will be disabled"));
@@ -515,7 +535,7 @@ namespace MalbersAnimations.Utilities
                                new GUIContent("Clip", "What audio will be played"));
                         }
                     }
-                    
+
                     using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                     {
                         var root = Element.FindPropertyRelative("root");
@@ -543,7 +563,7 @@ namespace MalbersAnimations.Utilities
                                 EditorGUILayout.PropertyField(useRootRotation, new GUIContent("Use Root Rotation", "Orient the Effect using the root rotation."));
                             }
                         }
-                    } 
+                    }
 
                     using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                     {
@@ -574,7 +594,7 @@ namespace MalbersAnimations.Utilities
                         }
                     }
                 }
-            } 
+            }
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -609,10 +629,7 @@ namespace MalbersAnimations.Utilities
 
         void OnAddCallBack(ReorderableList list)
         {
-            if (M.Effects == null)
-            {
-                M.Effects = new System.Collections.Generic.List<Effect>();
-            }
+            M.Effects ??= new System.Collections.Generic.List<Effect>();
             M.Effects.Add(new Effect());
         }
     }

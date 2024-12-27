@@ -652,7 +652,7 @@ namespace Autohand {
 
 
 
-            float GetFingerPoseDistanceDifferenceValue(FingerPoseData currentPose, FingerPoseData targetPose, Matrix4x4 currentLocalToWorld, Matrix4x4 targetOffset) {
+            float GetFingerPoseDistanceDifferenceValue(FingerPoseData currentPose, FingerPoseData target, Matrix4x4 currentLocalToWorld, Matrix4x4 targetOffset) {
                 float value = 0;
 
 
@@ -665,8 +665,8 @@ namespace Autohand {
                 Vector3 knuckleCurrentPosition = AutoHandExtensions.ExtractPosition(ref knuckleGlobalMatrix);
                 Vector3 middleCurrentPosition = AutoHandExtensions.ExtractPosition(ref middleGlobalMatrix);
 
-                kuckleToHandMatrix = targetPose.poseRelativeMatrix[(int)FingerJointEnum.knuckle];
-                middleToKnuckleMatrix = targetPose.poseRelativeMatrix[(int)FingerJointEnum.middle];
+                kuckleToHandMatrix = target.poseRelativeMatrix[(int)FingerJointEnum.knuckle];
+                middleToKnuckleMatrix = target.poseRelativeMatrix[(int)FingerJointEnum.middle];
 
                 knuckleGlobalMatrix = targetOffset * kuckleToHandMatrix;
                 middleGlobalMatrix = knuckleGlobalMatrix * middleToKnuckleMatrix;

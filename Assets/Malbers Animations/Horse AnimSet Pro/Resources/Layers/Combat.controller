@@ -47,7 +47,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Rider Right Arm
+    m_Name: Right Arm
     m_StateMachine: {fileID: 1107731880698743160}
     m_Mask: {fileID: 101100000, guid: 5670b6f245f1cbf4ebf89bdf59717c9c, type: 2}
     m_Motions: []
@@ -59,7 +59,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Rider Left Arm
+    m_Name: Left Arm
     m_StateMachine: {fileID: 1107000757865284030}
     m_Mask: {fileID: 101100000, guid: 403e2125a788caa4b93d23d6306e2c35, type: 2}
     m_Motions: []
@@ -5462,6 +5462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 100
+  Profile: 0
   AttackActivation:
     minValue: 0.4
     maxValue: 0.72
@@ -5738,6 +5739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 101
+  Profile: 0
   AttackActivation:
     minValue: 0.3
     maxValue: 0.6
@@ -5924,6 +5926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 100
+  Profile: 0
   AttackActivation:
     minValue: 0.26
     maxValue: 0.55
@@ -6829,6 +6832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 100
+  Profile: 0
   AttackActivation:
     minValue: 0.26
     maxValue: 0.48
@@ -6980,6 +6984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 101
+  Profile: 0
   AttackActivation:
     minValue: 0.3
     maxValue: 0.6
@@ -6996,6 +7001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 101
+  Profile: 0
   AttackActivation:
     minValue: 0.3
     maxValue: 0.6
@@ -7788,6 +7794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 100
+  Profile: 0
   AttackActivation:
     minValue: 0.34
     maxValue: 0.6
@@ -7804,6 +7811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackTrigger: 101
+  Profile: 0
   AttackActivation:
     minValue: 0.3
     maxValue: 0.6
@@ -20597,7 +20605,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rider Left Arm
+  m_Name: Left Arm
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102502867431478408}
@@ -20743,15 +20751,15 @@ AnimatorStateMachine:
   - {fileID: 1101598909032983876}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1107191375423141730}
+  - first: {fileID: 1107399969148518470}
     second: []
   - first: {fileID: 1107010018365949426}
-    second: []
-  - first: {fileID: 1107399969148518470}
     second: []
   - first: {fileID: 1107938435833947286}
     second: []
   - first: {fileID: 1107949035698495006}
+    second: []
+  - first: {fileID: 1107191375423141730}
     second: []
   - first: {fileID: 1107865213503207526}
     second: []
@@ -20906,7 +20914,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rider Right Arm
+  m_Name: Right Arm
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102147087469431442}

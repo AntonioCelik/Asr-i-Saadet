@@ -124,8 +124,9 @@ GameObject:
   - component: {fileID: 4119520939028466839}
   - component: {fileID: 4119520939028466837}
   - component: {fileID: 5133752284967792349}
-  - component: {fileID: 1530111104}
   - component: {fileID: 8695976954058303972}
+  - component: {fileID: 5597218118940374123}
+  - component: {fileID: 5693856051126509458}
   m_Layer: 0
   m_Name: CM Third Person Main
   m_TagString: Untagged
@@ -147,7 +148,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4119520938270541165}
-  - {fileID: 5879780386584498987}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4119520939028466839
@@ -182,8 +182,8 @@ MonoBehaviour:
     FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
+    m_BlendHint: 1
+    m_InheritPosition: 1
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
@@ -202,30 +202,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Brain: {fileID: 0}
-  updateMode: 0
+  unscaledTime:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   priority: 10
   cameraSide: 1
-  Target:
-    UseConstant: 0
-    ConstantValue: {fileID: 0}
-    Variable: {fileID: 11400000, guid: e759cb94eee3fcd4bb2f749b1dbda0a8, type: 2}
-  CamPivot: {fileID: 5879780386584498987}
-  look:
-    UseConstant: 0
-    ConstantValue: {x: 0, y: 0}
-    Variable: {fileID: 11400000, guid: 81ebbdea0e8140745b486bad86246321, type: 2}
-  invertX:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  invertY:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
   CameraDistance:
     UseConstant: 1
     ConstantValue: 6
     Variable: {fileID: 0}
+  Target:
+    UseConstant: 0
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 11400000, guid: e759cb94eee3fcd4bb2f749b1dbda0a8, type: 2}
+  look:
+    UseConstant: 0
+    ConstantValue: {x: 0, y: 0}
+    Variable: {fileID: 11400000, guid: 81ebbdea0e8140745b486bad86246321, type: 2}
+  useUpVector: 0
+  upVector:
+    UseConstant: 0
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 11400000, guid: e759cb94eee3fcd4bb2f749b1dbda0a8, type: 2}
   XMultiplier:
     UseConstant: 1
     ConstantValue: 1
@@ -246,6 +245,30 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 15
     Variable: {fileID: 0}
+  lerpPosition:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertX:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertY:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  CurrentDevice:
+    UseConstant: 0
+    ConstantValue: Mouse
+    Variable: {fileID: 11400000, guid: 8f9b4b27a210440478777eb574cee9d0, type: 2}
+  UsingMouse:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  GamepadMult:
+    UseConstant: 1
+    ConstantValue: 100
+    Variable: {fileID: 0}
   OnActiveCamera:
     m_PersistentCalls:
       m_Calls:
@@ -261,6 +284,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _cinemachineTargetYaw: 0
+  _cinemachineTargetPitch: 0
 --- !u!114 &5133752284967792349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +299,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateMode: 0
+  unscaledTime:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   ZoomMin:
     UseConstant: 1
     ConstantValue: 1
@@ -290,7 +319,230 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 5
     Variable: {fileID: 0}
---- !u!114 &1530111104
+--- !u!114 &8695976954058303972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4119520939028466833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0de379cfd30d65a4da8d0d1115c494a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnScrollUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5133752284967792349}
+        m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowZoom, MalbersAnimations.Cinemachine
+        m_MethodName: ZoomIn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnScrollDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5133752284967792349}
+        m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowZoom, MalbersAnimations.Cinemachine
+        m_MethodName: ZoomOut
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5597218118940374123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4119520939028466833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eb9c17bc0693d448a412425a2d17b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Events:
+  - Event: {fileID: 11400000, guid: f6f5e9d4ea6f2c244b4f0047279c48f2, type: 2}
+    active: 1
+    useInt: 0
+    useFloat: 0
+    useVoid: 1
+    useString: 0
+    useBool: 0
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4119520939028466837}
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
+          m_MethodName: TargetTeleport
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    FloatEventList: []
+    AdvancedInteger: 0
+    AdvancedFloat: 0
+    AdvancedBool: 0
+    InvertBool: 0
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+  - Event: {fileID: 11400000, guid: 774c7acaf3bb1304fb314cd4bd618fcb, type: 2}
+    active: 1
+    useInt: 0
+    useFloat: 0
+    useVoid: 0
+    useString: 0
+    useBool: 1
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4119520939028466837}
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
+          m_MethodName: TargetTeleport
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4119520939028466837}
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
+          m_MethodName: set_UseUpVector
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    FloatEventList: []
+    AdvancedInteger: 0
+    AdvancedFloat: 0
+    AdvancedBool: 0
+    InvertBool: 0
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+  ShowEvents: 1
+  SelectedEvent: 1
+--- !u!114 &5693856051126509458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,7 +604,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 4119520939028466837}
-          m_TargetAssemblyTypeName: MalbersAnimations.CameraTargetRotation, Assembly-CSharp
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
           m_MethodName: SetLookX
           m_Mode: 0
           m_Arguments:
@@ -412,7 +664,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 4119520939028466837}
-          m_TargetAssemblyTypeName: MalbersAnimations.CameraTargetRotation, Assembly-CSharp
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
           m_MethodName: SetLookY
           m_Mode: 0
           m_Arguments:
@@ -432,7 +684,7 @@ MonoBehaviour:
       ConstantValue: New Map
       Variable: {fileID: 0}
     inputs: []
-    selectedIndex: 0
+    selectedIndex: 1
   ActiveMap:
     name:
       UseConstant: 1
@@ -449,81 +701,11 @@ MonoBehaviour:
   OnInputDisabled:
     m_PersistentCalls:
       m_Calls: []
+  OnUsingGamePad:
+    m_PersistentCalls:
+      m_Calls: []
   IgnoreOnPause:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
   PlayerID: Player0
---- !u!114 &8695976954058303972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119520939028466833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de379cfd30d65a4da8d0d1115c494a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnScrollUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5133752284967792349}
-        m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowZoom, MalbersAnimations.Cinemachine
-        m_MethodName: ZoomIn
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnScrollDown:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5133752284967792349}
-        m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowZoom, MalbersAnimations.Cinemachine
-        m_MethodName: ZoomOut
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!1 &4448917256607583473
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5879780386584498987}
-  m_Layer: 0
-  m_Name: Pivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5879780386584498987
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4448917256607583473}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4119520939028466838}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -18,7 +18,7 @@ namespace MalbersAnimations
         public List<Tag> tags = new();
 
         /// <summary>Convert the list to a Hash Set  (So the element does not repeat and is faster to find)</summary>
-        private readonly HashSet<int> HTag = new();
+        private readonly HashSet<int> HashTag = new();
 
 
         void OnEnable()
@@ -26,23 +26,23 @@ namespace MalbersAnimations
             TagsHolders ??= new List<Tags>();
 
             //Save the GameObject who has this Tags on the global TagsHolders list //Better for saving performance
-            TagsHolders.Add(this);              
+            TagsHolders.Add(this);
         }
         void OnDisable()
         {
             //Remove the GameObject who has this Tags on the global TagsHolders list //Better for saving performance
-            TagsHolders.Remove(this);     
+            TagsHolders.Remove(this);
         }
 
         public void Awake()
         {
             //Clean Repeated elements
-           var x = new HashSet<Tag>(tags);
+            var x = new HashSet<Tag>(tags);
 
             x.Remove(null); //Remove if there's a null tag
 
             foreach (var item in x)
-                HTag.Add(item.ID);
+                HashTag.Add(item.ID);
 
         }
 
@@ -93,14 +93,14 @@ namespace MalbersAnimations
         public bool HasTag(Tag tag) => HasTag(tag.ID);
 
         /// <summary>Return all the Gameobjects that use a tag ID</summary>
-        public bool HasTag(int key) => HTag.Contains(key);
+        public bool HasTag(int key) => HashTag.Contains(key);
 
         /// <summary>Check if this component has a more than one tag</summary>
         public bool HasTag(params Tag[] enteringTags)
         {
             foreach (var tag in enteringTags)
             {
-                if (HTag.Contains(tag)) return true;
+                if (HashTag.Contains(tag)) return true;
             }
             return false;
         }
@@ -111,7 +111,7 @@ namespace MalbersAnimations
         {
             foreach (var tag in enteringTags)
             {
-                if (HTag.Contains(tag)) return true;
+                if (HashTag.Contains(tag)) return true;
             }
             return false;
         }
@@ -122,7 +122,7 @@ namespace MalbersAnimations
         {
             foreach (var tag in enteringTags)
             {
-                if (!HTag.Contains(tag)) return false;
+                if (!HashTag.Contains(tag)) return false;
             }
             return true;
         }
@@ -133,7 +133,7 @@ namespace MalbersAnimations
         {
             foreach (var tag in enteringTags)
             {
-                if (!HTag.Contains(tag)) return false;
+                if (!HashTag.Contains(tag)) return false;
             }
             return true;
         }
@@ -141,20 +141,20 @@ namespace MalbersAnimations
         /// <summary>Add a new Tag</summary>
         public void AddTag(Tag t)
         {
-            if (!HTag.Contains(t.ID))
+            if (!HashTag.Contains(t.ID))
             {
                 tags.Add(t);
-                HTag.Add(t.ID);
+                HashTag.Add(t.ID);
             }
         }
 
         /// <summary>Remove an existing Tag</summary>
         public void RemoveTag(Tag t)
         {
-            if (HTag.Contains(t))
+            if (HashTag.Contains(t))
             {
                 tags.Remove(t);
-                HTag.Remove(t.ID);
+                HashTag.Remove(t.ID);
             }
         }
     }
@@ -187,10 +187,49 @@ namespace MalbersAnimations
         public static bool HasMalbersTag(this GameObject t, params Tag[] tags) => HasMalbersTag(t.transform, tags);
 
 
+
+        /// <summary>  Use GetComponentInParent to find a Tag in their Parents</summary>
         private static Tags GetTag(GameObject t)
         {
-            return  t.GetComponentInParent<Tags>(false);
+            return t.GetComponentInParent<Tags>(false);
         }
+
+        public static GameObject FindWithMalbersTag(this GameObject t, Tag tag)
+        {
+            var allTags = t.GetComponentsInChildren<Tags>(false);
+
+            if (allTags != null)
+            {
+                foreach (var item in allTags)
+                {
+                    if (item.HasTag(tag))
+                        return item.gameObject;
+                }
+            }
+            return null;
+        }
+
+        public static Transform FindWithMalbersTag(this Transform t, Tag tag)
+        {
+            var allTags = t.GetComponentsInChildren<Tags>(false);
+
+            if (allTags != null)
+            {
+                foreach (var item in allTags)
+                {
+                    if (item.HasTag(tag))
+                        return item.transform;
+                }
+            }
+            return null;
+        }
+
+
+        ///// <summary>Search in the List of Static Tags if a gameObject is child of one of the Tag Holders </summary>
+        //private static Tags GetTag(GameObject childOB)
+        //{
+        //    return Tags.TagsHolders.Find(t => childOB.transform.SameHierarchy(t.transform));
+        //}
 
         /// <summary> Returns if the Transform has a malbers Tag in one of its parents</summary>
         public static bool HasMalbersTagInParent(this Transform t, Tag tag)

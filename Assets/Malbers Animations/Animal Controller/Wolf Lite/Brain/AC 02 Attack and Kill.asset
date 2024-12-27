@@ -105,10 +105,40 @@ MonoBehaviour:
     ConstantValue: 1.5
     Variable: {fileID: 0}
   ModeAngle: 360
-  lookAtAlign: 1
+  lookAtAlign: 0
   IgnoreFirstCoolDown: 1
   StopModeOnExit: 1
   alignTime: 0.3
+--- !u!114 &-6396719275025420983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aaefcc8cb0c31046bdac1700fd93837, type: 3}
+  m_Name: Look At Target Head
+  m_EditorClassIdentifier: 
+  active: 1
+  Description: 'Find a child gameObject with the name given on the Target and set
+    it as the Target for the Look At and the Aim Component on the Animal '
+  MessageID:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  UpdateInterval: 0.2
+  WaitForPreviousTask: 0
+  SetAimOn: 0
+  LookAtTargetS: 0
+  LookAtTargetT: 0
+  TargetVar: {fileID: 0}
+  UseTag: 0
+  BoneName: Head
+  tag: {fileID: 0}
+  DisableOnExit: 1
+  showTransformVar: 0
 --- !u!114 &-3742761694754523325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +165,8 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 3
     Variable: {fileID: 0}
+  Sprint: 0
+  ResetSprintOnExit: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +188,7 @@ MonoBehaviour:
   - {fileID: -6682966666410970486}
   - {fileID: -3742761694754523325}
   - {fileID: -8424466867942724737}
+  - {fileID: -6396719275025420983}
   transitions:
   - decision: {fileID: 2943419024565079828}
     trueState: {fileID: 0}
@@ -166,7 +199,7 @@ MonoBehaviour:
   GizmoStateColor: {r: 0, g: 1, b: 0.1323154, a: 1}
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
-  TasksIndex: 1
+  TasksIndex: 4
   DecisionIndex: -1
 --- !u!114 &2943419024565079828
 MonoBehaviour:

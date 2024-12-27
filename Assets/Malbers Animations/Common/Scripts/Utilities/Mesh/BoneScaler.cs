@@ -21,10 +21,10 @@ namespace MalbersAnimations.Utilities
         public Transform Root;
 
         [Delayed]
-        public string[] Filter = new string[20]
+        public string[] Filter = new string[]
         { "Pivot", "Attack", "Track", "Trigger", "Camera", "Target",
             "Fire", "Debug","AI","Look","Appearance","Interaction",
-            "Internal","Mesh","Rotator", "Effect","Stamina","Sound","Cinemachine" , "Audio"};
+            "Internal","Mesh","Rotator", "Effect","Stamina","Sound","Cinemachine" , "Audio", "Particle"};
 
         // public bool rotations;
         public List<Transform> Bones = new();

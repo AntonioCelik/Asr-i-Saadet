@@ -16,12 +16,12 @@ namespace MalbersAnimations.Utilities
     public class MInteractor : MonoBehaviour, IInteractor
     {
         [Tooltip("Layer for the Interact with colliders")]
-        [SerializeField] private LayerReference Layer = new LayerReference(-1);
+        [SerializeField] private LayerReference Layer = new(-1);
         [SerializeField] private QueryTriggerInteraction TriggerInteraction = QueryTriggerInteraction.Ignore;
 
 
         [Tooltip("ID for the Interactor")]
-        public IntReference m_ID = new IntReference(0);
+        public IntReference m_ID = new(0);
 
         [Tooltip("Collider set as Trigger to Find Interactables OnTrigger Enter")]
         //[RequiredField] 
@@ -30,9 +30,9 @@ namespace MalbersAnimations.Utilities
         [Tooltip("When an Interaction is executed these events will be invoked." +
          "\n\nOnInteractWithGO(GameObject) -> will have the *INTERACTABLE* gameObject as parameter" +
          "\n\nOnInteractWith(Int) -> will have the *INTERACTABLE* ID as parameter")]
-        public InteractionEvents events = new InteractionEvents();
-        public GameObjectEvent OnFocused = new GameObjectEvent();
-        public GameObjectEvent OnUnfocused = new GameObjectEvent();
+        public InteractionEvents events = new();
+        public GameObjectEvent OnFocused = new();
+        public GameObjectEvent OnUnfocused = new();
 
         public int ID => m_ID.Value;
 
@@ -167,7 +167,7 @@ namespace MalbersAnimations.Utilities
                     r.React(inter.Index);
                 }
 
-                if (debug) Debug.Log($"{RealRoot.name} -> Interact ({inter.Index} : {inter.Owner.name})",this);
+                if (debug) Debug.Log($"{RealRoot.name} -> Interact ({inter.Index} : {inter.Owner.name})", this);
                 return true;
             }
             return false;
@@ -207,9 +207,9 @@ namespace MalbersAnimations.Utilities
     [System.Serializable]
     public class MInteractorReaction
     {
+        public ComparerInt Is = ComparerInt.Equal;
         [Tooltip("Interactable Index. Set it to Zero or 1 to use this reaction with all Interactables")]
         public IntReference Index = new();
-        public ComparerInt Is = ComparerInt.Equal;
         public Component target;
         [SerializeReference, SubclassSelector]
         public Reaction reaction;
@@ -239,7 +239,7 @@ namespace MalbersAnimations.Utilities
     {
         SerializedProperty m_ID, InteractionArea, events, Editor_Tabs1, OnFocusedInteractable, OnUnfocusedInteractable, reactions, debug,
             triggerInteraction, Layer;
-        protected string[] Tabs1 = new string[] { "General", "Events" ,"Reactions"};
+        protected string[] Tabs1 = new string[] { "General", "Events", "Reactions" };
 
         MInteractor M;
 
@@ -274,10 +274,10 @@ namespace MalbersAnimations.Utilities
                 case 0: DrawGeneral(); break;
                 case 1: DrawEvents(); break;
                 case 2: DrawReactions(); break;
-                default:break;
+                default: break;
             }
 
-           
+
             if (Application.isPlaying)
             {
                 using (new EditorGUI.DisabledGroupScope(true))
@@ -289,7 +289,7 @@ namespace MalbersAnimations.Utilities
                             EditorGUILayout.ObjectField($"Focused Item [ID:{item.Index}]", item.Owner, typeof(GameObject), false);
                         }
                     }
-                } 
+                }
                 Repaint();
             }
 
@@ -307,7 +307,7 @@ namespace MalbersAnimations.Utilities
             {
                 EditorGUILayout.PropertyField(Layer);
                 EditorGUILayout.PropertyField(triggerInteraction);
-                EditorGUILayout.PropertyField(m_ID); 
+                EditorGUILayout.PropertyField(m_ID);
                 EditorGUILayout.PropertyField(InteractionArea);
             }
         }

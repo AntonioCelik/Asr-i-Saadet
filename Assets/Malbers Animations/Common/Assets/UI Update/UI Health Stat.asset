@@ -22,9 +22,9 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   m_float:
-    UseConstant: 0
+    UseConstant: 1
     ConstantValue: 0.3
-    Variable: {fileID: 11400000, guid: 741cba7be4796f84681865b3415e9a82, type: 2}
+    Variable: {fileID: 0}
   m_string:
     UseConstant: 1
     ConstantValue: 

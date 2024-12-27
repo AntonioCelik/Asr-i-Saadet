@@ -2,18 +2,26 @@ using UnityEngine;
 
 namespace MalbersAnimations.Controller
 {
+    /// <summary>
+    /// This script allows the Character to Rotate towards the camera direction if is on the Idle State doing nothing
+    /// </summary>
     [AddComponentMenu("Malbers/Animal Controller/Rotate in Place by Camera")]
 
     public class RotateInPlaceByCamera : MonoBehaviour
     {
-        [RequiredField]  public MAnimal animal;
+        [Tooltip("Reference for the Animal Controller")]
+        [RequiredField] public MAnimal animal;
+        [Tooltip("If the angle formed by Camera's forward direction and Character's forward direction greater than this value, then start rotating in place")]
         [Min(15)] public float LimitAngle = 90f;
+        [Tooltip("If the angle formed by Camera's forward direction and Character's forward direction greater than this value, then Stop rotating in place")]
         [Min(1)] public float AngleThreshold = 2f;
+        [Tooltip("Wait x seconds before rotating in place if the conditions are true")]
         [Min(0)] public float Wait = 1f;
+        [Tooltip("Use only RootMotion Movement")]
         public bool RootMotionOnly = true;
 
         public bool debug = true;
-        
+
         private void OnEnable()
         {
             animal.PreInput += PreInput;
@@ -27,7 +35,7 @@ namespace MalbersAnimations.Controller
             animal.PostStateMovement -= PostStateMovement;
         }
 
-      
+
         //
         private bool RotateInPlace;
         private Vector3 TargetRotation;
@@ -40,14 +48,15 @@ namespace MalbersAnimations.Controller
             //Only do RootMotion, Remove all additive position.
             if (RotateInPlace && RootMotionOnly)
             {
-                animal.AdditiveRotation = animal.Anim.deltaRotation; 
+                animal.AdditiveRotation = animal.Anim.deltaRotation;
             }
         }
 
         private void PreInput(MAnimal animal)
         {
             //Do nothing if movement is detected, locomotion Idle is NOT playing or Strafe is true
-            if (animal.RawInputAxis != Vector3.zero || animal.ActiveStateID.ID > 1 || animal.Strafe)
+            if (animal.RawInputAxis != Vector3.zero || animal.ActiveStateID.ID > 1 || animal.Strafe
+                || animal.LockMovement == true || animal.LockUpDownMovement == true)
             {
                 RotateInPlace = false;
                 animal.Rotate_at_Direction = false;
@@ -95,7 +104,7 @@ namespace MalbersAnimations.Controller
                 }
             }
         }
- 
+
         private void Reset()
         {
             animal = GetComponent<MAnimal>();

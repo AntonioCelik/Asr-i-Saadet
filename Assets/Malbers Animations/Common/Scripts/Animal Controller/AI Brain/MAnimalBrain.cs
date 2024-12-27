@@ -20,16 +20,12 @@ namespace MalbersAnimations.Controller.AI
         [Obsolete("Use AIControl Instead")]
         public IAIControl AIMovement => AIControl;
 
-        //[Tooltip("Use a temporal Brain from another animal (MOUNTING)")]
-        //public MAnimalBrain TemporalBrain;
-        //public MAnimalBrain Brain => TemporalBrain != null ? TemporalBrain : this;
-
         /// <summary>Transform used to raycast Rays to interact with the world</summary>
         [RequiredField, Tooltip("Transform used to raycast Rays to interact with the world")]
         public Transform Eyes;
         /// <summary>Time needed to make a new transition. Necesary to avoid Changing to multiple States in the same frame</summary>
         [Tooltip("Time needed to make a new transition. Necessary to avoid Changing to multiple States in the same frame")]
-        public FloatReference TransitionCoolDown = new FloatReference(0.2f);
+        public FloatReference TransitionCoolDown = new(0.2f);
 
         /// <summary>Reference AI State for the animal</summary>
         [CreateScriptableAsset] public MAIState currentState;
@@ -46,13 +42,11 @@ namespace MalbersAnimations.Controller.AI
         public IntEvent OnDecisionSucceeded = new();
         public IntEvent OnAIStateChanged = new();
 
-
         /// <summary>Last Time the Animal make a new transition</summary>
         private float TransitionLastTime;
 
         /// <summary>Last Time the Animal  started a transition</summary>
         public float StateLastTime { get; set; }
-
 
         /// <summary>Check if all the Task are done..</summary>
         public bool AllTasksDone()
@@ -99,14 +93,13 @@ namespace MalbersAnimations.Controller.AI
         public BrainVars[] DecisionsVars;
         internal bool BrainInitialize;
 
-
-
-
         #region Properties
 
 
         /// <summary>Reference for the Animal</summary>
         public MAnimal Animal { get; private set; }
+
+
 
         /// <summary>Reference for the AnimalStats</summary>
         public Dictionary<int, Stat> AnimalStats { get; set; }
@@ -123,8 +116,17 @@ namespace MalbersAnimations.Controller.AI
         //}
         //private Transform target;
 
-        /// <summary>Reference for the Target the Animal Component</summary>
+        /// <summary>Reference for the Target's  Animal Component</summary>
         public MAnimal TargetAnimal { get; set; }
+
+        /// <summary>Reference for the Target's   Local Vars Component</summary>
+        public MLocalVars TargetVars { get; set; }
+
+        /// <summary>Reference for the Local Variables</summary>
+        public MLocalVars LocalVars { get; private set; }
+
+        /// <summary>Reference Exra locas Local Variables</summary>
+        public MLocalVars ExtraLocalVars { get; set; }
 
         public Vector3 Position => AIControl.Transform.position;
 
@@ -153,11 +155,13 @@ namespace MalbersAnimations.Controller.AI
         void Awake()
         {
             if (Animal == null) Animal = gameObject.FindComponent<MAnimal>();
+            if (LocalVars == null) LocalVars = gameObject.FindComponent<MLocalVars>();
+            if (LocalVars == null) LocalVars = gameObject.AddComponent<MLocalVars>();  //Add it if you do not have the component
 
             AIControl ??= gameObject.FindInterface<IAIControl>();
 
             var AnimalStatscomponent = Animal.FindComponent<Stats>();
-            if (AnimalStatscomponent) AnimalStats = AnimalStatscomponent.Stats_Dictionary(); 
+            if (AnimalStatscomponent) AnimalStats = AnimalStatscomponent.Stats_Dictionary();
 
             Animal.isPlayer.Value = false; //If is using a brain... disable that he is the main player
                                            // ResetVarsOnNewState();
@@ -217,7 +221,6 @@ namespace MalbersAnimations.Controller.AI
 
         #endregion
 
-
         public void StartBrain()
         {
             if (currentState)
@@ -248,15 +251,12 @@ namespace MalbersAnimations.Controller.AI
                     SetLastWayPoint(AIControl.Target);
 
                 BrainInitialize = true;
-
             }
             else
             {
                 enabled = false;
             }
         }
-
-
 
         public virtual void TransitionToState(MAIState nextState, bool decisionValue, MAIDecision decision, int Index)
         {
@@ -278,7 +278,6 @@ namespace MalbersAnimations.Controller.AI
                 }
             }
         }
-
         protected virtual void Debuging(string Log, UnityEngine.Object val) { if (debug) Debug.Log($"<B><color=green>[{Animal.name}]</color> - </B> " + Log, val); }
 
         private void InvokeDecisionEvent(bool decisionValue, MAIDecision decision)
@@ -306,7 +305,7 @@ namespace MalbersAnimations.Controller.AI
             if (currentState != null && currentState != newState)
             {
                 currentState.Finish_Tasks(this);                 //Finish all the Task on the Current State
-               // currentState.Finish_Decisions(this);           //Finish all the Decisions on the Current State
+                                                                 // currentState.Finish_Decisions(this);           //Finish all the Decisions on the Current State
             }
 
             currentState = newState;                            //Set a new State
@@ -322,7 +321,6 @@ namespace MalbersAnimations.Controller.AI
                 $"Tasks[{currentState.tasks.Length}]. Decisions[{currentState.transitions.Length}]</color>", currentState);
 
         }
-
 
         /// <summary>Prepare all the local variables on the New State before starting new tasks</summary>
         private void ResetVarsOnNewState()
@@ -352,12 +350,9 @@ namespace MalbersAnimations.Controller.AI
             }
         }
 
-
         public bool IsTaskDone(int TaskIndex) => TasksDone[TaskIndex];
 
-        /// <summary>
-        /// Set if a Task is finished or not
-        /// </summary>
+        /// <summary>  Set if a Task is finished or not </summary>
         /// <param name="TaskIndex">Index of the task</param>
         /// <param name="value">True[Default] if the Task is finished, False is not</param>
         public void TaskDone(int TaskIndex, bool value = true) //If the first task is done then go and do the next one
@@ -418,6 +413,7 @@ namespace MalbersAnimations.Controller.AI
                 if (DisableAIOnDeath)
                 {
                     AIControl.SetActive(false);
+                    AIControl.ClearTarget();
                 }
             }
         }
@@ -449,13 +445,18 @@ namespace MalbersAnimations.Controller.AI
         {
             Target = target;
 
+            //Reset TargetVars
+            TargetAnimal = null;
+            TargetVars = null;
+            TargetStats = null;
+            TargetHasStats = false;
+
             if (target)
             {
-                TargetAnimal = target.FindComponent<MAnimal>();// ?? target.GetComponentInChildren<MAnimal>();
+                TargetAnimal = target.FindComponent<MAnimal>();  //  target.GetComponentInChildren<MAnimal>();
+                TargetVars = target.FindComponent<MLocalVars>(); //  target.GetComponentInChildren<MLocalVars>();
 
-                TargetStats = null;
-                var TargetStatsC = target.FindComponent<Stats>();// ?? target.GetComponentInChildren<Stats>();
-
+                var TargetStatsC = target.FindComponent<Stats>();//  target.GetComponentInChildren<Stats>();
                 TargetHasStats = TargetStatsC != null;
                 if (TargetHasStats) TargetStats = TargetStatsC.Stats_Dictionary();
             }
@@ -773,7 +774,7 @@ namespace MalbersAnimations.Controller.AI
                 EditorGUILayout.PropertyField(OnTaskStarted);
                 EditorGUILayout.PropertyField(OnTaskDone);
                 EditorGUILayout.PropertyField(OnDecisionSucceded);
-            } 
+            }
         }
     }
 #endif

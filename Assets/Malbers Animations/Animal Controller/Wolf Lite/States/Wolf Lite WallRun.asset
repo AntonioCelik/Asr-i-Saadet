@@ -56,8 +56,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
   - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
   SleepFromMode: []
+  DisableModes: []
+  noModes:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   QueueFrom: []
-  ResetFrom: []
+  ResetFrom:
+  - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
+  - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
+  - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
   SleepFromStance: []
   stances: []
   TryLoop:
@@ -90,7 +98,7 @@ MonoBehaviour:
   MovementStrafe: 1
   IdleStrafe: 1
   m_debug: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 2
   SpeedSets: []
   ID: {fileID: 11400000, guid: 2f7727669c8fcdf4999e66cb669e2608, type: 2}
   Automatic:

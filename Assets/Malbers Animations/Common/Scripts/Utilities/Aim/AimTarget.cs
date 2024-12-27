@@ -2,7 +2,7 @@
 using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization; 
+using UnityEngine.Serialization;
 
 namespace MalbersAnimations.Utilities
 {
@@ -18,7 +18,7 @@ namespace MalbersAnimations.Utilities
         [SerializeField, Tooltip("It will center the Aim Ray into this gameObject's collider")]
         private bool aimAssist;
 
-       
+
 
         [SerializeField, Tooltip("Transform Point for to center the Aim Ray")]
         [FormerlySerializedAs("m_AimPoint")]
@@ -28,7 +28,7 @@ namespace MalbersAnimations.Utilities
         /// <summary>This will set AutoAiming for the Aim Logic</summary>
         [SerializeField, Tooltip("The Aim Assist will use Own Trigers to find Aimers")]
         private bool UseOnTriggerEnter;
-        [Tooltip("Layer to check the Aimer")]
+        [Tooltip("Layer to check on the Aimer")]
         [SerializeField] private LayerReference layer = new(-1);
         public LayerMask Layer { get => layer.Value; set => layer.Value = value; }
         [Tooltip("Search only Tags")]
@@ -55,19 +55,26 @@ namespace MalbersAnimations.Utilities
         public Transform AimPoint => m_AimCenter;
 
 
+        /// <summary>All Active AimTargets in the current scene</summary>
+        private List<Aim> Aimed_by;
+
         protected virtual void OnEnable()
         {
             if (m_AimCenter == null) m_AimCenter = transform;
-            if (AimTargets == null) AimTargets = new List<AimTarget>();
+            AimTargets ??= new List<AimTarget>();
             AimTargets.Add(this);
+            Aimed_by = new();
             //  OnAddedAimTarget(this);
         }
 
         protected virtual void OnDisable()
         {
             AimTargets.Remove(this);
-            //if (AimedFocused) OnAimExit.Invoke(null);
-            // OnRemovedAimTarget(this);
+
+            foreach (var item in Aimed_by)
+            {
+                item.ClearAimAssist();
+            }
         }
 
         private void OnValidate()
@@ -76,16 +83,36 @@ namespace MalbersAnimations.Utilities
         }
 
         /// <summary>Is the target been aimed by the Aim Ray of the Aim Script</summary>
-        public void IsBeenAimed(bool enter, GameObject AimedBy)
+        public void IsBeenAimed(bool enter, Aim AimedBy)
         {
-            if (debug) Debug.Log($"[{name}] Is Being Aimed by [{AimedBy.name}]", this);
+            try
+            {
+                if (Tags != null && Tags.Length > 0)
+                    if (!AimedBy.gameObject.HasMalbersTagInParent(Tags)) return; //Check if the Aimer has the right tag
 
-            IsBeingAimed = enter;
+                if (!MTools.Layer_in_LayerMask(AimedBy.gameObject.layer, Layer)) return; //Check if the Aimer is in the right Layer
 
-            if (enter)
-                OnAimEnter.Invoke(AimedBy);
-            else
-                OnAimExit.Invoke(AimedBy);
+
+
+                if (debug) Debug.Log($"[{name}] Is Being Aimed by [{AimedBy.name}]. Enter: {enter}", AimedBy);
+
+                IsBeingAimed = enter;
+
+                if (enter)
+                {
+                    OnAimEnter.Invoke(AimedBy.gameObject);
+                    Aimed_by.Add(AimedBy);
+                }
+                else
+                {
+                    OnAimExit.Invoke(AimedBy.gameObject);
+                    Aimed_by.Remove(AimedBy);
+                }
+            }
+            catch (System.Exception)
+            {
+            }
+
         }
 
 
@@ -114,8 +141,6 @@ namespace MalbersAnimations.Utilities
             if (!TrueConditions(other)) return;
 
             IAim Aimer = other.FindInterface<IAim>();
-
-            // Aimer ??= other.FindInterface<IObjectCore>().transform.FindInterface<IAim>();
 
             if (Aimer != null && aim != Aimer)
             {

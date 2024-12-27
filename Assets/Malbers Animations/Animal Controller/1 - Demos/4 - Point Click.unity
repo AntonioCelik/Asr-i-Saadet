@@ -581,6 +581,9 @@ MonoBehaviour:
   OnUnfocused:
     m_PersistentCalls:
       m_Calls: []
+  OnCoolDown:
+    m_PersistentCalls:
+      m_Calls: []
   Description: Set this as an Interactable so the Player Wolf can do an Attack when
     is clicked on it
   ShowDescription: 1
@@ -1069,6 +1072,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  ignoreStatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   trigger: {fileID: 0}
   Editor_Tabs1: 0
 --- !u!114 &261874669
@@ -1089,6 +1096,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0, b: 1, a: 0.353}
   DrawAxis: 0
   AxisSize: 0.65
+  _collider: {fileID: 261874670}
+  DrawLineTo: 1
+  ConnectTo: {fileID: 1223357226}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!65 &261874670
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1542,6 +1553,10 @@ MonoBehaviour:
   DebugColor: {r: 0.9867141, g: 0.03676468, b: 1, a: 1}
   DrawAxis: 1
   AxisSize: 1.18
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &504411612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,6 +1607,10 @@ MonoBehaviour:
   DebugColor: {r: 0.74264705, g: 0.5543491, b: 0.060067054, a: 1}
   DrawAxis: 0
   AxisSize: 0.65
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &553658887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,6 +1712,12 @@ OffMeshLink:
   m_BiDirectional: 0
   m_Activated: 1
   m_AutoUpdatePositions: 0
+--- !u!4 &640293771 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+    type: 3}
+  m_PrefabInstance: {fileID: 725873223}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &641616115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,6 +2068,66 @@ PrefabInstance:
       propertyPath: stoppingDistance
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[1].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[2].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[3].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[4].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[5].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[6].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[7].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[8].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[9].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[10].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[11].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688928636819729589, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_MapButtons.Array.data[0].buttons.Array.data[12].active.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 777501663697548374, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: debug
@@ -2058,9 +2143,19 @@ PrefabInstance:
       propertyPath: Editor_Tabs1
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1184344264281877460, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1808351838260071692, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: OnPointClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083360240567393876, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4482416303181249315, guid: d520239042c144f438232f9375004dc2,
@@ -2198,6 +2293,11 @@ PrefabInstance:
         type: 3}
       propertyPath: stats.Array.data[1].RegenRate.ConstantValue
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403204806355872018, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: stats.Array.data[1].ImmuneTime.ConstantValue
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7403204806355872018, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -2387,7 +2487,7 @@ PrefabInstance:
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -2398,6 +2498,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SelectedMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: SelectedState
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -2452,17 +2557,17 @@ PrefabInstance:
     - target: {fileID: 7432359228648269916, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2
+      value: -3.1679847
       objectReference: {fileID: 0}
     - target: {fileID: 7432359228648269916, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 7432359228648269916, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.44
+      value: -16.497513
       objectReference: {fileID: 0}
     - target: {fileID: 7432359228648269916, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -2499,6 +2604,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7433958804650771155, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7433958804650771155, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: Editor_Tabs2
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7435339613071955038, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_Name
@@ -2518,6 +2633,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1847813589}
+    - targetCorrespondingSourceObject: {fileID: 7432359228648269916, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 640293771}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7435339613071955038, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -2746,6 +2865,9 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   m_height: 0.5
   m_arriveLookAt: 1
+  m_TargetLimit: 0
+  m_targeterStopDistance: 0.2
+  m_WaitTargeterDistance: 4
   OnTargetArrived:
     m_PersistentCalls:
       m_Calls: []
@@ -2927,6 +3049,9 @@ MonoBehaviour:
   OnUnfocused:
     m_PersistentCalls:
       m_Calls: []
+  OnCoolDown:
+    m_PersistentCalls:
+      m_Calls: []
   Description: Interactable Element that invoke events when an Interactor interact
     with it
   ShowDescription: 1
@@ -3022,6 +3147,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    UpdateAfterCompare: 0
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3098,6 +3224,74 @@ Transform:
   - {fileID: 351287970}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &725873223
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1047585915}
+    m_Modifications:
+    - target: {fileID: 435660834099328405, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_Name
+      value: CM Main Target
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907813687048982312, guid: 251e0a928a7fe0d479f336db6eb40835,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 251e0a928a7fe0d479f336db6eb40835, type: 3}
 --- !u!1 &726663157
 GameObject:
   m_ObjectHideFlags: 0
@@ -3148,6 +3342,10 @@ MonoBehaviour:
   DebugColor: {r: 0.74264705, g: 0.5543491, b: 0.060067054, a: 1}
   DrawAxis: 1
   AxisSize: 0.65
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &758069036
 GameObject:
   m_ObjectHideFlags: 0
@@ -3782,6 +3980,10 @@ MonoBehaviour:
   DebugColor: {r: 0.74264705, g: 0.5543491, b: 0.060067054, a: 1}
   DrawAxis: 1
   AxisSize: 1.05
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!191 &866615101
 OffMeshLink:
   m_ObjectHideFlags: 0
@@ -4239,6 +4441,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnInputDisabled:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUsingGamePad:
     m_PersistentCalls:
       m_Calls: []
   IgnoreOnPause:
@@ -4914,6 +5119,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7078212305564347742, guid: fc0ba8caed599c844aea169a458f10e0,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7078212305564347742, guid: fc0ba8caed599c844aea169a458f10e0,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5011,7 +5226,7 @@ Transform:
   m_GameObject: {fileID: 1223357225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.25, y: 0, z: -18.57}
+  m_LocalPosition: {x: 35.680363, y: 3.5062313, z: 1.0302992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5035,6 +5250,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0, b: 1, a: 0.353}
   DrawAxis: 0
   AxisSize: 0.65
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 827191935}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &1258395558
 GameObject:
   m_ObjectHideFlags: 0
@@ -5320,6 +5539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Event: {fileID: 11400000, guid: 581bc6845876f60499931e1d95169c40, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 0
@@ -5434,10 +5654,15 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 0
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   ShowEvents: 1
   SelectedEvent: 0
 --- !u!114 &1335752635
@@ -5461,6 +5686,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
+  cycle: 1
   HideOffScreen: {fileID: 0}
   ResetOnDisable: 1
   HideOnNull: 0
@@ -5472,6 +5698,9 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {x: 1, y: 1, z: 1}
     Variable: {fileID: 0}
+  OnTarget:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1396216398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5863,12 +6092,6 @@ OffMeshLink:
   m_BiDirectional: 0
   m_Activated: 1
   m_AutoUpdatePositions: 0
---- !u!4 &1458636350 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7432517556429644034, guid: d520239042c144f438232f9375004dc2,
-    type: 3}
-  m_PrefabInstance: {fileID: 705515459}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1555536565
 GameObject:
   m_ObjectHideFlags: 0
@@ -6442,6 +6665,10 @@ MonoBehaviour:
   DebugColor: {r: 0.9867141, g: 0.03676468, b: 1, a: 1}
   DrawAxis: 0
   AxisSize: 0.3
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &1666519454
 GameObject:
   m_ObjectHideFlags: 0
@@ -6492,6 +6719,10 @@ MonoBehaviour:
   DebugColor: {r: 0.74264705, g: 0.5543491, b: 0.060067054, a: 1}
   DrawAxis: 1
   AxisSize: 0.83
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &1722915371
 GameObject:
   m_ObjectHideFlags: 0
@@ -7168,6 +7399,10 @@ MonoBehaviour:
   DebugColor: {r: 0.74264705, g: 0.5543491, b: 0.060067054, a: 1}
   DrawAxis: 1
   AxisSize: 1.05
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &1847813588
 GameObject:
   m_ObjectHideFlags: 0
@@ -7254,6 +7489,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    UpdateAfterCompare: 0
   - active: 1
     name: Interactable is Enemy
     description: 
@@ -7278,6 +7514,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    UpdateAfterCompare: 0
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7429,6 +7666,10 @@ MonoBehaviour:
   DebugColor: {r: 0.74264705, g: 0.5543491, b: 0.060067054, a: 1}
   DrawAxis: 0
   AxisSize: 0.65
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &2036148278
 GameObject:
   m_ObjectHideFlags: 0
@@ -7606,6 +7847,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  OnlyOnMovementZero:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   AlignTime:
     UseConstant: 1
     ConstantValue: 0.25
@@ -7668,8 +7913,9 @@ MonoBehaviour:
       type: {class: ModeReaction, ns: MalbersAnimations.Reactions, asm: MalbersAnimations}
       data:
         Active: 1
-        useLocalTarget: 0
-        LocalTarget: {fileID: 0}
+        localComponent:
+          useLocal: 0
+          component: {fileID: 0}
         delay: 0
         type: 0
         ID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
@@ -7692,6 +7938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Active: 1
+  WaitNextStep: 0.2
   GroundLayer:
     UseConstant: 1
     ConstantValue:
@@ -7710,6 +7957,7 @@ MonoBehaviour:
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
   trackOffset: 0.0085
+  TracksOnlyOnState: []
 --- !u!114 &2154709536206031943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7953,6 +8201,10 @@ MonoBehaviour:
   DebugColor: {r: 1, g: 0, b: 0.5256634, a: 0.37254903}
   DrawAxis: 0
   AxisSize: 0.65
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!1 &3083462532809742852
 GameObject:
   m_ObjectHideFlags: 0
@@ -11204,6 +11456,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0.91724133, b: 1, a: 1}
   DrawAxis: 0
   AxisSize: 0.3
+  _collider: {fileID: 3692663317283528154}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!114 &3694904850229587846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11222,6 +11478,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0.91724133, b: 1, a: 1}
   DrawAxis: 0
   AxisSize: 0.3
+  _collider: {fileID: 3692101103808611446}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!114 &3695205988269516860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11236,7 +11496,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StepsManager: {fileID: 2148381889379906539}
   parent: {fileID: 0}
-  WaitNextStep: 0.2
   StepAudio: {fileID: 0}
   m_Trigger: {fileID: 3692663317283528154}
   DebugColor: {r: 0, g: 1, b: 1, a: 1}
@@ -11263,6 +11522,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 0}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 2
   owner: {fileID: 0}
@@ -11314,6 +11574,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
+  m_MissChance:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   m_cChance:
     UseConstant: 1
     ConstantValue: 0
@@ -11341,6 +11605,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnProfileChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackMissed:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
@@ -11388,6 +11655,10 @@ MonoBehaviour:
         ConstantValue: 1
         Variable: {fileID: 0}
     m_cChance:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    m_MissChance:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
@@ -11460,6 +11731,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0.91724133, b: 1, a: 1}
   DrawAxis: 0
   AxisSize: 0.3
+  _collider: {fileID: 3691935396242039634}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!114 &3695462652786866168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11474,7 +11749,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StepsManager: {fileID: 2148381889379906539}
   parent: {fileID: 0}
-  WaitNextStep: 0.2
   StepAudio: {fileID: 0}
   m_Trigger: {fileID: 3692590987620950310}
   DebugColor: {r: 0, g: 1, b: 1, a: 1}
@@ -11490,6 +11764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6db78c48b0b6342937f21d4681fba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Selected_StatIndex: 0
   stats:
   - active: 1
     ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
@@ -11541,11 +11816,16 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    InmuneTime:
+    ImmuneTime:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
+    immune:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     resetTo: 1
+    ResetOnEnable: 1
     isPercent: 1
     debug: 0
     OnStatFull:
@@ -11660,11 +11940,16 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    InmuneTime:
+    ImmuneTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    immune:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
     resetTo: 1
+    ResetOnEnable: 1
     isPercent: 1
     debug: 0
     OnStatFull:
@@ -11717,7 +12002,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StepsManager: {fileID: 2148381889379906539}
   parent: {fileID: 0}
-  WaitNextStep: 0.2
   StepAudio: {fileID: 0}
   m_Trigger: {fileID: 3692101103808611446}
   DebugColor: {r: 0, g: 1, b: 1, a: 1}
@@ -11735,7 +12019,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StepsManager: {fileID: 2148381889379906539}
   parent: {fileID: 0}
-  WaitNextStep: 0.2
   StepAudio: {fileID: 0}
   m_Trigger: {fileID: 3691935396242039634}
   DebugColor: {r: 0, g: 1, b: 1, a: 1}
@@ -11757,6 +12040,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0.91724133, b: 1, a: 1}
   DrawAxis: 0
   AxisSize: 0.3
+  _collider: {fileID: 3692590987620950310}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!114 &3696115591853623534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11774,7 +12061,7 @@ MonoBehaviour:
   SelectedState: 0
   SelectedStance: 0
   ShowStateInInspector: 0
-  Editor_Tabs1: 2
+  Editor_Tabs1: 1
   Editor_Tabs2: 4
   SelectedMode: 1
   Mode_Tabs1: 0
@@ -11783,6 +12070,7 @@ MonoBehaviour:
   showPivots: 0
   showModeList: 1
   showStateList: 1
+  ShowOnGUIData: 0
   debugStates: 0
   debugStances: 0
   debugModes: 0
@@ -11791,7 +12079,16 @@ MonoBehaviour:
   Runtime_Tabs2: 0
   t: {fileID: 3661778875071156750}
   InGroundChanger: 0
-  states_C: []
+  states_C:
+  - active: 1
+    state: {fileID: 11400000, guid: 059fcb0b5c50a2947ad6e5356e369291, type: 2}
+    priority: 9
+  - active: 1
+    state: {fileID: 11400000, guid: bdb4bb76e2b782f42b909978af887428, type: 2}
+    priority: 2
+  - active: 1
+    state: {fileID: 11400000, guid: c31051ac4cd486e4f9ac40015fdef3a6, type: 2}
+    priority: 1
   states:
   - {fileID: 11400000, guid: 059fcb0b5c50a2947ad6e5356e369291, type: 2}
   - {fileID: 11400000, guid: bdb4bb76e2b782f42b909978af887428, type: 2}
@@ -11828,6 +12125,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -11913,6 +12214,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -12039,6 +12344,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -12119,6 +12428,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -12243,6 +12556,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -12323,6 +12640,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -12447,6 +12768,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -12529,6 +12854,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -12617,6 +12946,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -12699,6 +13032,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -12787,6 +13124,10 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
+      CoolDown:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
       audioSource: {fileID: 0}
       m_stopAudio: 1
       modifier: {fileID: 0}
@@ -12869,6 +13210,10 @@ MonoBehaviour:
         ConstantValue: {fileID: 0}
         Variable: {fileID: 0}
       ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      CoolDown:
         UseConstant: 1
         ConstantValue: 0
         Variable: {fileID: 0}
@@ -13030,6 +13375,8 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  additivePosLog: 0
+  additiveRotLog: 0
   isPlayer:
     UseConstant: 1
     ConstantValue: 0
@@ -13093,6 +13440,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  kinematicTimeline: 1
   OnStrafe:
     m_PersistentCalls:
       m_Calls: []
@@ -13514,6 +13862,48 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 4
       Variable: {fileID: 0}
+  SprintSpeed:
+    name: Default
+    Vertical:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    position:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpPosition:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    lerpPosAnim:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    rotation:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpRotAnim:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    animator:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    lerpAnimator:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    strafeSpeed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpStrafe:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
   m_gravityDir:
     UseConstant: 1
     ConstantValue: {x: 0, y: -1, z: 0}
@@ -13613,12 +14003,6 @@ MonoBehaviour:
   OnFreeMovement:
     m_PersistentCalls:
       m_Calls: []
-  OnStateActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
   OnStateProfile:
     m_PersistentCalls:
       m_Calls: []
@@ -13635,6 +14019,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreTeleport:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGroundChangesGravity:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStateActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStateChange:
     m_PersistentCalls:
       m_Calls: []
   OnEnterExitStates: []
@@ -13713,7 +14109,7 @@ Animator:
   m_GameObject: {fileID: 3664780903311420940}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 486bf825b22a4b64eac7c0a9c80f6889, type: 3}
-  m_Controller: {fileID: 9100000, guid: c10837add9cdb6946a1b6456dbab055a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 31449d6fa4a10744ca4e21067e9b31ad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
   m_ApplyRootMotion: 1
@@ -13788,6 +14184,10 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   OneTimeUse:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  ignoreStatic:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
@@ -13921,8 +14321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 7767756432531524887}
   animal: {fileID: 3696115591853623534}
-  disableInput: 1
-  enableInput: 1
+  DisableInputAIOn: 1
+  EnableInputAIOff: 1
   StopAgentOn:
   - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
   - {fileID: 11400000, guid: c44e7e8d6840aa243b6c33ec85052763, type: 2}
@@ -13933,6 +14333,8 @@ MonoBehaviour:
   additiveStopDistance: 0
   slowingDistance: 0
   UseScale: 1
+  InterruptModeOnTarget: 1
+  ClearTargetOnDisable: 1
   targetHeight: 5
   StopOnTargetTooHigh: 1
   LookAtOffset: 1
@@ -13957,6 +14359,7 @@ MonoBehaviour:
   OnDisabled:
     m_PersistentCalls:
       m_Calls: []
+  AirDestinationState: {fileID: 0}
   AgentTransform: {fileID: 2369028375349337131}
   Editor_Tabs1: 0
 --- !u!1 &6389935953302467740
@@ -14014,12 +14417,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 1458636350}
+      objectReference: {fileID: 0}
     - target: {fileID: 7938413579077664804, guid: cc9bf390dab9cb34ab26ab2b660184d0,
         type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 1458636350}
+      objectReference: {fileID: 0}
     - target: {fileID: 7938413579077664804, guid: cc9bf390dab9cb34ab26ab2b660184d0,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x

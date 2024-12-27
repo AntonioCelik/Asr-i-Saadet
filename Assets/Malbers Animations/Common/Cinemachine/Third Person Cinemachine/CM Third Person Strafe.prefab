@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 1836195032788006249}
   - component: {fileID: 1836195032788006248}
   - component: {fileID: 1836195032788006250}
-  - component: {fileID: 2328365202577988991}
   - component: {fileID: 6412654350511493147}
   - component: {fileID: 7444451104802888696}
   m_Layer: 0
@@ -202,29 +201,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Brain: {fileID: 0}
-  updateMode: 0
+  unscaledTime:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   priority: 15
   cameraSide: 1
+  CameraDistance:
+    UseConstant: 1
+    ConstantValue: 4
+    Variable: {fileID: 0}
   Target:
     UseConstant: 0
     ConstantValue: {fileID: 0}
     Variable: {fileID: 11400000, guid: e759cb94eee3fcd4bb2f749b1dbda0a8, type: 2}
-  CamPivot: {fileID: 8199136047889951444}
   look:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: 81ebbdea0e8140745b486bad86246321, type: 2}
-  invertX:
+  useUpVector: 0
+  upVector:
     UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  invertY:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  CameraDistance:
-    UseConstant: 1
-    ConstantValue: 4
+    ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
   XMultiplier:
     UseConstant: 1
@@ -246,173 +244,35 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 15
     Variable: {fileID: 0}
-  OnActiveCamera:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &2328365202577988991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836195032788006254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8097927ca26ab4343a884532eb8eb442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputs:
-  - name: Look X
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    ignoreOnPause:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    type: 0
-    input: Mouse X
-    key: 48
-    debug: 0
-    GetPressed: 6
-    ResetOnDisable: 1
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPressReleased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputEnable:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputDisable:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    SmoothDecrease: 0
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputFloat:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1836195032788006250}
-          m_TargetAssemblyTypeName: MalbersAnimations.CameraTargetRotation, Assembly-CSharp
-          m_MethodName: SetLookX
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - name: Look Y
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    ignoreOnPause:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    type: 0
-    input: Mouse Y
-    key: 48
-    debug: 0
-    GetPressed: 6
-    ResetOnDisable: 1
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPressReleased:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputEnable:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputDisable:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    SmoothDecrease: 0
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputFloat:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1836195032788006250}
-          m_TargetAssemblyTypeName: MalbersAnimations.CameraTargetRotation, Assembly-CSharp
-          m_MethodName: SetLookY
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  AllInputs: []
-  actionMaps: []
-  ActiveMapIndex: 0
-  DefaultMap:
-    name:
-      UseConstant: 1
-      ConstantValue: New Map
-      Variable: {fileID: 0}
-    inputs: []
-    selectedIndex: 0
-  ActiveMap:
-    name:
-      UseConstant: 1
-      ConstantValue: New Map
-      Variable: {fileID: 0}
-    inputs: []
-    selectedIndex: 0
-  ResetAllInputsOnDisable: 1
-  showInputEvents: 0
-  ResetOnFocusLost: 0
-  OnInputEnabled:
-    m_PersistentCalls:
-      m_Calls: []
-  OnInputDisabled:
-    m_PersistentCalls:
-      m_Calls: []
-  IgnoreOnPause:
+  lerpPosition:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertX:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertY:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  CurrentDevice:
+    UseConstant: 0
+    ConstantValue: Mouse
+    Variable: {fileID: 11400000, guid: 8f9b4b27a210440478777eb574cee9d0, type: 2}
+  UsingMouse:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
-  PlayerID: Player0
+  GamepadMult:
+    UseConstant: 1
+    ConstantValue: 1000
+    Variable: {fileID: 0}
+  OnActiveCamera:
+    m_PersistentCalls:
+      m_Calls: []
+  _cinemachineTargetYaw: 0
+  _cinemachineTargetPitch: 0
 --- !u!114 &6412654350511493147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,8 +288,7 @@ MonoBehaviour:
   OnScrollUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5133752284967792349, guid: 720829b02a1ccb84a8307ef4b36695d3,
-          type: 3}
+      - m_Target: {fileID: 5133752284967792349, guid: 720829b02a1ccb84a8307ef4b36695d3, type: 3}
         m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowZoom, MalbersAnimations.Cinemachine
         m_MethodName: ZoomIn
         m_Mode: 0
@@ -444,8 +303,7 @@ MonoBehaviour:
   OnScrollDown:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5133752284967792349, guid: 720829b02a1ccb84a8307ef4b36695d3,
-          type: 3}
+      - m_Target: {fileID: 5133752284967792349, guid: 720829b02a1ccb84a8307ef4b36695d3, type: 3}
         m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowZoom, MalbersAnimations.Cinemachine
         m_MethodName: ZoomOut
         m_Mode: 0
@@ -471,6 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Event: {fileID: 11400000, guid: 774c7acaf3bb1304fb314cd4bd618fcb, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 0
@@ -561,6 +420,7 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 1
             m_CallState: 2
+      UpdateAfterCompare: 0
     - active: 1
       name: Is NOT Straffing?
       description: 
@@ -585,12 +445,95 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+      UpdateAfterCompare: 0
+    FloatEventList: []
     AdvancedInteger: 1
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+  - Event: {fileID: 11400000, guid: f6f5e9d4ea6f2c244b4f0047279c48f2, type: 2}
+    active: 1
+    useInt: 0
+    useFloat: 0
+    useVoid: 1
+    useString: 0
+    useBool: 0
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1836195032788006250}
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
+          m_MethodName: TargetTeleport
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    FloatEventList: []
+    AdvancedInteger: 0
+    AdvancedFloat: 0
+    AdvancedBool: 0
+    InvertBool: 0
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   ShowEvents: 1
-  SelectedEvent: 0
+  SelectedEvent: 1
 --- !u!1 &2156583742952076558
 GameObject:
   m_ObjectHideFlags: 0

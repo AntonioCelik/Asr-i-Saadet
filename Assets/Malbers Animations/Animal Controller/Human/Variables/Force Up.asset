@@ -24,11 +24,11 @@ MonoBehaviour:
     Variable: {fileID: 0}
   Force:
     UseConstant: 1
-    ConstantValue: 3
+    ConstantValue: 6
     Variable: {fileID: 0}
   m_Time:
     UseConstant: 1
-    ConstantValue: 0.2
+    ConstantValue: 0.3
     Variable: {fileID: 0}
   EnterAceleration:
     UseConstant: 1

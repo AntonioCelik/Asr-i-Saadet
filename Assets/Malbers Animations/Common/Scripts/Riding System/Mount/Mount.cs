@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using MalbersAnimations.Events;
 using MalbersAnimations.Scriptables;
 using MalbersAnimations.Controller;
@@ -37,38 +36,36 @@ namespace MalbersAnimations.HAP
 
         #region General
         /// <summary>Enable Disable the Mount Logic</summary>
-        public BoolReference active = new BoolReference(true);
+        public BoolReference active = new(true);
 
         /// <summary></summary>
         [Tooltip("Set the AI when the animal is Mounted")]
-        public BoolReference Set_AIMount = new BoolReference(false);
+        public BoolReference Set_AIMount = new(false);
 
         /// <summary></summary>
         [Tooltip("Set the AI when the animal is Dismounted")]
-        public BoolReference Set_AIDismount = new BoolReference(true);
+        public BoolReference Set_AIDismount = new(true);
 
 
         [Tooltip("Set the Input when the animal is mounted. Disable this for Mobile")]
-        public BoolReference Set_InputMount = new BoolReference(true);
+        public BoolReference Set_InputMount = new(true);
 
         [Tooltip("Set the Input when the animal is dismounted. Disable this for Mobile")]
-        public BoolReference set_InputDismount = new BoolReference(false);
-
-
+        public BoolReference set_InputDismount = new(false);
 
         [Tooltip("Set the Mount Triggers the Animal is Mounted")]
-        public BoolReference Set_MTriggersMount = new BoolReference(false);
+        public BoolReference Set_MTriggersMount = new(false);
 
         [Tooltip("Set the Mount Triggers the Animal is Dismounted")]
-        public BoolReference Set_MTriggersDismount = new BoolReference(true);
+        public BoolReference Set_MTriggersDismount = new(true);
 
         [Tooltip("Mount ID value.. 0 is a horse, 100 is a Wagon")]
         public IntReference ID;
 
 
         /// <summary>if true then it will ignore the Mounting Animations</summary>
-        public BoolReference instantMount = new BoolReference(false);
-        public BoolReference instantDismount = new BoolReference(false);
+        public BoolReference instantMount = new(false);
+        public BoolReference instantDismount = new(false);
         public string mountIdle = "Idle";
 
         /// <summary>The Rider can only Mount when the Animal is on any of these states on the list</summary>
@@ -77,9 +74,9 @@ namespace MalbersAnimations.HAP
         public bool DismountOnly;
         /// <summary>The Rider is Forced to dismount if the animal is on any of these states</summary>
         public bool ForceDismount;
-        public List<StateID> MountOnlyStates = new List<StateID>();
-        public List<StateID> DismountOnlyStates = new List<StateID>();
-        public List<StateID> ForceDismountStates = new List<StateID>();
+        public List<StateID> MountOnlyStates = new();
+        public List<StateID> DismountOnlyStates = new();
+        public List<StateID> ForceDismountStates = new();
 
 
         /// <summary>Reference for the Animator Update Mode</summary>
@@ -92,7 +89,7 @@ namespace MalbersAnimations.HAP
         #region Straight Mount
         public BoolReference straightSpine;                              //Activate this only for other animals but the horse 
         public BoolReference UseSpeedModifiers;
-        public Vector3 pointOffset = new Vector3(0, 0, 3);
+        public Vector3 pointOffset = new(0, 0, 3);
         public Vector3 MonturaSpineOffset => StraightSpineOffsetTransform.TransformPoint(pointOffset);
 
         //public float LowLimit = 45;
@@ -102,15 +99,15 @@ namespace MalbersAnimations.HAP
         #endregion
 
         #region Events
-        public UnityEvent OnMounted = new UnityEvent();
-        public UnityEvent OnDismounted = new UnityEvent();
-        public BoolEvent OnCanBeMounted = new BoolEvent();
+        public GameObjectEvent OnMounted = new();
+        public GameObjectEvent OnDismounted = new();
+        public BoolEvent OnCanBeMounted = new();
+        public GameObjectEvent OnCalled = new();
         #endregion
 
         #region Properties
         /// <summary>Straighen the Spine bone while mounted depends on the Mount</summary>
         public bool StraightSpine { get => straightSpine; set => straightSpine.Value = value; }
-
 
         /// <summary>Straighen the Spine bone while mounted depends on the Mount</summary>
         public Transform StraightSpineOffsetTransform;
@@ -139,9 +136,9 @@ namespace MalbersAnimations.HAP
                     mounted = value;
 
                     if (mounted)
-                        OnMounted.Invoke();    //Invoke the Event 
+                        OnMounted.Invoke(Rider.gameObject);    //Invoke the Event 
                     else
-                        OnDismounted.Invoke();
+                        OnDismounted.Invoke(Rider.gameObject);
                 }
             }
         }
@@ -243,10 +240,24 @@ namespace MalbersAnimations.HAP
         /// <summary>Enable the Input for the Mount</summary>
         public virtual void EnableInput(bool value)
         {
-            MountInput?.Enable(value);
+            if (MountInput != null)
+            {
+                MountInput.PlayerInput(Rider.RiderInput);
+                MountInput.Enable(value);
+
+                MountInput.MoveAxis = Rider.RiderInput.MoveAxis;
+            }
+
+
+            //Check if the new Input System is enabled
+            //#if ENABLE_INPUT_SYSTEM
+            //            var riderInput = Rider.GetComponent < MInputLink >
+            //#endif
+
             Animal.StopMoving();
         }
 
+        public virtual void EnableAI(bool value) => AI?.SetActive(value);   //Set the AI Value
 
         public void ResetRightRein()
         {
@@ -260,8 +271,8 @@ namespace MalbersAnimations.HAP
 
         public virtual void StartMounting(MRider rider)
         {
-            Mounted = true;         //Set Mounting to true
             Rider = rider;          //Send to the Montura that it has a rider
+            Mounted = true;         //Set Mounting to true
 
             Animal.ResetCameraInput();
 
@@ -430,7 +441,7 @@ namespace MalbersAnimations.HAP
         SerializedProperty
             UseSpeedModifiers, MountOnly, DismountOnly, active, mountIdle, instantMount, instantDismount, straightSpine, ID, StraightSpineOffsetTransform,
            pointOffset, Animal, smoothSM, mountPoint, rightIK, rightKnee, leftIK, leftKnee, SpeedMultipliers,
-            OnMounted, Editor_Tabs1, Editor_Tabs2, OnDismounted, OnCanBeMounted, MountOnlyStates, DismountOnlyStates, MountBase,
+            OnMounted, Editor_Tabs1, Editor_Tabs2, OnDismounted, OnCanBeMounted, OnCalled, MountOnlyStates, DismountOnlyStates, MountBase,
 
             ForceDismountStates, ForceDismount, debug,
 
@@ -486,6 +497,7 @@ namespace MalbersAnimations.HAP
 
             OnDismounted = serializedObject.FindProperty("OnDismounted");
             OnCanBeMounted = serializedObject.FindProperty("OnCanBeMounted");
+            OnCalled = serializedObject.FindProperty("OnCalled");
             MountOnlyStates = serializedObject.FindProperty("MountOnlyStates");
             DismountOnlyStates = serializedObject.FindProperty("DismountOnlyStates");
 
@@ -584,6 +596,7 @@ namespace MalbersAnimations.HAP
                 EditorGUILayout.PropertyField(OnMounted);
                 EditorGUILayout.PropertyField(OnDismounted);
                 EditorGUILayout.PropertyField(OnCanBeMounted);
+                EditorGUILayout.PropertyField(OnCalled);
             }
             EditorGUILayout.EndVertical();
         }

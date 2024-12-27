@@ -34,6 +34,8 @@ namespace MalbersAnimations.HAP
 
         public TransformAnimation Adjustment;
 
+        
+
         /// <summary>Rider that is inside the Trigger</summary>
         public  MRider NearbyRider
         { 

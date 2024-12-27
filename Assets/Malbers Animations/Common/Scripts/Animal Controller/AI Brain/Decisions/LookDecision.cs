@@ -43,7 +43,7 @@ namespace MalbersAnimations.Controller.AI
         public bool MoveToTarget = true;
         //[Tooltip("Remove Target when loose sight:\nIf the Target No longer on the Field of View: Set the Target from the AIControl as NULL")]
         //public bool RemoveTarget = false;
-        [Tooltip("Select randomly one of the potential targets, not the first one found")]
+        [Tooltip("Select randomly one of the potential targets, not the closest one found")]
         public bool ChooseRandomly = false;
 
         [Space]
@@ -156,14 +156,14 @@ namespace MalbersAnimations.Controller.AI
             return lookFor switch
             {
                 LookFor.MainAnimalPlayer => LookForAnimalPlayer(brain, assign),
-                LookFor.MalbersTag =>       LookForMalbersTags(brain, assign, index),
-                LookFor.UnityTag =>         LookForUnityTags(brain, assign, index),
-                LookFor.Zones =>            LookForZones(brain, assign),
-                LookFor.GameObject =>       LookForGameObjectByName(brain, assign),
-                LookFor.ClosestWayPoint =>  LookForClosestWaypoint(brain, assign),
-                LookFor.CurrentTarget =>    LookForTarget(brain, assign),
-                LookFor.TransformVar =>     LookForTransformVar(brain, assign),
-                LookFor.GameObjectVar =>    LookForGoVar(brain, assign),
+                LookFor.MalbersTag => LookForMalbersTags(brain, assign, index),
+                LookFor.UnityTag => LookForUnityTags(brain, assign, index),
+                LookFor.Zones => LookForZones(brain, assign),
+                LookFor.GameObject => LookForGameObjectByName(brain, assign),
+                LookFor.ClosestWayPoint => LookForClosestWaypoint(brain, assign),
+                LookFor.CurrentTarget => LookForTarget(brain, assign),
+                LookFor.TransformVar => LookForTransformVar(brain, assign),
+                LookFor.GameObjectVar => LookForGoVar(brain, assign),
                 LookFor.RuntimeGameobjectSet => LookForGoSet(brain, assign, index),
                 _ => false,
             };
@@ -221,7 +221,7 @@ namespace MalbersAnimations.Controller.AI
 
                 var angle = Vector3.Angle(Direction_to_Target, EyesForward);
 
-                if (angle < (LookAngle/2))
+                if (angle < (LookAngle / 2))
                 {
                     //Need a RayCast to see if there's no obstacle in front of the Animal OBSTACLE LAYER
                     if (Physics.Raycast(brain.Eyes.position, Direction_to_Target, out RaycastHit hit, Distance, ObstacleLayer, QueryTriggerInteraction.Ignore))
@@ -231,7 +231,7 @@ namespace MalbersAnimations.Controller.AI
                             Debug.DrawRay(brain.Eyes.position, Direction_to_Target * LookMultiplier, Color.green, interval);
                             Debug.DrawLine(hit.point, Center, Color.red, interval);
                             MDebug.DrawWireSphere(Center, Color.red, interval);
-                            MDebug.DrawCircle(hit.point, hit.normal,0.1f, Color.red,true, interval);
+                            MDebug.DrawCircle(hit.point, hit.normal, 0.1f, Color.red, true, interval);
                         }
 
                         return false; //Meaning there's something between the Eyes of the Animal and the Target
@@ -308,12 +308,12 @@ namespace MalbersAnimations.Controller.AI
 
             if (ChooseRandomly)
             {
-                while(filtredTags.Count != 0)
+                while (filtredTags.Count != 0)
                 {
                     int newIndex = Random.Range(0, filtredTags.Count);
                     var go = filtredTags[newIndex].transform;
 
-                    if(go != null)
+                    if (go != null)
                     {
                         if (IsInFieldOfView(brain, go.position, out _))
                         {
@@ -443,7 +443,7 @@ namespace MalbersAnimations.Controller.AI
 
                     var renderer = brain.DecisionsVars[index].Components[newIndex];
 
-                    if (renderer != null && renderer is Renderer) 
+                    if (renderer != null && renderer is Renderer)
                         Center = (renderer as Renderer).bounds.center;
 
                     if (IsInFieldOfView(brain, Center, out float Distance))
@@ -506,7 +506,7 @@ namespace MalbersAnimations.Controller.AI
         private bool LookForAnimalPlayer(MAnimalBrain brain, bool assign)
         {
             if (MAnimal.MainAnimal == null || MAnimal.MainAnimal.ActiveStateID == StateEnum.Death) return false; //Means the animal is death or Disable
-            if (MAnimal.MainAnimal == brain.Animal) { Debug.LogError("AI Animal is set as MainAnimal. Fix it!", brain.Animal);return false; }
+            if (MAnimal.MainAnimal == brain.Animal) { Debug.LogError("AI Animal is set as MainAnimal. Fix it!", brain.Animal); return false; }
 
             AssignMoveTarget(brain, MAnimal.MainAnimal.transform, assign);
             return IsInFieldOfView(brain, MAnimal.MainAnimal.Center, out _);
@@ -671,7 +671,7 @@ namespace MalbersAnimations.Controller.AI
 
                 EditorGUILayout.PropertyField(AssignTarget);
                 EditorGUILayout.PropertyField(MoveToTarget);
-               
+
 
                 //if (!AssignTarget.boolValue)
                 //{

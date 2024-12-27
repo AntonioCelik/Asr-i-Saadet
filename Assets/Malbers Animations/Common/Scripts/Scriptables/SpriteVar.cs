@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace MalbersAnimations.Scriptables
 {
@@ -8,8 +9,10 @@ namespace MalbersAnimations.Scriptables
     {
         [SerializeField] private Sprite value;
 
+
         /// <summary>Invoked when the value changes </summary>
-        public Events.SpriteEvent OnValueChanged = new Events.SpriteEvent();
+        public Action<Sprite> OnValueChanged = delegate { };
+        
 
         /// <summary> Value of the Bool variable</summary>
         public virtual Sprite Value
@@ -20,7 +23,7 @@ namespace MalbersAnimations.Scriptables
                 if (this.value != value)                  //If the value is diferent change it
                 {
                     this.value = value;
-                    OnValueChanged.Invoke(value);         //If we are using OnChange event Invoked
+                    OnValueChanged(value);         //If we are using OnChange event Invoked
 
 #if UNITY_EDITOR
                     if (debug) Debug.Log($"<B>{name} -> [<color=red> {value} </color>] </B>", this);

@@ -7,7 +7,7 @@ namespace MalbersAnimations.Scriptables
     [CreateAssetMenu(menuName = "Malbers Animations/Variables/Transform", order = 3000)]
     public class TransformVar : ScriptableVar
     {
-       [SerializeField] private Transform value;
+        [SerializeField] private Transform value;
 
         /// <summary>Invoked when the value changes </summary>
         public Action<Transform> OnValueChanged = delegate { };
@@ -34,6 +34,8 @@ namespace MalbersAnimations.Scriptables
         public virtual void SetValue(Transform var) => Value = var;
         public virtual void SetValue(GameObject var) => Value = var.transform;
         public virtual void SetValue(Component var) => Value = var.transform;
+        public virtual void ApplyPositionTo(Transform var) => var.position = Value.position;
+        public virtual void SetVector3Value(Vector3Var var) => var.Value = Value.position;
     }
 
     [Serializable]
@@ -54,7 +56,7 @@ namespace MalbersAnimations.Scriptables
         public Transform Value
         {
             get
-            { 
+            {
                 return UseConstant ? ConstantValue : (Variable != null ? Variable.Value : null);
             }
 
@@ -73,6 +75,9 @@ namespace MalbersAnimations.Scriptables
         public Vector3 position => Value.position;
         public Quaternion rotation => Value.rotation;
 
+        public Vector3 localPosition => Value.localPosition;
+        public Quaternion localRotation => Value.localRotation;
+
         public virtual void SetPosition(Vector3 pos)
         {
             if (Value) Value.position = pos;
@@ -86,8 +91,7 @@ namespace MalbersAnimations.Scriptables
         {
             if (Value)
             {
-                Value.rotation = rot;
-                Value.position = pos;
+                Value.SetPositionAndRotation(pos, rot);
             }
         }
 
@@ -135,5 +139,4 @@ namespace MalbersAnimations.Scriptables
         }
     }
 #endif
-
 }

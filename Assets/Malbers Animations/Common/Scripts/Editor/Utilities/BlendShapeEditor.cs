@@ -11,7 +11,7 @@ namespace MalbersAnimations.Utilities
         BlendShape M;
         // private MonoScript script;
         protected int index = 0;
-        SerializedProperty blendShapes, preset, LODs, mesh, random,   PinnedShape, Min, Max;
+        SerializedProperty blendShapes, preset, LODs, mesh, random, PinnedShape, Min, Max;
 
         private void OnEnable()
         {
@@ -22,7 +22,7 @@ namespace MalbersAnimations.Utilities
             LODs = serializedObject.FindProperty("LODs");
             mesh = serializedObject.FindProperty("mesh");
             random = serializedObject.FindProperty("random");
-            
+
             Min = serializedObject.FindProperty("Min");
             Max = serializedObject.FindProperty("Max");
             PinnedShape = serializedObject.FindProperty("PinnedShape");
@@ -54,19 +54,29 @@ namespace MalbersAnimations.Utilities
                             {
                                 if (GUILayout.Button(new GUIContent("⁇", "Randomize Blend shapes"), GUILayout.Width(30)))
                                 {
-                                    for (int i = 0; i < Length; i++)
-                                    {
-                                        blendShapes.GetArrayElementAtIndex(i).floatValue = Random.Range(Min.floatValue, Max.floatValue);
-                                    }
-                                    blendShapes.serializedObject.ApplyModifiedProperties();
+                                    M.Randomize();
+                                    EditorUtility.SetDirty(target);
+                                    if (M.mesh) EditorUtility.SetDirty(M.mesh);
+
                                 }
+
                                 if (GUILayout.Button(new GUIContent("↺", "Reset Blend Shapes to Zero"), GUILayout.Width(30)))
                                 {
-                                    for (int i = 0; i < Length; i++)
+                                    M.ResetToZero();
+                                    EditorUtility.SetDirty(target);
+
+                                    if (M.mesh) EditorUtility.SetDirty(M.mesh);
+
+                                    foreach (var item in M.LODs)
                                     {
-                                        blendShapes.GetArrayElementAtIndex(i).floatValue = 0;
-                                    }
-                                    blendShapes.serializedObject.ApplyModifiedProperties();
+                                        if (item) EditorUtility.SetDirty(item);
+                                    };
+                                }
+
+                                using (new EditorGUI.DisabledGroupScope(preset.objectReferenceValue != null))
+                                {
+                                    random.boolValue = GUILayout.Toggle(random.boolValue,
+                                        new GUIContent("R", "Make Randoms Blend Shapes at Start"), EditorStyles.miniButton, GUILayout.Width(30));
                                 }
                             }
 
@@ -131,11 +141,7 @@ namespace MalbersAnimations.Utilities
                                         EditorGUILayout.LabelField(new GUIContent("Pin Shape:              (" + pin + ") |" + M.mesh.sharedMesh.GetBlendShapeName(pin) + "|", "Current Shape Store to modigy When accesing public methods from other scripts"));
                                     }
 
-                                    using (new EditorGUI.DisabledGroupScope(preset.objectReferenceValue != null))
-                                    {
-                                        random.boolValue = GUILayout.Toggle(random.boolValue,
-                                            new GUIContent("R", "Make Randoms Blend Shapes at Start"), EditorStyles.miniButton, GUILayout.Width(30));
-                                    }
+
                                 }
 
                                 using (new GUILayout.VerticalScope(EditorStyles.helpBox))
@@ -226,7 +232,7 @@ namespace MalbersAnimations.Utilities
                             }
                         }
                     }
-                    
+
                 }
             }
             if (EditorGUI.EndChangeCheck())

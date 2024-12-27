@@ -231,29 +231,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Brain: {fileID: 0}
-  updateMode: 0
+  unscaledTime:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   priority: 15
   cameraSide: 1
+  CameraDistance:
+    UseConstant: 1
+    ConstantValue: 6
+    Variable: {fileID: 0}
   Target:
     UseConstant: 0
     ConstantValue: {fileID: 0}
     Variable: {fileID: 11400000, guid: e759cb94eee3fcd4bb2f749b1dbda0a8, type: 2}
-  CamPivot: {fileID: 3335729509700159136}
   look:
     UseConstant: 0
     ConstantValue: {x: 0, y: 0}
     Variable: {fileID: 11400000, guid: 81ebbdea0e8140745b486bad86246321, type: 2}
-  invertX:
+  useUpVector: 0
+  upVector:
     UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  invertY:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  CameraDistance:
-    UseConstant: 1
-    ConstantValue: 6
+    ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
   XMultiplier:
     UseConstant: 1
@@ -275,9 +274,35 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 15
     Variable: {fileID: 0}
+  lerpPosition:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertX:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  invertY:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  CurrentDevice:
+    UseConstant: 0
+    ConstantValue: Mouse
+    Variable: {fileID: 11400000, guid: 8f9b4b27a210440478777eb574cee9d0, type: 2}
+  UsingMouse:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  GamepadMult:
+    UseConstant: 1
+    ConstantValue: 1000
+    Variable: {fileID: 0}
   OnActiveCamera:
     m_PersistentCalls:
       m_Calls: []
+  _cinemachineTargetYaw: 0
+  _cinemachineTargetPitch: 0
 --- !u!114 &6929573010536768990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +316,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Events:
+  - Event: {fileID: 11400000, guid: f6f5e9d4ea6f2c244b4f0047279c48f2, type: 2}
+    active: 1
+    useInt: 0
+    useFloat: 0
+    useVoid: 1
+    useString: 0
+    useBool: 0
+    useGO: 0
+    useTransform: 0
+    useVector3: 0
+    useVector2: 0
+    useComponent: 0
+    useSprite: 0
+    Response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5114034451324180766}
+          m_TargetAssemblyTypeName: MalbersAnimations.ThirdPersonFollowTarget, MalbersAnimations.Cinemachine
+          m_MethodName: TargetTeleport
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    ResponseNull:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseInt:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBool:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolFalse:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseBoolTrue:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseString:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseGO:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseTransform:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseComponent:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseSprite:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector3:
+      m_PersistentCalls:
+        m_Calls: []
+    ResponseVector2:
+      m_PersistentCalls:
+        m_Calls: []
+    IntEventList: []
+    FloatEventList: []
+    AdvancedInteger: 0
+    AdvancedFloat: 0
+    AdvancedBool: 0
+    InvertBool: 0
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   - Event: {fileID: 11400000, guid: 8da5be7645ead1b41a606373cc68cd60, type: 2}
+    active: 1
     useInt: 0
     useFloat: 0
     useVoid: 0
@@ -370,9 +473,14 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     IntEventList: []
+    FloatEventList: []
     AdvancedInteger: 1
+    AdvancedFloat: 0
     AdvancedBool: 0
     InvertBool: 0
-    multiplier: 1
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
   ShowEvents: 1
   SelectedEvent: 0

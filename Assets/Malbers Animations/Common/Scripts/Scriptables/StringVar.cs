@@ -24,7 +24,7 @@ namespace MalbersAnimations.Scriptables
         {
             get => value;
             set
-            { 
+            {
                 this.value = value;
                 OnValueChanged(value);         //If we are using OnChange event Invoked
 
@@ -35,14 +35,38 @@ namespace MalbersAnimations.Scriptables
         }
 
         public virtual void SetValue(StringVar var) => Value = var.Value;
+        public virtual void SetValue(string var) => Value = var;
         public virtual void SetValue(UnityEngine.Object var) => Value = var.name;
 
         public static implicit operator string(StringVar reference) => reference.Value;
+
+        #region String Operations
+        public virtual void _Add(string var) => Value += var;
+        public virtual void _Add(StringVar var) => Value += var.Value;
+        public virtual void _Add(char var) => Value += var;
+        public virtual void _Clear() => Value = string.Empty;
+
+        public virtual void _RemoveFirst()
+        {
+            if (!string.IsNullOrEmpty(Value))
+            {
+                Value = Value[1..];
+            }
+        }
+
+        public virtual void _RemoveLast()
+        {
+            if (!string.IsNullOrEmpty(Value))
+            {
+                Value = Value[..^1];
+            }
+        }
+        #endregion
     }
 
     [System.Serializable]
     public class StringReference : ReferenceVar
-    { 
+    {
         public string ConstantValue;
         [RequiredField] public StringVar Variable;
 
@@ -50,6 +74,12 @@ namespace MalbersAnimations.Scriptables
         {
             UseConstant = true;
             ConstantValue = string.Empty;
+        }
+
+        public StringReference(StringVar newValue)
+        {
+            UseConstant = false;
+            Variable = newValue;
         }
 
         public StringReference(bool variable = false)
@@ -117,7 +147,10 @@ namespace MalbersAnimations.Scriptables
                     value.stringValue = EditorGUILayout.TextArea(value.stringValue, GUILayout.MinWidth(50));
                     MalbersEditor.DrawDebugIcon(debug);
                 }
-                EditorGUILayout.PropertyField(Description);
+
+                EditorGUILayout.LabelField("Description");
+
+                EditorGUILayout.PropertyField(Description, GUIContent.none);
             }
             serializedObject.ApplyModifiedProperties();
         }

@@ -1,7 +1,8 @@
 ﻿using MalbersAnimations.Scriptables;
 using UnityEngine;
 using MalbersAnimations.Events;
-
+using System.Collections;
+using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,7 +13,6 @@ namespace MalbersAnimations.Utilities
     /// <summary>Used for Animal that have Animated Physics enabled </summary>
     [DefaultExecutionOrder(500)/*,[RequireComponent(typeof(Aim))*/]
     [AddComponentMenu("Malbers/Utilities/Aiming/Look At")]
-
     public class LookAt : MonoBehaviour, IAnimatorListener, ILookAtActivation
     {
         [System.Serializable]
@@ -22,31 +22,41 @@ namespace MalbersAnimations.Utilities
             [RequiredField] public Transform bone;                                          //The bone
             public Vector3 offset = new(0, -90, -90);               //The offset for the look At
             [Range(0, 1)] public float weight = 1;                          //the Weight of the look a
-            internal Quaternion nextRotation;
-            internal Quaternion UpdateRotation;
+                                                                            // internal Quaternion nextRotation;
+                                                                            //internal Quaternion UpdateRotation;
             internal Quaternion defaultRotation;
 
             [Tooltip("Is not a bone driven by the Animator")]
             public bool external;
         }
 
+        private const float CloseToZero = 0.005f;
+
         public BoolReference active = new(true);     //For Activating and Deactivating the HeadTrack
+
+        [Tooltip("Enable this if your Animator uses Animate physics loop")]
+        public bool AnimatePhysics = (true);     //For Activating and Deactivating the HeadTrack
 
         private IGravity a_UpVector;
 
         [Tooltip("Reference for the Aim Component")]
         [RequiredField] public Aim aimer;
 
-        /// <summary>Max Angle to LookAt</summary>
-        [Space, Tooltip("Max Angle to LookAt")]
-        public FloatReference LimitAngle = new(80f);
+
+        [Tooltip("Limits the Look At from the Min to Max Value")]
+        public RangedFloat LookAtLimit = new(90, 120);
+
+        [Tooltip("Track an animator Paramter to multiply its value to the weight of the Look At")]
+        public StringReference TrackParameter = new("LookAt");
+
+        private int TrackParameterHash;
 
         //[Space, Tooltip("Max Angle to LookAt")]
         //public FloatReference ExitAngle = new(15f);
 
         /// <summary>Smoothness between Enabled and Disable</summary>
         [Tooltip("Smoothness between Enabled and Disable")]
-        public FloatReference Smoothness = new(5f);
+        public FloatReference Lerp = new(5f);
 
         /// <summary>Smoothness between Enabled and Disable</summary>
         [Tooltip("Use the LookAt only when there's a Force Target on the Aim... use this when the Animal is AI Controlled")]
@@ -60,9 +70,11 @@ namespace MalbersAnimations.Utilities
 
 
         public bool debug = true;
+        [Hide(nameof(debug))]
+        public float GizmoRadius = 1f;
         public float LookAtWeight { get; private set; }
         /// <summary>Angle created between the transform.Forward and the LookAt Point   </summary>
-        protected float angle;
+        public float Angle { get; private set; }
 
         /// <summary>Means there's a camera or a Target to look At</summary>
         public bool HasTarget { get; set; }
@@ -80,24 +92,12 @@ namespace MalbersAnimations.Utilities
         {
             get
             {
-                var check = Active && CameraAndTarget && ActiveByAnimation && (angle < LimitAngle);
+                var check = Active && CameraAndTarget && ActiveByAnimation;
 
                 if (check != isAiming)
                 {
                     isAiming = check;
                     OnLookAtActive.Invoke(isAiming);
-
-                    if (!isAiming)
-                    {
-                        ResetBoneLocalRot();
-                    }
-                    else
-                    {
-                        for (int i = 0; i < Bones.Length; i++)
-                        {
-                            Bones[i].nextRotation = Bones[i].bone.rotation; //Save the Local Rotation of the Bone
-                        }
-                    }
                 }
                 return isAiming;
             }
@@ -115,6 +115,7 @@ namespace MalbersAnimations.Utilities
 
         //bool activebyAnim;
         /// <summary> Enable/Disable the LookAt by the Animator</summary>
+        public Animator Anim { get; set; }
         public bool ActiveByAnimation { get; set; }
         //{
         //    get => activebyAnim;
@@ -137,7 +138,19 @@ namespace MalbersAnimations.Utilities
             a_UpVector = gameObject.FindInterface<IGravity>(); //Get Up Vector
 
             if (aimer == null)
-                aimer = gameObject.FindInterface<Aim>();  //Get the Aim Component
+                aimer = gameObject.FindComponent<Aim>();  //Get the Aim Component
+
+            Anim = gameObject.FindComponent<Animator>();
+
+            if (Anim != null)
+            {
+                if (MTools.FindAnimatorParameter(Anim, AnimatorControllerParameterType.Float, TrackParameter.Value))
+                {
+                    TrackParameterHash = Animator.StringToHash(TrackParameter.Value); //Cache the Animator parameter to inspect it later on the LateUpdate
+                }
+            }
+
+
 
             aimer.IgnoreTransform = transform;
             ActiveByAnimation = true;
@@ -153,7 +166,7 @@ namespace MalbersAnimations.Utilities
             }
         }
 
-        void Start()
+        void OnEnable()
         {
             if (Bones != null && Bones.Length > 0)
                 EndBone = Bones[^1].bone;
@@ -165,9 +178,28 @@ namespace MalbersAnimations.Utilities
             {
                 Bones[i].defaultRotation = Bones[i].bone.localRotation; //Save the Local Rotation of the Bone
             }
+
+            if (AnimatePhysics)
+                StartCoroutine(SolveLookAt());
         }
 
-        void ResetBoneLocalRot()
+        void OnDisable()
+        {
+            StopAllCoroutines();
+        }
+
+        IEnumerator SolveLookAt()
+        {
+            var fixedUp = new WaitForFixedUpdate();
+
+            while (true)
+            {
+                yield return fixedUp;
+                DoLateUpdateLookAt(Time.fixedDeltaTime);
+            }
+        }
+
+        private void ResetBoneLocalRot()
         {
             for (int i = 0; i < Bones.Length; i++)
             {
@@ -175,15 +207,15 @@ namespace MalbersAnimations.Utilities
             }
         }
 
-        //private void FixedUpdate()
-        //{for (int i = 0; i < Bones.Length; i++)
-        //    {
-        //        Bones[i].UpdateRotation = Bones[i].bone.rotation; //Save the Local Rotation of the Bone
-        //    } 
-        //}
-
         void LateUpdate()
         {
+            if (!AnimatePhysics)
+                DoLateUpdateLookAt(Time.deltaTime);
+        }
+
+        private void DoLateUpdateLookAt(float time)
+        {
+
             // if (Time.time < float.Epsilon || Time.timeScale <= 0) return; //Do not look when the game is paused
 
             if (!aimer.UseCamera && aimer.AimTarget == null) { CameraAndTarget = false; }
@@ -202,20 +234,95 @@ namespace MalbersAnimations.Utilities
             }
 
 
-            angle = Vector3.Angle(transform.forward, AimDirection);
+            Angle = Vector3.Angle(transform.forward, AimDirection);
+            LookAtWeight = Mathf.Lerp(LookAtWeight, IsAiming ? 1 : 0, time * Lerp);
 
-           // var lookWeight = Mathf.Clamp01(1 - (angle - ExitAngle) / (LimitAngle - ExitAngle));
+            if (LookAtLimit.maxValue != 0 && LookAtLimit.minValue != 0) //Check the Limit in case there is a limit
+                LookAtWeight = Mathf.Min(LookAtWeight, Angle.CalculateRangeWeight(LookAtLimit.minValue, LookAtLimit.maxValue));
 
-            //Debug.Log($"angle =  { Mathf.Clamp01( 1- (angle-ExitAngle) / (LimitAngle-ExitAngle))}");
+            //Multiply the LookAtWeight by the Animator Parameter
+            if (TrackParameterHash != 0)
+            {
+                var track = Anim.GetFloat(TrackParameterHash);
+                LookAtWeight *= track;
+            }
 
-             LookAtWeight = Mathf.MoveTowards(LookAtWeight, IsAiming ? 1 : 0, Time.deltaTime * Smoothness / 2);
+            if (LookAtWeight == 0) return;
 
-            //LookAtWeight = lookWeight;
+            LookAtBoneSet_AnimatePhysics2();            //Rotate the bones
 
-            if (LookAtWeight == 0) return; //Do nothing on Weight Zero
 
-            LookAtBoneSet_AnimatePhysics();            //Rotate the bones
+            if (LookAtWeight <= CloseToZero) { LookAtWeight = 0; return; }//Do nothing on Weight Zero
         }
+
+
+        /// <summary>Rotates the bones to the Look direction for FIXED UPTADE ANIMALS</summary>
+        void LookAtBoneSet_AnimatePhysics2()
+        {
+            if (AimDirection == Vector3.zero) return; //Skip Rotation to zero
+
+            for (int i = 0; i < Bones.Length; i++)
+            {
+                var bn = Bones[i];
+
+                if (!bn.bone) continue;
+
+                if (LookAtWeight != 0)
+                {
+                    var weight = Mathf.SmoothStep(0, 1, LookAtWeight);
+
+                    var TargetTotation = Quaternion.LookRotation(AimDirection, transform.up) * Quaternion.Euler(bn.offset);
+
+                    if (bn.external)
+                        bn.bone.localRotation = Quaternion.Lerp(bn.defaultRotation, TargetTotation, weight);
+                    else
+                        bn.bone.rotation = Quaternion.Lerp(bn.bone.rotation, TargetTotation, weight);
+                }
+            }
+        }
+
+
+        ///// <summary>Rotates the bones to the Look direction for FIXED UPTADE ANIMALS</summary>
+        //void LookAtBoneSet_AnimatePhysics()
+        //{
+        //    // CalculateAiming();
+
+        //    for (int i = 0; i < Bones.Length; i++)
+        //    {
+        //        var bn = Bones[i];
+
+        //        if (!bn.bone) continue;
+
+        //        if (IsAiming)
+        //        {
+        //            var BoneAim = Vector3.Slerp(transform.forward, AimDirection, bn.weight).normalized;
+        //            var TargetTotation = Quaternion.LookRotation(BoneAim, UpVector) * Quaternion.Euler(bn.offset);
+        //            bn.nextRotation = Quaternion.Lerp(bn.nextRotation, TargetTotation, LookAtWeight);
+        //        }
+        //        else
+        //        {
+        //            if (!bn.external)
+        //            {
+        //                bn.nextRotation = Quaternion.Lerp(bn.bone.rotation, bn.nextRotation, LookAtWeight);
+        //            }
+        //            // if (LookAtWeight ==0)  bn.nextRotation = bn.bone.rotation;
+        //        }
+
+        //        if (LookAtWeight != 0)
+        //        {
+        //            if (bn.external && !IsAiming)
+        //            {
+        //                bn.nextRotation = Quaternion.Lerp(bn.nextRotation, bn.defaultRotation, 1 - LookAtWeight);
+        //                bn.bone.localRotation = Quaternion.Lerp(bn.bone.localRotation, bn.nextRotation, LookAtWeight); //LOCAL ROTATION!!!????
+
+        //            }
+        //            else
+        //            {
+        //                bn.bone.rotation = bn.nextRotation;
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>Enable Look At from the Animator (Needs Layer)</summary>
         public void EnableLookAt(int layer) => EnableByPriority(layer + 1);
@@ -268,61 +375,7 @@ namespace MalbersAnimations.Utilities
 
 
 
-        /// <summary>Rotates the bones to the Look direction for FIXED UPTADE ANIMALS</summary>
-        void LookAtBoneSet_AnimatePhysics()
-        {
-            // CalculateAiming();
 
-            for (int i = 0; i < Bones.Length; i++)
-            {
-                var bn = Bones[i];
-
-                if (!bn.bone) continue;
-
-                //if (IsAiming)
-                //{
-                //    var BoneAim = Vector3.Slerp(transform.forward, AimDirection, bn.weight).normalized;
-                //    var TargetTotation = Quaternion.LookRotation(BoneAim, UpVector) * Quaternion.Euler(bn.offset);
-                //    bn.nextRotation = Quaternion.Lerp(bn.nextRotation, TargetTotation, LookAtWeight);
-
-
-                //    Debug.Log($" bn.bone {bn.bone.name} : LookAtWeight {LookAtWeight}");
-                //    bn.bone.rotation = Quaternion.Lerp(bn.UpdateRotation, TargetTotation, LookAtWeight);
-                //}
-
-
-                //continue;
-
-                if (IsAiming)
-                {
-                    var BoneAim = Vector3.Slerp(transform.forward, AimDirection, bn.weight).normalized;
-                    var TargetTotation = Quaternion.LookRotation(BoneAim, UpVector) * Quaternion.Euler(bn.offset);
-                    bn.nextRotation = Quaternion.Lerp(bn.nextRotation, TargetTotation, LookAtWeight);
-                }
-                else
-                {
-                    if (!bn.external)
-                    {
-                        bn.nextRotation = Quaternion.Lerp(bn.bone.rotation, bn.nextRotation, LookAtWeight);
-                    }
-                    // if (LookAtWeight ==0)  bn.nextRotation = bn.bone.rotation;
-                }
-
-                if (LookAtWeight != 0)
-                {
-                    if (bn.external && !IsAiming)
-                    {
-                        bn.nextRotation = Quaternion.Lerp(bn.nextRotation, bn.defaultRotation, 1 - LookAtWeight);
-                        bn.bone.localRotation = Quaternion.Lerp(bn.bone.localRotation, bn.nextRotation, LookAtWeight); //LOCAL ROTATION!!!
-
-                    }
-                    else
-                    {
-                        bn.bone.rotation = bn.nextRotation;
-                    }
-                }
-            }
-        }
 
         /// <summary>This is used to listen the Animator asociated to this gameObject </summary>
         public virtual bool OnAnimatorBehaviourMessage(string message, object value) => this.InvokeWithParams(message, value);
@@ -343,24 +396,49 @@ namespace MalbersAnimations.Utilities
 
 
 #if UNITY_EDITOR && MALBERS_DEBUG
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
-            bool AppIsPlaying = Application.isPlaying;
-
-            if (debug)
+            if (UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(this)) //Show Gizmos only when the Inspector is Open
             {
-                Handles.color = IsAiming || !AppIsPlaying ? new Color(0, 1, 0, 0.1f) : new Color(1, 0, 0, 0.1f);
+                bool AppIsPlaying = Application.isPlaying;
 
-                if (EndBone != null)
+                if (debug && enabled)
                 {
-                    Handles.DrawSolidArc(EndBone.position, UpVector, Quaternion.Euler(0, -LimitAngle, 0) * transform.forward, LimitAngle * 2, 1);
+                    Handles.color = IsAiming || !AppIsPlaying ? new Color(0, 1, 0, 0.05f) : new Color(1, 0, 0, 0.05f);
 
-                   // var limit = LimitAngle - ExitAngle;
-                   // Handles.DrawSolidArc(EndBone.position, UpVector, Quaternion.Euler(0, -(limit), 0) * transform.forward, (limit * 2), 1);
+                    if (EndBone != null)
+                    {
+                        var UpVector = this.UpVector;
 
-                    Handles.color = IsAiming || !AppIsPlaying ? Color.green : Color.red;
-                    Handles.DrawWireArc(EndBone.position, UpVector, Quaternion.Euler(0, -LimitAngle, 0) * transform.forward, LimitAngle * 2, 1);
+                        Handles.color = new Color(0, 1, 0, 0.1f);
+                        Handles.DrawSolidArc(EndBone.position, UpVector,
+                            Quaternion.Euler(0, -LookAtLimit.minValue, 0) * transform.forward, LookAtLimit.minValue * 2, GizmoRadius);
 
+
+                        Handles.color = Color.green;
+                        Handles.DrawWireArc(EndBone.position,
+                            UpVector, Quaternion.Euler(0, -LookAtLimit.minValue, 0) * transform.forward, LookAtLimit.minValue * 2, GizmoRadius);
+
+
+                        Handles.color = new Color(0, 0.3f, 0, 0.2f);
+                        var Maxlimit = (LookAtLimit.minValue - LookAtLimit.maxValue);
+
+                        Handles.DrawSolidArc(EndBone.position,
+                            UpVector, Quaternion.Euler(0, -(LookAtLimit.minValue), 0) * transform.forward, (Maxlimit), GizmoRadius);
+
+                        Handles.DrawSolidArc(EndBone.position,
+                            UpVector, Quaternion.Euler(0, (LookAtLimit.minValue), 0) * transform.forward, -(Maxlimit), GizmoRadius);
+
+
+                        Handles.color = Color.black;
+
+                        Handles.DrawWireArc(EndBone.position,
+                            UpVector, Quaternion.Euler(0, -(LookAtLimit.minValue), 0) * transform.forward, (Maxlimit), GizmoRadius);
+
+                        Handles.DrawWireArc(EndBone.position,
+                            UpVector, Quaternion.Euler(0, (LookAtLimit.minValue), 0) * transform.forward, -(Maxlimit), 1);
+
+                    }
                 }
             }
         }
@@ -376,13 +454,13 @@ namespace MalbersAnimations.Utilities
         LookAt M;
         void OnEnable()
         {
-            M = (LookAt) target;
+            M = (LookAt)target;
         }
 
         public override void OnInspectorGUI()
         {
 
-            if (M.aimer  && M.Bones != null)
+            if (M.aimer && M.Bones != null)
             {
                 var origin = M.aimer.AimOrigin;
 
@@ -407,8 +485,8 @@ namespace MalbersAnimations.Utilities
             {
                 using (new EditorGUI.DisabledGroupScope(true))
                 {
-                    EditorGUI.BeginDisabledGroup(true);
                     EditorGUILayout.FloatField("LookAtWeight", M.LookAtWeight);
+                    EditorGUILayout.FloatField("Current Angle", M.Angle);
                     EditorGUILayout.Toggle("Active by Animation", M.ActiveByAnimation);
                     EditorGUILayout.IntField("Enable Priority", M.EnablePriority);
                     EditorGUILayout.IntField("Disable Priority", M.DisablePriority);

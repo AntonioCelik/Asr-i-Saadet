@@ -13,7 +13,7 @@ namespace MalbersAnimations.Utilities
     [AddComponentMenu("Malbers/Utilities/Mesh/Material Changer")]
     public class MaterialChanger : MonoBehaviour
     {
-        public List<MaterialItem> materialList = new List<MaterialItem>();
+        public List<MaterialItem> materialList = new();
         public bool showMeshesList = true;
         public bool changeHidden = false;
 
@@ -219,9 +219,11 @@ namespace MalbersAnimations.Utilities
         [ContextMenu("Create Event Listeners")]
         void CreateListeners()
         {
-            MEventListener listener = this.FindComponent<MEventListener>();
-            if (listener == null) listener = transform.root.gameObject.AddComponent<MEventListener>();
-            if (listener.Events == null) listener.Events = new List<MEventItemListener>();
+            MEventListener listener =
+                 (this.FindComponent<MEventListener>()
+                 ?? transform.root.GetComponentInChildren<MEventListener>())
+                 ?? transform.root.gameObject.AddComponent<MEventListener>();
+            listener.Events ??= new List<MEventItemListener>();
 
             MEvent BlendS = MTools.GetInstance<MEvent>("Material Changer");
 
@@ -391,7 +393,7 @@ namespace MalbersAnimations.Utilities
 
             var mat = materials[index];
 
-            if (mat != null)
+            if (mat != null && mesh != null)
             {
                 Material[] currentMaterial = mesh.sharedMaterials;
 
@@ -457,7 +459,6 @@ namespace MalbersAnimations.Utilities
     }
     #endregion
 
-
     #region Material Changer Inspector
 #if UNITY_EDITOR
     [CustomEditor(typeof(MaterialChanger))]
@@ -496,12 +497,13 @@ namespace MalbersAnimations.Utilities
 
                 if (showMeshesList.boolValue)
                 {
-                    if (list.index != -1)
+                    if (list.index != -1 && materialList.arraySize > list.index)
                     {
                         using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                         {
-                            SerializedProperty Element = materialList.GetArrayElementAtIndex(list.index);
-                            //if (Element.objectReferenceValue != null)
+                            var Element = materialList.GetArrayElementAtIndex(list.index);
+
+                            if (Element != null)
                             {
                                 EditorGUILayout.PropertyField(Element, new GUIContent(Element.FindPropertyRelative("Name").stringValue), false);
 
@@ -572,7 +574,7 @@ namespace MalbersAnimations.Utilities
         void HeaderCallbackDelegate(Rect rect)
         {
             Rect R_0 = new(rect.x, rect.y, 15, EditorGUIUtility.singleLineHeight);
-            Rect R_01= new(rect.x + 14, rect.y, 35, EditorGUIUtility.singleLineHeight);
+            Rect R_01 = new(rect.x + 14, rect.y, 35, EditorGUIUtility.singleLineHeight);
             Rect R_1 = new(rect.x + 14 + 25, rect.y, (rect.width - 10) / 2, EditorGUIUtility.singleLineHeight);
             Rect R_2 = new(rect.x + 35 + ((rect.width - 30) / 2), rect.y, rect.width - ((rect.width) / 2) - 25, EditorGUIUtility.singleLineHeight);
             showMeshesList.boolValue = EditorGUI.ToggleLeft(R_0, new GUIContent("", "Show the Material Items when Selected"), showMeshesList.boolValue);

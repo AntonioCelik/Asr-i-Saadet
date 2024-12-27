@@ -53,12 +53,22 @@ namespace MalbersAnimations.Controller
 
         [Space, Tooltip("Avoids a surface to land when Flying. E.g. if the animal does not have a swim state, set this to void landing/entering the water")]
         public bool AvoidSurface = false;
-        [Tooltip("RayCast distance to find the Surface to avoid"), Hide("AvoidSurface", false)]
+        [Tooltip("RayCast distance to find the Surface to avoid"),
+            Hide(nameof(AvoidSurface), false)]
         public float SurfaceDistance = 0.5f;
-        [Tooltip("Which layers to search to avoid that surface. Triggers are not inlcuded"), Hide("AvoidSurface", false)]
+        [Tooltip("Which layers to search to avoid that surface. Triggers are not inlcuded"),
+            Hide(nameof(AvoidSurface), false)]
         public LayerMask SurfaceLayer = 16;
-        [Tooltip("Check if it can collide with triggers"), Hide("AvoidSurface", false)]
+        [Tooltip("Check if it can collide with triggers"),
+            Hide(nameof(AvoidSurface), false)]
         public QueryTriggerInteraction trigger = QueryTriggerInteraction.Collide;
+
+        [Hide(nameof(AvoidSurface), false)]
+        public float avoidLerp = 7f;
+
+        //[Hide(nameof(AvoidSurface), false)]
+        //[Range(0, 1)]
+        //public float AvoidLimit = 0.5f;
 
         [Header("Gliding")]
 
@@ -203,9 +213,9 @@ namespace MalbersAnimations.Controller
                     animal.transform.position = Pos;
                 }
 
-                GravityPush(deltatime); //Add artificial gravity to the Fly
 
-                if (TryAvoidSurface())
+
+                if (TryAvoidSurface(deltatime))
                 {
                     animal.FreeMovementRotator(0, 0);
                     acceleration = 0; //Remove Down Acceleration
@@ -213,6 +223,7 @@ namespace MalbersAnimations.Controller
                 }
                 else
                 {
+                    GravityPush(deltatime); //Add artificial gravity to the Fly
                     animal.FreeMovementRotator(limit, bank);
                 }
 
@@ -242,25 +253,33 @@ namespace MalbersAnimations.Controller
             if (!mode.AllowMovement) verticalInertia = Vector3.zero; //Remove the vertical inertia
         }
 
-        private bool TryAvoidSurface()
+        /// <summary> Use this with messages to change the Avoid Surface value </summary>
+        public virtual void SetAvoidSurface(bool value) => AvoidSurface = value;
+
+        private bool TryAvoidSurface(float deltatime)
         {
             if (AvoidSurface)
             {
+                //Debug.Log("TryAvoidSurface");
                 var surfacePos = transform.position + animal.AdditivePosition;
+
                 var Dist = SurfaceDistance * ScaleFactor;
+
+
 
                 if (Physics.Raycast(surfacePos, Gravity, out RaycastHit hit, Dist, SurfaceLayer, trigger))
                 {
-                    Color findWater = Color.cyan;
+                    Color LandRay = Color.cyan;
+
 
                     if (animal.MovementAxis.y < 0) animal.MovementAxis.y = 0;
 
                     if (hit.distance < Dist * 0.75f)
                     {
-                        animal.AdditivePosition += Gravity * -(Dist * 0.75f - hit.distance);
+                        animal.AdditivePosition += -(Dist * 0.75f - hit.distance) * deltatime * avoidLerp * Gravity;
                     }
 
-                    if (m_debug) Debug.DrawRay(surfacePos, Gravity * Dist, findWater);
+                    if (m_debug) MDebug.DrawRay(surfacePos, Gravity * Dist, LandRay);
                     return true;
                 }
             }
@@ -272,14 +291,14 @@ namespace MalbersAnimations.Controller
             if (!InputValue) AllowExit();
 
             if (canLand.Value)
-            { 
+            {
                 var Point = BlockingBone ? BlockingBone.TransformPoint(BoneOffsetPos) : animal.Main_Pivot_Point;
                 var Dist = (BlockingBone ? BlockLandDist : LandMultiplier.Value) * animal.ScaleFactor;
 
                 if (Physics.Raycast(Point, Gravity, out RaycastHit landHit, Dist, LandOn, IgnoreTrigger))
                 {
                     FlyAllowExit(landHit);
-                    Debugging($"[AllowExit] Can Land on <{landHit.collider.name}> [Using Blocking Bone]");
+                    Debugging($"[AllowExit] Can Land on <{landHit.collider.name}> [Using Blocking Bone: {BlockingBone != null}]");
                     return;
                 }
 
@@ -314,13 +333,12 @@ namespace MalbersAnimations.Controller
                         animal.AlignPosLerpDelta = animal.AlignPosLerp * 5;
 
                         //SUPER IMPORTANT!!! this is when the Animal is falling from a great height
-                        animal.Teleport_Internal(hit.point);
-                        //var GroundedPos = Vector3.Project(hit.point - animal.transform.position, Gravity);
-                        //animal.Teleport_Internal(animal.transform.position + GroundedPos);
+                        var GroundedPos = Vector3.Project(hit.point - animal.transform.position, Gravity);
+                        animal.Teleport_Internal(animal.transform.position + GroundedPos);
 
                         animal.ResetUPVector(); //IMPORTANT!
                         animal.hit_Hip.distance = Height;
-                        animal.InertiaPositionSpeed = Vector3.ProjectOnPlane(animal.RB.velocity * animal.DeltaTime, animal.UpVector); //This is for Helping on Slopes
+
                         Debugging($"[Try Exit] (Grounded) + [Terrain Angle = {FallRayAngle:F2}]. [Align to Ground]");
                         return;
                     }
@@ -397,6 +415,8 @@ namespace MalbersAnimations.Controller
             base.ExitInputValue = false;    //release the base Input value
         }
 
+
+
         //public override bool InputValue //lets override to Allow exit when the Input Changes
         //{
         //    get => base.InputValue;
@@ -468,14 +488,14 @@ namespace MalbersAnimations.Controller
 
                 var width = 2f;
 
-                var PointDown = Gravity.normalized * (LandMultiplier) * animal.transform.lossyScale.y;
+                var PointDown = (LandMultiplier) * animal.transform.lossyScale.y * Gravity.normalized;
 
                 MDebug.DrawLine(animal.Main_Pivot_Point, animal.Main_Pivot_Point + PointDown, width);
 
                 if (BlockingBone)
                 {
                     var HitPoint = BlockingBone.TransformPoint(BoneOffsetPos);
-                    MDebug.DrawLine(HitPoint, HitPoint + Gravity * BlockLandDist * animal.transform.lossyScale.y, width);
+                    MDebug.DrawLine(HitPoint, HitPoint + animal.transform.lossyScale.y * BlockLandDist * Gravity, width);
                 }
 
                 if (AvoidSurface && !Application.isPlaying)

@@ -99,6 +99,9 @@ namespace MalbersAnimations.Weapons
         [Hide("Action", false, (int)WeaponOption.EquipProjectile)]
         public bool equip = true;
 
+        [Hide("Action", false, (int)WeaponOption.Aim)]
+        public bool aim = false;
+
         [Tooltip("Send the message anyway if the animation was interrupted and the time to send it was not reach")]
         public bool sendInterrupted = true;
 
@@ -110,47 +113,53 @@ namespace MalbersAnimations.Weapons
         {
             switch (Action)
             {
-                case WeaponOption.Equip:  manager.Equip_Weapon();
+                case WeaponOption.Equip:
+                    manager.Equip_Weapon();
                     break;
-                case WeaponOption.Unequip: manager.Unequip_Weapon();
+                case WeaponOption.Unequip:
+                    manager.Unequip_Weapon();
                     break;
                 case WeaponOption.EquipProjectile:
-                    
-                    if (manager.Weapon is MShootable)
-                    {
-                        var mshoo = manager.Weapon as MShootable;
 
-                        if (equip) mshoo.EquipProjectile(); 
-                        //else mshoo.DestroyProjectileInstance(); 
+                    if (manager.Weapon is MShootable mshoo)
+                    {
+                        if (equip) mshoo.EquipProjectile();
+                        else mshoo.DestroyProjectileInstance();
                     }
                     break;
                 case WeaponOption.FireProjectile:
-                    if (manager.Weapon is MShootable)
+                    if (manager.Weapon is MShootable shootFire && shootFire.ReleaseByAnimation)
                     {
-                        var mshoo = (manager.Weapon as MShootable);
-                        if (mshoo.ReleaseByAnimation) mshoo.ReleaseProjectile();
+                        shootFire.ReleaseProjectile();
                     }
                     break;
-                case WeaponOption.Reload: if (manager.Weapon is MShootable) (manager.Weapon as MShootable).ReloadWeapon();
+                case WeaponOption.Reload:
+                    if (manager.Weapon is MShootable shootReload) shootReload.ReloadWeapon();
                     break;
-                case WeaponOption.FinishReload: if (manager.Weapon is MShootable) (manager.Weapon as MShootable).FinishReload();
+                case WeaponOption.FinishReload:
+                    if (manager.Weapon is MShootable shootReload2) shootReload2.FinishReload();
                     break;
                 case WeaponOption.ExitByAnimation:
                     manager.ExitByAnimation(exit);
-                    //OBSOLETE!!!!
-                    //  if (manager.Weapon != null) manager.Weapon.WeaponReady(ready);
                     break;
-                case WeaponOption.CheckAim: if (manager.Weapon != null)  manager.Weapon.CheckAim();
+                case WeaponOption.CheckAim:
+                    if (manager.Weapon != null) manager.Weapon.CheckAim();
                     break;
-                case WeaponOption.PlaySound: if (manager.Weapon != null) manager.Weapon.PlaySound(value);
+                case WeaponOption.PlaySound:
+                    if (manager.Weapon != null) manager.Weapon.PlaySound(value);
                     break;
-                case WeaponOption.UseFreeHand: manager.FreeHandUse();
+                case WeaponOption.UseFreeHand:
+                    manager.FreeHandUse();
                     break;
-                case WeaponOption.ReleaseFreeHand: manager.FreeHandRelease();
+                case WeaponOption.ReleaseFreeHand:
+                    manager.FreeHandRelease();
                     break;
-                default:  break;
+                case WeaponOption.Aim:
+                    manager.Aim_Set(aim);
+                    break;
+                default: break;
             }
-            if (debug) Debug.Log($"[{anim.name}] <B><color=orange>Weapon Message:</color></B> <color=white>[{Action}]</color>", anim);
+            if (debug) Debug.Log($"[{anim.name}] <B><color=red>**Weapon Message**:</color></B> <color=red>[{Action}]</color>", anim);
             MessageSent = true;
         }
     }
@@ -179,5 +188,7 @@ namespace MalbersAnimations.Weapons
         UseFreeHand,
         [InspectorName("Weapon/Release Free Hand")]
         ReleaseFreeHand,
+        [InspectorName("Weapon/Aim")]
+        Aim,
     }
 }

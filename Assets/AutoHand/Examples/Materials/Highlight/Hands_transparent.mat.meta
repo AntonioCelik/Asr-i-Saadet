@@ -8,8 +8,8 @@ NativeFormatImporter:
   assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
-  productId: 82022
-  packageName: Oculus Integration
-  packageVersion: 57.0
-  assetPath: Assets/AutoHand/Examples/Materials/Hands_transparent.mat
-  uploadId: 618200
+  productId: 165323
+  packageName: Auto Hand - VR Interaction
+  packageVersion: 4.0.0
+  assetPath: Assets/AutoHand/Examples/Materials/Highlight/Hands_transparent.mat
+  uploadId: 672110

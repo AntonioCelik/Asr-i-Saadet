@@ -9515,6 +9515,9 @@ MonoBehaviour:
   objectPoolLength: 20
   soundDistance: 7
   logSounds: 0
+  animalSoundVolume: 0.5
+  minSoundInterval: 5
+  maxSoundInterval: 15
 --- !u!4 &1682858746
 Transform:
   m_ObjectHideFlags: 0

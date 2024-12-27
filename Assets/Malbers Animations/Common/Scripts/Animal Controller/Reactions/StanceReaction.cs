@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using MalbersAnimations.Controller;
+﻿using MalbersAnimations.Controller;
+using UnityEngine;
 
 namespace MalbersAnimations.Reactions
 {
@@ -34,7 +34,7 @@ namespace MalbersAnimations.Reactions
                         }
                         else return false;
                     }
-                   
+
                     break;
                 case Stance_Reaction.Reset:
                     var ispersistent = animal.ActiveStance.Persistent;
@@ -61,6 +61,6 @@ namespace MalbersAnimations.Reactions
             return true;
         }
 
-       
+
     }
 }

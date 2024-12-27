@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace MalbersAnimations.Controller.AI
 {
+    public enum PlayingModeState { Enter, Exit, PlayingMode }
+
     [CreateAssetMenu(menuName = "Malbers Animations/Pluggable AI/Decision/Check Mode", order = 2)]
     public class CheckModeDecision : MAIDecision
     {
-        public enum PlayingModeState { Enter, Exit,PlayingMode }
 
         public override string DisplayName => "Animal/Check Mode";
 
@@ -21,7 +22,22 @@ namespace MalbersAnimations.Controller.AI
         [Tooltip("Which ability is playing in the Mode. If is set to less or equal to zero; then it will return true if the Mode Playing")]
         public IntReference Ability = new();
 
-        public override bool Decide(MAnimalBrain brain,int Index)
+
+        //public override void PrepareDecision(MAnimalBrain brain, int Index)
+        //{
+        //    //Store if the animal was playing a mode
+        //    if (ModeState == PlayingModeState.Exit)
+        //    {
+        //        var wasPlayingMode = checkOn == Affected.Target && brain.TargetAnimal != null ? brain.TargetAnimal.IsPlayingMode : brain.Animal.IsPlayingMode;
+        //        var LastMode = checkOn == Affected.Target && brain.TargetAnimal != null ? brain.TargetAnimal.LastModeID : brain.Animal.LastModeID;
+
+        //       if (!wasPlayingMode && LastMode == ModeID)
+
+        //        brain.DecisionsVars[Index].intValue = checkOn == Affected.Target && brain.TargetAnimal != null ? brain.TargetAnimal. : brain.Animal.IsPlayingMode;
+        //    }
+        //}
+
+        public override bool Decide(MAnimalBrain brain, int Index)
         {
             return checkOn switch
             {
@@ -56,14 +72,15 @@ namespace MalbersAnimations.Controller.AI
             return false;
         }
 
-        //Why????????????????
+
         private bool OnExitMode(MAnimal animal)
         {
-            if (animal.LastModeID != 0)
+            if (animal.LastModeID == ModeID)
             {
-                animal.LastModeID = 0;
-                animal.LastAbilityIndex = 0;
-                return true;
+                if (Ability <= 0)
+                    return true; //Means that Is playing a random mode does not mater which one
+                else
+                    return Ability == (animal.LastAbilityIndex); //Return if the Ability is playing 
             }
             return false;
         }

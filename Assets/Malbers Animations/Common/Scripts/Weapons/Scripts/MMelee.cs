@@ -157,6 +157,10 @@ namespace MalbersAnimations.Weapons
             if (other.transform.root == IgnoreTransform) return;                        //Check an Extra transform that you cannot hit...e.g your mount
             if (ignoreStaticObjects && other.transform.gameObject.isStatic) return;     //Ignore Static Objects
 
+
+            if (MissAttack()) return; //Ignore the Attack if the Animal is Missing the Attack 
+
+
             var damagee = other.GetComponentInParent<IMDamage>();                      //Get the Animal on the Other collider
 
             if (!AttackDirection)
@@ -298,8 +302,7 @@ namespace MalbersAnimations.Weapons
                 EditorGUILayout.PropertyField(meleeCollider,
                     new GUIContent("Melee Trigger", "Gets the reference of where is the Melee Collider of this weapon (Not Always is in the same gameobject level)"));
             }
-            if (DescSTyle == null) DescSTyle = MalbersEditor.DescriptionStyle;
-            EditorGUILayout.LabelField("Set Combos Values to -1 to ignore doing combos", DescSTyle);
+
 
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {

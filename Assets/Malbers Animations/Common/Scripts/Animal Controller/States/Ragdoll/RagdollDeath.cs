@@ -1,5 +1,4 @@
-﻿using MalbersAnimations.Scriptables;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace MalbersAnimations.Controller
@@ -12,7 +11,7 @@ namespace MalbersAnimations.Controller
 
         public float Drag = 0.1f;
         public float AngularDrag = 0.1f;
-        
+
 
         public bool EnablePreProcessing = true;
         public CollisionDetectionMode collision = CollisionDetectionMode.ContinuousSpeculative;
@@ -20,7 +19,8 @@ namespace MalbersAnimations.Controller
         public override string StateName => "Death/Ragdoll Replace";
         public override string StateIDName => "Death";
 
-         
+        [Tooltip("Destroy the Animal after the Ragdoll is created. If is set to false then it will only Hide the GameObject")]
+        public bool DestroyAnimal = true;
 
         public override void Activate()
         {
@@ -31,12 +31,12 @@ namespace MalbersAnimations.Controller
         }
 
         public void Replace()
-        { 
+        {
             //Instantiate the new Ragdoll model
             GameObject ragdollInstance = Instantiate(ragdollPrefab, transform.position, transform.rotation);
 
-           //Prepare the ragdoll
-           var AllJoints = ragdollInstance.GetComponentsInChildren<CharacterJoint>();
+            //Prepare the ragdoll
+            var AllJoints = ragdollInstance.GetComponentsInChildren<CharacterJoint>();
             foreach (var joint in AllJoints) { joint.enablePreprocessing = true; }
 
 
@@ -51,7 +51,7 @@ namespace MalbersAnimations.Controller
             var animalBones = animal.RootBone.GetComponentsInChildren<Transform>();
             var AnimalBoneMap = new Dictionary<string, Transform>();
             foreach (Transform bone in animalBones) AnimalBoneMap[bone.name] = bone;
-           
+
 
             //Map all the Bones in the Ragdoll in a Dictionary
             var ragdollBones = ragdollInstance.GetComponentsInChildren<Transform>();
@@ -70,14 +70,15 @@ namespace MalbersAnimations.Controller
 
             animal.Anim.enabled = false; //Disable Animator (?)
 
+
             //Disable/Remove all mesh renderers in the ragdoll
             var allSkinnedMeshRendererRagdoll = ragdollInstance.GetComponentsInChildren<SkinnedMeshRenderer>();
             var allMeshRendererRagdoll = ragdollInstance.GetComponentsInChildren<MeshRenderer>();
-            
+
             foreach (var rdoll in allSkinnedMeshRendererRagdoll)
             {
                 Destroy(rdoll.gameObject);
-               // rdoll.gameObject.SetActive(false);
+                // rdoll.gameObject.SetActive(false);
             }
 
             foreach (var rdoll in allMeshRendererRagdoll)
@@ -85,6 +86,8 @@ namespace MalbersAnimations.Controller
                 Destroy(rdoll.gameObject);
                 // rdoll.gameObject.SetActive(false);
             }
+
+
 
             var allSkinnedMeshRendererAnimal = animal.GetComponentsInChildren<SkinnedMeshRenderer>(false);
             var allMeshRendererAnimal = animal.GetComponentsInChildren<MeshRenderer>(false);
@@ -125,11 +128,12 @@ namespace MalbersAnimations.Controller
                     }
                 }
             }
+            //  return; 
 
             Vector3 HitDirection = Vector3.zero;
             Vector3 HitPoint = Vector3.zero;
             Collider HitCollider = null;
-            ForceMode ForceMod = ForceMode.VelocityChange; 
+            ForceMode ForceMod = ForceMode.VelocityChange;
 
             if (animal.TryGetComponent<IMDamage>(out var IMDamage))
             {
@@ -141,13 +145,13 @@ namespace MalbersAnimations.Controller
 
             MDebug.Draw_Arrow(HitPoint, HitDirection.normalized * 3, Color.yellow, 5);
 
-            ragdollInstance.SetActive(true);
+
             var ragdollRB = ragdollInstance.GetComponentsInChildren<Rigidbody>();
             foreach (var rb in ragdollRB)
             {
                 rb.collisionDetectionMode = collision;
-
-                rb.velocity = animal.RB.velocity; //Match the velocity that the animal had onto the ragdoll
+                rb.isKinematic = false;
+                rb.velocity = animal.RB.velocity;  //Match the velocity that the animal had onto the ragdoll
 
                 rb.drag = Drag;
                 rb.angularDrag = AngularDrag;
@@ -160,11 +164,16 @@ namespace MalbersAnimations.Controller
 
             animal.OnStateChange.Invoke(ID);//Invoke the Event!!
 
-           // animal.Delay_Action(() =>
-           // {
-               animal.gameObject.SetActive(false);
-                //Destroy(animal.gameObject);
-           // });
+
+            ragdollInstance.SetActive(true);
+
+            animal.Delay_Action(() =>
+            {
+                if (DestroyAnimal)
+                    Destroy(animal.gameObject);
+                else
+                    animal.gameObject.SetActive(false);
+            });
         }
 
 
@@ -200,7 +209,7 @@ namespace MalbersAnimations.Controller
             if (boneMap.TryGetValue(OldRootBone.name, out Transform ro))
             {
                 thisRenderer.rootBone = ro; //Remap the rootbone
-            } 
-        } 
+            }
+        }
     }
 }

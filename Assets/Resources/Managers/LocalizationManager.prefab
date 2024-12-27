@@ -1,0 +1,196 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3820341714933627798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5984074949119666509}
+  - component: {fileID: 190909609340944782}
+  m_Layer: 0
+  m_Name: LocalizationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5984074949119666509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820341714933627798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.21313031, y: 1.562381, z: 1.0148718}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &190909609340944782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820341714933627798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12dfd19d7a6c494eb42981422c0df28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguage: 0
+  localizedContent:
+  - key: menu_language_german
+    germanText: "Deutsch\t"
+    turkishText: Almanca
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: menu_language_turkish
+    germanText: "T\xFCrkisch"
+    turkishText: "T\xFCrk\xE7e"
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: einstellungen
+    germanText: Einstellungen
+    turkishText: Ayarlar
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: starten
+    germanText: Starten
+    turkishText: "Ba\u015Flat"
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: beenden
+    germanText: Beenden
+    turkishText: Kapat
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: "lautst\xE4rke"
+    germanText: "Lautst\xE4rke"
+    turkishText: Ses
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: "zur\xFCck"
+    germanText: "Zur\xFCck"
+    turkishText: Geri
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: options
+    germanText: Einstellungen
+    turkishText: Ayarlar
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: hureyre_1
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 105e447260e874ff6aea11ce5b33986e, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 6979150b60d804523b5823de7a058782, type: 3}
+  - key: osman_hallo
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 06951d276fcad415f82c92de3aff57f6, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 1b8f55c693dd4462ead866fd55f371a9, type: 3}
+  - key: osman_reject
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 7e62cd777b16c466a94e14f5ac4317b2, type: 3}
+    turkishAudio: {fileID: 8300000, guid: e34ff98f8c8bc4abd903e9df5cd28087, type: 3}
+  - key: osman_accept
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 6af2ad8379353422a96ae533800f8673, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 183fe91eaeb8c4a84aadca6bae2ada4d, type: 3}
+  - key: osman_finish
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: ced06ebe7931b40e1983c5f17471d2ab, type: 3}
+    turkishAudio: {fileID: 8300000, guid: ed8a50228d71a47bb8f5eb52ace20f10, type: 3}
+  - key: osman_ui_accept
+    germanText: Sehr gerne
+    turkishText: Tabi ki
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: osman_ui_reject
+    germanText: "Sp\xE4ter"
+    turkishText: Sonra
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: osman_ui_warnung
+    germanText: "Quest abschlie\xDFen!"
+    turkishText: "G\xF6revi tamamla!"
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: zubeyr_hallo
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 90f7dbba84cd84d3fbdeef056a70c4fd, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 268a62431947145ec841feefc04e07a7, type: 3}
+  - key: zubeyr_reject
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 5680552f88cef460eb7508089d05f126, type: 3}
+    turkishAudio: {fileID: 8300000, guid: aa912809e32d14dd18b4ad669dbf9b3b, type: 3}
+  - key: zubeyr_finish
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 422a0fce92de84d2e8df319ad8491a46, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 3ffbc44941c2c4dc2af5d806d44f31fd, type: 3}
+  - key: zubeyr_ui_accept
+    germanText: Na klar!
+    turkishText: Tabi!
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: zubeyr_ui_reject
+    germanText: "Sp\xE4ter"
+    turkishText: Sonra
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: race_ui_victory
+    germanText: Sieger!
+    turkishText: "Kazand\u0131n!"
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: race_ui_defeat
+    germanText: Verloren!
+    turkishText: Kaybettin!
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: race_ui_genug
+    germanText: Genug
+    turkishText: Yeterli
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: race_ui_nochmal
+    germanText: Nochmal
+    turkishText: Tekrar
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: countdown_go
+    germanText: LOS!
+    turkishText: "BA\u015ELA!"
+    germanAudio: {fileID: 0}
+    turkishAudio: {fileID: 0}
+  - key: omar_hallo
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: c75f2bf3147ca4df0abef48ba01ea30e, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 720971264ff10448eaea9dcee26a3945, type: 3}
+  - key: omar_ezan
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 575fd925db1c74391ba03b0856c90436, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 5ac34e92d9c884116a8ee5ad7fc9e8e6, type: 3}
+  - key: muezzin_call
+    germanText: 
+    turkishText: 
+    germanAudio: {fileID: 8300000, guid: 10179958a3b6840c8a52796093dea59e, type: 3}
+    turkishAudio: {fileID: 8300000, guid: 10179958a3b6840c8a52796093dea59e, type: 3}
+  onLanguageChanged:
+    m_PersistentCalls:
+      m_Calls: []

@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 0.67
       objectReference: {fileID: 0}
+    - target: {fileID: 4117202605531476722, guid: 526c14ebaa75f3545bfd894ab2c858f9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6642453664660044755, guid: 526c14ebaa75f3545bfd894ab2c858f9,
         type: 3}
       propertyPath: Editor_Tabs1
@@ -178,9 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Align: 0
-  AlignPos: 0
   AlignTime: 0.15
-  AlignDistance: 1
   PickDelay:
     UseConstant: 1
     ConstantValue: 0.15
@@ -209,6 +212,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  canBePicked:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   m_AutoPick:
     UseConstant: 1
     ConstantValue: 0
@@ -217,6 +224,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 102
     Variable: {fileID: 0}
+  holder: -1
   OnFocused:
     m_PersistentCalls:
       m_Calls:
@@ -235,6 +243,9 @@ MonoBehaviour:
   OnFocusedBy:
     m_PersistentCalls:
       m_Calls: []
+  OnUnfocusedBy:
+    m_PersistentCalls:
+      m_Calls: []
   OnPicked:
     m_PersistentCalls:
       m_Calls:
@@ -251,6 +262,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPickedFailed:
+    m_PersistentCalls:
+      m_Calls: []
   OnPrePicked:
     m_PersistentCalls:
       m_Calls:
@@ -272,11 +286,40 @@ MonoBehaviour:
   OnPreDropped:
     m_PersistentCalls:
       m_Calls: []
+  FocusedByReaction:
+    rid: -2
+  UnFocusedByReaction:
+    rid: -2
+  PickedReaction:
+    rid: -2
+  PrePickedReaction:
+    rid: -2
+  DroppedReaction:
+    rid: -2
+  PreDroppedReaction:
+    rid: -2
   rb: {fileID: 1861227801}
+  DestroyRbOnPick:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   m_colliders:
   - {fileID: 1861227800}
   - {fileID: 1861227802}
+  kinematicOnPick:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  disableColliders:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   EditorTabs: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!4 &2088241429246373643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6752457146703861703, guid: 526c14ebaa75f3545bfd894ab2c858f9,

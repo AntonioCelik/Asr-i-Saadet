@@ -1,13 +1,9 @@
 ﻿
 #if UNITY_EDITOR
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.PackageManager.Requests;
 using UnityEditor.PackageManager;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using JetBrains.Annotations;
+using UnityEditor.PackageManager.Requests;
+using UnityEngine;
 
 /// <summary> This Class is use for creating Layers and Tags </summary>
 namespace MalbersAnimations
@@ -30,22 +26,20 @@ namespace MalbersAnimations
             CreateTag("WallRun");
             CreateTag("Stair");
             CreateInputAxe();
-
-           // CheckInputSystem();
+            // CheckInputSystem();
         }
+        // private static void CheckInputSystem()
+        // {
+        //     if (HasPackage("com.unity.inputsystem"))
+        //     {
+        //         SyncNewInputSystemDefine();
+        //     }
+        // }
 
-       // private static void CheckInputSystem()
-       // {
-       //     if (HasPackage("com.unity.inputsystem"))
-       //     {
-       //         SyncNewInputSystemDefine();
-       //     }
-       // }
-
-       //static bool HasPackage(string id) => id.Contains('@') ? list.Result.Any(x => x.packageId == id) : list.Result.Any(x => x.packageId.Split('@')[0] == id);
+        //static bool HasPackage(string id) => id.Contains('@') ? list.Result.Any(x => x.packageId == id) : list.Result.Any(x => x.packageId.Split('@')[0] == id);
 
 
-       
+
 
 
         //CREATE UP DOWN AXIS

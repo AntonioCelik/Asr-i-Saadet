@@ -74,6 +74,11 @@ MonoBehaviour:
   SleepFromMode:
   - {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
   - {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
+  DisableModes: []
+  noModes:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   QueueFrom: []
   ResetFrom: []
   SleepFromStance: []
@@ -108,12 +113,12 @@ MonoBehaviour:
   MovementStrafe: 1
   IdleStrafe: 1
   m_debug: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 4
   SpeedSets: []
   ID: {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
   AirRotation:
     UseConstant: 1
-    ConstantValue: 5
+    ConstantValue: 10
     Variable: {fileID: 0}
   AirMovement:
     UseConstant: 1
@@ -121,7 +126,11 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AirSmooth:
     UseConstant: 1
-    ConstantValue: 5
+    ConstantValue: 10
+    Variable: {fileID: 0}
+  KeepUPIntertia:
+    UseConstant: 1
+    ConstantValue: 1
     Variable: {fileID: 0}
   Jumps:
     UseConstant: 1
@@ -131,17 +140,13 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0.3
     Variable: {fileID: 0}
-  JumpPressed:
+  JumpInterruptRay:
     UseConstant: 1
-    ConstantValue: 0
+    ConstantValue: 0.75
     Variable: {fileID: 0}
   JumpPressedLerp:
     UseConstant: 1
     ConstantValue: 5
-    Variable: {fileID: 0}
-  JumpInterruptRay:
-    UseConstant: 1
-    ConstantValue: 0.75
     Variable: {fileID: 0}
   ResetJump:
   - {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
@@ -158,14 +163,23 @@ MonoBehaviour:
       Variable: {fileID: 0}
     GravityPower:
       UseConstant: 1
-      ConstantValue: 2
+      ConstantValue: 3
+      Variable: {fileID: 0}
+    JumpInterruptRay:
+      UseConstant: 1
+      ConstantValue: 0
       Variable: {fileID: 0}
     StartGravityTime: 10
     AirControl:
       UseConstant: 1
-      ConstantValue: 0
+      ConstantValue: 1
       Variable: {fileID: 0}
     WaitForAnimation: 0
+    JumpPressed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    ClampForward: 0
   - name: Walk
     LastState: {fileID: 0}
     VerticalSpeed: 0.9
@@ -173,18 +187,27 @@ MonoBehaviour:
     JumpTime: 0.5
     Height:
       UseConstant: 1
-      ConstantValue: 5
+      ConstantValue: 4
       Variable: {fileID: 0}
     GravityPower:
       UseConstant: 1
       ConstantValue: 2
       Variable: {fileID: 0}
-    StartGravityTime: 10
-    AirControl:
+    JumpInterruptRay:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    WaitForAnimation: 0
+    StartGravityTime: 10
+    AirControl:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    WaitForAnimation: 1
+    JumpPressed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    ClampForward: 0
   - name: Run
     LastState: {fileID: 0}
     VerticalSpeed: 1.9
@@ -192,16 +215,42 @@ MonoBehaviour:
     JumpTime: 0.3
     Height:
       UseConstant: 1
-      ConstantValue: 5
+      ConstantValue: 4
       Variable: {fileID: 0}
     GravityPower:
       UseConstant: 1
       ConstantValue: 2
       Variable: {fileID: 0}
-    StartGravityTime: 8
-    AirControl:
+    JumpInterruptRay:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
+    StartGravityTime: 8
+    AirControl:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    WaitForAnimation: 1
+    JumpPressed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    ClampForward: 0
+  multipleJumps:
+  - name: Double Jump
+    JumpNumber: 2
+    JumpTime: 0.3
+    Height:
+      UseConstant: 1
+      ConstantValue: 5
+      Variable: {fileID: 0}
+    GravityPower:
+      UseConstant: 1
+      ConstantValue: 3
+      Variable: {fileID: 0}
+    StartGravityTime: 10
+    AirControl:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
     WaitForAnimation: 0
-  multipleJumps: []

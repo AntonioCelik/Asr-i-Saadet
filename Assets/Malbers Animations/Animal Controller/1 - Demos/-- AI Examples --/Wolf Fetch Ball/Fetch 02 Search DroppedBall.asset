@@ -50,7 +50,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   tasks:
   - {fileID: 6245503619316466778, guid: c004e9a063aedbd44889fd54ac006196, type: 2}
-  - {fileID: 11400000, guid: b35b1cd4654a89e409d6ab40a679b94a, type: 2}
+  - {fileID: 3917018728240897692}
   transitions:
   - decision: {fileID: 6999076981581164828}
     trueState: {fileID: 11400000, guid: bbf937877377ee849ad826619d535acf, type: 2}
@@ -61,7 +61,7 @@ MonoBehaviour:
   GizmoStateColor: {r: 0.5149193, g: 0, b: 1, a: 1}
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
-  TasksIndex: -1
+  TasksIndex: 0
   DecisionIndex: -1
 --- !u!114 &3679279294978835924
 MonoBehaviour:
@@ -104,6 +104,34 @@ MonoBehaviour:
   intValue: 0
   floatValue: 0
   debug: 0
+--- !u!114 &3917018728240897692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d55f5af15654a1848a5d62c35156dfe9, type: 3}
+  m_Name: T_Run
+  m_EditorClassIdentifier: 
+  active: 1
+  Description: Change the Speed on the Animal
+  MessageID:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  UpdateInterval: 0.2
+  WaitForPreviousTask: 0
+  affect: 0
+  SpeedSet: Ground
+  SpeedIndex:
+    UseConstant: 1
+    ConstantValue: 3
+    Variable: {fileID: 0}
+  Sprint: 0
+  ResetSprintOnExit: 0
 --- !u!114 &6999076981581164828
 MonoBehaviour:
   m_ObjectHideFlags: 0

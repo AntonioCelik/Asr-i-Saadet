@@ -1,7 +1,6 @@
 ﻿using MalbersAnimations.Scriptables;
 using UnityEngine;
 using MalbersAnimations.Events;
-using MalbersAnimations.Reactions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -45,6 +44,7 @@ namespace MalbersAnimations.Utilities
 
         public GameObjectEvent OnFocused = new();
         public GameObjectEvent OnUnfocused = new();
+        public BoolEvent OnCoolDown = new();
 
         //[SerializeReference, SubclassSelector]
         //public Reaction InteractReaction;
@@ -52,7 +52,7 @@ namespace MalbersAnimations.Utilities
         //public Reaction FocusedReaction;
         //[SerializeReference, SubclassSelector]
         //public Reaction UnFocusedReaction;
-        
+
         public int Index => m_ID;
 
         public bool Active { get => enabled && !InCooldown; set => enabled = value; }
@@ -142,6 +142,14 @@ namespace MalbersAnimations.Utilities
                             Destroy(gameObject, Delay + 0.001f); //Destroy one frame after
                         }
                     }
+
+
+                    if (Cooldown > 0 && !m_Destroy.Value)
+                    {
+                        OnCoolDown.Invoke(true);
+                        this.Delay_Action(Cooldown, () => OnCoolDown.Invoke(false));
+                    }
+
                     return true;
                 }
                 return false;
@@ -183,9 +191,9 @@ namespace MalbersAnimations.Utilities
     [UnityEditor.CustomEditor(typeof(MInteract)), CanEditMultipleObjects]
     public class MInteractEditor : UnityEditor.Editor
     {
-        SerializedProperty m_ID, m_InteractorID, m_Auto, m_singleInteraction, m_Delay, m_Destroy, 
+        SerializedProperty m_ID, m_InteractorID, m_Auto, m_singleInteraction, m_Delay, m_Destroy,
             //InteractReaction, FocusedReaction, UnFocusedReaction,
-            m_CoolDown, events, OnFocused, OnUnfocused, Editor_Tabs1, Description, ShowDescription;
+            m_CoolDown, events, OnFocused, OnUnfocused, OnCoolDown, Editor_Tabs1, Description, ShowDescription;
         protected string[] Tabs1 = new string[] { "General", "Events"/*, "Reactions" */};
         MInteract M;
 
@@ -207,9 +215,10 @@ namespace MalbersAnimations.Utilities
             ShowDescription = serializedObject.FindProperty("ShowDescription");
             Description = serializedObject.FindProperty("Description");
             m_Destroy = serializedObject.FindProperty("m_Destroy");
-          //  InteractReaction = serializedObject.FindProperty("InteractReaction");
-           // FocusedReaction = serializedObject.FindProperty("FocusedReaction");
-           // UnFocusedReaction = serializedObject.FindProperty("UnFocusedReaction");
+            OnCoolDown = serializedObject.FindProperty("OnCoolDown");
+            //  InteractReaction = serializedObject.FindProperty("InteractReaction");
+            // FocusedReaction = serializedObject.FindProperty("FocusedReaction");
+            // UnFocusedReaction = serializedObject.FindProperty("UnFocusedReaction");
 
         }
 
@@ -241,7 +250,7 @@ namespace MalbersAnimations.Utilities
             {
                 case 0: DrawGeneral(); break;
                 case 1: DrawEvents(); break;
-               // case 2: DrawReactions(); break;
+                // case 2: DrawReactions(); break;
                 default:
                     break;
             }
@@ -253,8 +262,9 @@ namespace MalbersAnimations.Utilities
                 using (new EditorGUI.DisabledGroupScope(true))
                 {
                     EditorGUILayout.ObjectField("Interactor",
-                        M.CurrentInteractor != null ? M.CurrentInteractor.Owner : null, typeof(GameObject), false);
+                        M.CurrentInteractor?.Owner, typeof(GameObject), false);
 
+                    Repaint();
                 }
             }
 
@@ -301,6 +311,8 @@ namespace MalbersAnimations.Utilities
             {
                 EditorGUILayout.PropertyField(OnFocused);
                 EditorGUILayout.PropertyField(OnUnfocused);
+                if (M.Cooldown > 0)
+                    EditorGUILayout.PropertyField(OnCoolDown);
             }
         }
     }

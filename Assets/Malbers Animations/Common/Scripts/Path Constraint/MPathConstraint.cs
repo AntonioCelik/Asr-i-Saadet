@@ -371,7 +371,7 @@ namespace MalbersAnimations.PathCreation
             var Inverse_Rot = Quaternion.Inverse(rotation);
             var Target = Inverse_Rot * AlignRot;
 
-          //  var Delta = Quaternion.Slerp(Quaternion.identity, Target, OrientSmoothness * animal.DeltaTime); //Calculate the Delta Align Rotation
+            //  var Delta = Quaternion.Slerp(Quaternion.identity, Target, OrientSmoothness * animal.DeltaTime); //Calculate the Delta Align Rotation
             var Delta = Quaternion.Slerp(Quaternion.identity, Target, OrientSmoothness * Path.OrientSmoothness * animal.DeltaTime); //Calculate the Delta Align Rotation
 
             var Dot = Vector3.Dot(animal.Move_Direction, PathDirection);
@@ -655,18 +655,21 @@ namespace MalbersAnimations.PathCreation
 #endif
         }
 
-#if MALBERS_DEBUG
+#if MALBERS_DEBUG && UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
             if (!Application.isPlaying && animal && debug)
             {
-                Gizmos.color = Color.red;
-                Gizmos.matrix = transform.localToWorldMatrix;
-                Gizmos.DrawWireSphere(Offset, Radius);
+                if (UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(this))
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.matrix = transform.localToWorldMatrix;
+                    Gizmos.DrawWireSphere(Offset, Radius);
 
-                Gizmos.color = Color.white;
-                Gizmos.DrawWireSphere(Vector3.forward * ForwardOffset, 0.1f);
-                Gizmos.DrawLine(Vector3.zero, Vector3.forward * ForwardOffset);
+                    Gizmos.color = Color.white;
+                    Gizmos.DrawWireSphere(Vector3.forward * ForwardOffset, 0.1f);
+                    Gizmos.DrawLine(Vector3.zero, Vector3.forward * ForwardOffset);
+                }
             }
         }
 #endif

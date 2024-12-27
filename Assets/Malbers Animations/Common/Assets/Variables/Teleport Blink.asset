@@ -57,5 +57,7 @@ MonoBehaviour:
   ColorHDRValue: {r: 0, g: 1.0890051, b: 10.680627, a: 1}
   StartMultiplier:
     UseConstant: 1
-    ConstantValue: 0
+    ConstantValue: 1
     Variable: {fileID: 0}
+  clearEmissionMap: 0
+  revertColorAfterLerp: 0

@@ -8,19 +8,19 @@ namespace MalbersAnimations.Utilities
     public class MaterialPropertyLerpSO : ScriptableCoroutine
     {
         [Tooltip("Index of the Material")]
-        public IntReference materialIndex = new IntReference();
-        public FloatReference time = new FloatReference(1f);
-        public AnimationCurve curve = new AnimationCurve(MTools.DefaultCurve);
+        public IntReference materialIndex = new();
+        public FloatReference time = new(1f);
+        public AnimationCurve curve = new(MTools.DefaultCurve);
 
 
         public StringReference propertyName;
         public MaterialPropertyType propertyType = MaterialPropertyType.Float;
 
-        public FloatReference FloatValue = new FloatReference(1f);
+        public FloatReference FloatValue = new(1f);
         public Color ColorValue = Color.white;
         [ColorUsage(true, true)]
         public Color ColorHDRValue = Color.white;
-        public FloatReference StartMultiplier = new FloatReference(1f);
+        public FloatReference StartMultiplier = new(1f);
 
         [Tooltip("Clear the Emission Map while Lerp")]
         public bool clearEmissionMap = false;
@@ -34,8 +34,15 @@ namespace MalbersAnimations.Utilities
         public void LerpMaterial(Component go) => LerpMaterial(go.gameObject);
         public void LerpMaterial(GameObject go)
         {
-            var all = go.transform.root.GetComponentsInChildren<SkinnedMeshRenderer>();
-            var all2 = go.transform.root.GetComponentsInChildren<MeshRenderer>();
+            var Core = go.GetComponentInParent<IObjectCore>();
+
+            if (Core != null) go = Core.transform.gameObject; //Get the Root of the Object Core
+
+            var all = go.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var all2 = go.GetComponentsInChildren<MeshRenderer>();
+
+
+
 
             foreach (var item in all) LerpMaterial(item);
             foreach (var item in all2) LerpMaterial(item);
@@ -45,7 +52,7 @@ namespace MalbersAnimations.Utilities
         {
             var t = target.GetComponent<MeshRenderer>();
 
-            var curv = curve != null ? curve : this.curve;
+            var curv = curve ?? this.curve;
 
             switch (propertyType)
             {
@@ -71,6 +78,12 @@ namespace MalbersAnimations.Utilities
         {
             if (mesh)
             {
+                if (!mesh.material.HasProperty(propertyName))
+                {
+                    Debug.Log($"The Material [{mesh.material.name}]  doesn't have the property [{propertyName.Value}]");
+                    return;
+                }
+
                 IEnumerator ICoroutine = null;
                 switch (propertyType)
                 {
@@ -117,7 +130,14 @@ namespace MalbersAnimations.Utilities
         {
             float elapsedTime = 0;
 
+
             var mat = mesh.materials[materialIndex];
+
+            if (!mat.HasProperty(propertyName))
+            {
+                Debug.LogWarning($"The Material [{mat.name}]  doesn't have the property [{propertyName.Value}] ");
+                yield break;
+            }
 
             Color OriginalColor = mat.GetColor(propertyName);
             Color StartingColor = OriginalColor * StartMultiplier;
@@ -161,8 +181,6 @@ namespace MalbersAnimations.Utilities
 
             Stop(mesh);
         }
-
-
     }
 
     [System.Serializable]

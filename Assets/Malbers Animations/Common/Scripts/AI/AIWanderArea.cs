@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-namespace MalbersAnimations 
+namespace MalbersAnimations
 {
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/ai/wander-area")]
     /// <summary>  Wander Area waypoint used on the Animal to wander around. </summary>
     [AddComponentMenu("Malbers/AI/AI Wander Area")]
     public class AIWanderArea : MWayPoint
     {
-        public enum AreaType { Circle, Box }; 
+        public enum AreaType { Circle, Box };
 
 
         [Tooltip("Type of Area to wander")]
@@ -15,14 +15,14 @@ namespace MalbersAnimations
 
         [Min(0)] public float radius = 5;
 
-        public Vector3 BoxArea = new Vector3(10, 1, 10);   
-        
+        public Vector3 BoxArea = new Vector3(10, 1, 10);
+
 
         [Range(0, 1), Tooltip("Probability of keep wandering on this WayPoint Area")]
-        public float WanderWeight = 1f; 
+        public float WanderWeight = 1f;
 
         public Vector3 Destination { get; internal set; }
-         
+
         private Transform currentNextTarget;
 
         // [SerializeField] private bool isChild;
@@ -35,7 +35,7 @@ namespace MalbersAnimations
         {
             base.OnEnable();
 
-            FindWanderAreas();  
+            FindWanderAreas();
 
             if (!IsChild) GetNextDestination(); //Find the first random destination if it is a Main Wander Area
             currentNextTarget = MainArea.transform; //Store the current next target as this transform
@@ -52,10 +52,10 @@ namespace MalbersAnimations
             {
                 ChildWanderAreas = GetComponentsInChildren<AIWanderArea>();
                 if (ChildWanderAreas != null) foreach (var wa in ChildWanderAreas)
-                    { 
+                    {
                         wa.DebugColor = DebugColor;
                         wa.stoppingDistance = stoppingDistance;
-                    }   
+                    }
             }
         }
 
@@ -63,7 +63,7 @@ namespace MalbersAnimations
         {
             if (!IsChild && ChildWanderAreas != null && ChildWanderAreas.Length > 1) //Means this area has multiple areas inside
             {
-               return ChildWanderAreas[Random.Range(0, ChildWanderAreas.Length)].GetNextDestinationArea(); //Get a random point inlcuding the Main Wander Area
+                return ChildWanderAreas[Random.Range(0, ChildWanderAreas.Length)].GetNextDestinationArea(); //Get a random point inlcuding the Main Wander Area
             }
             else
             {
@@ -89,33 +89,37 @@ namespace MalbersAnimations
 
             MainArea.Destination = Destination; //Super Important
 
-            MDebug.DrawWireSphere(Destination, Color.red, 0.1f, 3);
+            MDebug.DrawWireSphere(Destination, Color.red, 0.1f, 2);
 
             return MainArea.Destination;
         }
 
-        public override Vector3 GetCenterPosition()
+        public override Vector3 GetCenterPosition(int Index)
           => GetNextDestination();
-          //  => MainArea.Destination;
+        //  => MainArea.Destination;
 
         public override float StopDistance() => MainArea.stoppingDistance;
 
         public override float SlowDistance() => MainArea.slowingDistance;
 
-        public override Transform NextTarget() => MainArea.currentNextTarget;
+        public override Transform NextTarget() => MainArea.FindNextTarget();
 
         public override void TargetArrived(GameObject target)
         {
             MainArea.OnTargetArrived.Invoke(target);
+            FindNextTarget();
+        }
 
+        private Transform FindNextTarget()
+        {
             if (NextTargets != null && NextTargets.Count > 0)
             {
                 var probability = UnityEngine.Random.Range(0f, 1f);
 
-                if (probability <= WanderWeight) //Find the next destination on the same wander Area.
+                if (WanderWeight != 0 && probability <= WanderWeight) //Find the next destination on the same wander Area.
                 {
                     GetNextDestination();
-                    currentNextTarget = transform;  //Keep itself as the target
+                    currentNextTarget = MainArea.transform;  //Keep itself as the target
                 }
                 else //Find the next on one of the Next Targets.
                 {
@@ -124,10 +128,12 @@ namespace MalbersAnimations
             }
             else
             {
-                 GetNextDestination();
+                currentNextTarget = MainArea.transform;  //Keep itself as the target
             }
+
+            return currentNextTarget;
         }
-         
+
         private Vector3 RandomPointInBox(Vector3 size)
         {
             return new Vector3(
@@ -252,60 +258,60 @@ namespace MalbersAnimations
             serializedObject.Update();
 
             MalbersEditor.DrawDescription("Type of Waypoint that uses an Area to get the Destination point");
-                if (!isChild)
-                {
-                    UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
-                    {
-                        UnityEditor.EditorGUILayout.BeginHorizontal();
-                        UnityEditor.EditorGUILayout.PropertyField(pointType);
-                        UnityEditor.EditorGUILayout.PropertyField(DebugColor, GUIContent.none, GUILayout.Width(40));
-                        UnityEditor.EditorGUILayout.EndHorizontal();
-                        UnityEditor.EditorGUILayout.PropertyField(m_height); 
-                        UnityEditor.EditorGUILayout.PropertyField(stoppingDistance);
-                        UnityEditor.EditorGUILayout.PropertyField(slowingDistance);
-                        UnityEditor.EditorGUILayout.PropertyField(WaitTime);
-                    }
-                    UnityEditor.EditorGUILayout.EndVertical();
-                }
+            if (!isChild)
+            {
                 UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
                 {
-                    UnityEditor.EditorGUILayout.PropertyField(m_AreaType);
-                    var aretype = (AIWanderArea.AreaType)m_AreaType.intValue;
-
-                    switch (aretype)
-                    {
-                        case AIWanderArea.AreaType.Circle:
-                            UnityEditor.EditorGUILayout.PropertyField(radius);
-
-                            break;
-                        case AIWanderArea.AreaType.Box:
-                            UnityEditor.EditorGUILayout.PropertyField(BoxArea);
-                            break;
-                        default:
-                            break;
-                    }
-
+                    UnityEditor.EditorGUILayout.BeginHorizontal();
+                    UnityEditor.EditorGUILayout.PropertyField(pointType);
+                    UnityEditor.EditorGUILayout.PropertyField(DebugColor, GUIContent.none, GUILayout.Width(40));
+                    UnityEditor.EditorGUILayout.EndHorizontal();
+                    UnityEditor.EditorGUILayout.PropertyField(m_height);
+                    UnityEditor.EditorGUILayout.PropertyField(stoppingDistance);
+                    UnityEditor.EditorGUILayout.PropertyField(slowingDistance);
+                    UnityEditor.EditorGUILayout.PropertyField(WaitTime);
                 }
                 UnityEditor.EditorGUILayout.EndVertical();
+            }
+            UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
+            {
+                UnityEditor.EditorGUILayout.PropertyField(m_AreaType);
+                var aretype = (AIWanderArea.AreaType)m_AreaType.intValue;
 
-                if (isChild)
+                switch (aretype)
                 {
-                    UnityEditor.EditorGUILayout.HelpBox("Type, Stop Distance, Wait Time, and Next Destination properties are handled by the parent Wander Area",
-                        UnityEditor.MessageType.Info);
+                    case AIWanderArea.AreaType.Circle:
+                        UnityEditor.EditorGUILayout.PropertyField(radius);
+
+                        break;
+                    case AIWanderArea.AreaType.Box:
+                        UnityEditor.EditorGUILayout.PropertyField(BoxArea);
+                        break;
+                    default:
+                        break;
                 }
-                else
+
+            }
+            UnityEditor.EditorGUILayout.EndVertical();
+
+            if (isChild)
+            {
+                UnityEditor.EditorGUILayout.HelpBox("Type, Stop Distance, Wait Time, and Next Destination properties are handled by the parent Wander Area",
+                    UnityEditor.MessageType.Info);
+            }
+            else
+            {
+                UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
                 {
-                    UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
-                    {
-                        UnityEditor.EditorGUILayout.LabelField("Next Destination", UnityEditor.EditorStyles.boldLabel);
-                        UnityEditor.EditorGUILayout.PropertyField(WanderWeight);
-                        UnityEditor.EditorGUI.indentLevel++;
-                        UnityEditor.EditorGUILayout.PropertyField(nextWayPoints, true);
-                        UnityEditor.EditorGUI.indentLevel--;
-                    }
-                    UnityEditor.EditorGUILayout.EndVertical();
-                    UnityEditor.EditorGUILayout.PropertyField(OnTargetArrived);
+                    UnityEditor.EditorGUILayout.LabelField("Next Destination", UnityEditor.EditorStyles.boldLabel);
+                    UnityEditor.EditorGUILayout.PropertyField(WanderWeight);
+                    UnityEditor.EditorGUI.indentLevel++;
+                    UnityEditor.EditorGUILayout.PropertyField(nextWayPoints, true);
+                    UnityEditor.EditorGUI.indentLevel--;
                 }
+                UnityEditor.EditorGUILayout.EndVertical();
+                UnityEditor.EditorGUILayout.PropertyField(OnTargetArrived);
+            }
             serializedObject.ApplyModifiedProperties();
         }
     }

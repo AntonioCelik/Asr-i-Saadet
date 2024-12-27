@@ -30,6 +30,8 @@ MonoBehaviour:
   GizmoStateColor: {r: 0, g: 1, b: 0.1323154, a: 1}
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
+  TasksIndex: -1
+  DecisionIndex: 1
 --- !u!114 &2376756477599933328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,7 +53,10 @@ MonoBehaviour:
   UpdateInterval: 0.2
   WaitForPreviousTask: 0
   affect: 0
-  stance: {fileID: 11400000, guid: 87ae38bfe93fc3f449ecd25863e2a6fe, type: 2}
+  stanceOnEnter: {fileID: 11400000, guid: 87ae38bfe93fc3f449ecd25863e2a6fe, type: 2}
+  stanceOnExit: {fileID: 0}
+  restoreDefaultOnEnter: 0
+  restoreDefaultOnExit: 0
 --- !u!114 &6004260036718337227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +130,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AssignTarget: 1
   MoveToTarget: 0
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 
@@ -164,6 +168,8 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  Sprint: 0
+  ResetSprintOnExit: 0
 --- !u!114 &8305788677959419912
 MonoBehaviour:
   m_ObjectHideFlags: 0

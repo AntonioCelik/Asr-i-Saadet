@@ -146,7 +146,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AssignTarget: 1
   MoveToTarget: 1
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 

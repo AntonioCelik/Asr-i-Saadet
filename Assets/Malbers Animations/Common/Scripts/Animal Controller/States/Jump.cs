@@ -18,9 +18,7 @@ namespace MalbersAnimations.Controller
         [Tooltip("Lerp Value for Pressing Jump. THis will smooth out exiting the height of the jump ")]
         public float JumpPressedLerp = 5;
 
-        private float JumpPressHeight_Value = 1;
-        private float JumpPressForward = 1;
-        private float JumpPressForwardAdditive = 0;
+
 
         [Tooltip("Can the Animal be Rotated while Jumping?")]
         public BoolReference AirControl = new(true);
@@ -39,8 +37,16 @@ namespace MalbersAnimations.Controller
         public int lockJumpProfile = -1;
 
 
+
+        private float JumpPressHeight_Value = 1;
+        private float JumpPressForward = 1;
+        private float JumpPressForwardAdditive = 0;
+
+        [Tooltip("If the animal is going up a hill, the Jump will align to the Slope of the Terrain.")]
+        public bool KeepHeightOnHighSlope = false;
+
 #if UNITY_2020_3_OR_NEWER
-        [NonReorderable]
+        //  [NonReorderable]
 #endif
         public List<JumpProfile> jumpProfiles = new();
         protected MSpeed JumpSpeed;
@@ -71,7 +77,7 @@ namespace MalbersAnimations.Controller
         /// <summary> Use this to lock jumps profiles and not use the Vertical to check which is the valid profile </summary>
         public void LockJumpProfile(int index)
         {
-            index = Mathf.Clamp(index, 0, jumpProfiles.Count-1);  
+            index = Mathf.Clamp(index, 0, jumpProfiles.Count - 1);
             activeJump = jumpProfiles[index];
             animal.VerticalSmooth = activeJump.VerticalSpeed;
             animal.SetAnimParameter(animal.hash_Vertical, animal.VerticalSmooth);
@@ -109,12 +115,12 @@ namespace MalbersAnimations.Controller
             if (JumpsPerformanced < Jumps)
             {
                 //meaning we are Transition from itself and the animation has not cover its 25% yet
-                if (ActiveState == this && animal.StateTime < 0.25f)   return;
+                if (ActiveState == this && animal.StateTime < 0.25f) return;
 
-                base.Activate();        
+                base.Activate();
 
                 //Make sure while you are on Jump State above the list cannot check for Trying to activate State below him
-                IgnoreLowerStates = true;          
+                IgnoreLowerStates = true;
 
                 animal.currentSpeedModifier.animator = 1;
 
@@ -153,10 +159,10 @@ namespace MalbersAnimations.Controller
                 if (animal.TerrainSlope > 0) //Means we are jumping uphill
                     animal.UseCustomRotation = true;
             }
-            else if (CurrentAnimTag == ExitTagHash && animal.hash_StateOn == 0) //Do not do this on State ON Trigger 
+            else if (CurrentAnimTag == ExitTagHash) //Do not do this on State ON Trigger 
             {
                 CanExit = true;
-                Debugging($"[EnterTag - {ExitTag.Value}] - Allow Exit");
+                Debugging($"[Using ExitTag - {ExitTag.Value}] - Allow Exit");
                 AllowExit();
             }
         }
@@ -190,7 +196,7 @@ namespace MalbersAnimations.Controller
             JumpPressForwardAdditive = 0;
             //IsPersistent = true;
             animal.UseGravity = false;
-            animal.ResetGravityValues();
+            animal.Gravity_ResetValues();
 
             JumpSpeed = new MSpeed(animal.CurrentSpeedModifier) //Inherit the Vertical and the Lerps
             {
@@ -206,7 +212,7 @@ namespace MalbersAnimations.Controller
             animal.SetCustomSpeed(JumpSpeed);       //Set the Current Speed to the Jump Speed Modifier
             JumpStartDirection = animal.Forward;
 
-            if (animal.TerrainSlope > 0 && animal.MovementDetected)    //Means we are jumping uphill HACK
+            if (animal.TerrainSlope > 0 && animal.MovementDetected && KeepHeightOnHighSlope)    //Means we are jumping uphill HACK
                 animal.UseCustomRotation = true;
 
 
@@ -244,15 +250,15 @@ namespace MalbersAnimations.Controller
                 activeJump.CliffTime = new RangedFloat(0.333f, 0.666f);
             }
 
-            Debugging($"Jump Profile: <B>[{activeJump.name}]</B>");
+            Debugging($"Jump Profile: <B>[{activeJump.name}] - Speed [{activeJump.VerticalSpeed}] Current Speed: [{animal.VerticalSmooth:F2}]</B>");
         }
 
         public override void OnStateMove(float deltaTime)
         {
             if (InCoreAnimation)
-            { 
-                if (animal.StateTime >= activeJump.fallingTime) IsPersistent = false; 
-               //Do this after the Fall time has passed! IMPORTANT!
+            {
+                if (animal.StateTime >= activeJump.fallingTime) IsPersistent = false;
+                //Do this after the Fall time has passed! IMPORTANT!
 
 
 
@@ -324,8 +330,8 @@ namespace MalbersAnimations.Controller
         public override void TryExitState(float DeltaTime)
         {
             if (animal.StateTime >= activeJump.fallingTime && !OneCastingFall_Ray)
-            { 
-                Check_for_Falling(); 
+            {
+                Check_for_Falling();
             }
 
             if (activeJump.ExitTime >= activeJump.fallingTime && animal.StateTime >= activeJump.ExitTime)
@@ -393,7 +399,7 @@ namespace MalbersAnimations.Controller
 
                 if (Physics.Raycast(MainPivot, Direction, out JumpRay, RayLength, GroundLayer, IgnoreTrigger))
                 {
-                    Debugging($"Min Distance to complete <B>[{activeJump.name}]</B> -> {JumpRay.distance:F4}");
+                    Debugging($"Min Distance to complete <B>[{activeJump.name}]-> <Color=green>[[{JumpRay.distance:F4}]]</color></B>");
                     if (m_debug) MDebug.DebugTriangle(JumpRay.point, 0.1f, Color.yellow);
 
                     var GroundSlope = Vector3.Angle(JumpRay.normal, animal.UpVector);
@@ -445,7 +451,7 @@ namespace MalbersAnimations.Controller
             }
         }
 
-      
+
 
 
 

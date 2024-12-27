@@ -33,7 +33,7 @@ MonoBehaviour:
   General:
     modify: 7295
     RootMotion: 1
-    Sprint: 1
+    Sprint: 0
     Gravity: 0
     Grounded: 1
     OrientToGround: 1
@@ -54,6 +54,11 @@ MonoBehaviour:
   IncludeSleepState: 1
   SleepFromState: []
   SleepFromMode: []
+  DisableModes: []
+  noModes:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   QueueFrom: []
   ResetFrom: []
   SleepFromStance: []

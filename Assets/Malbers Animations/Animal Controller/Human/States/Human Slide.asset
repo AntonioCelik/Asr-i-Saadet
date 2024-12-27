@@ -93,7 +93,7 @@ MonoBehaviour:
   MovementStrafe: 1
   IdleStrafe: 1
   m_debug: 1
-  Editor_Tabs1: 1
+  Editor_Tabs1: 0
   SpeedSets:
   - name: Slide
     StartVerticalIndex:
@@ -207,7 +207,11 @@ MonoBehaviour:
     Variable: {fileID: 0}
   EnterAngleSlope:
     UseConstant: 1
-    ConstantValue: 45
+    ConstantValue: 30
+    Variable: {fileID: 0}
+  FacingAngleSlope:
+    UseConstant: 1
+    ConstantValue: 90
     Variable: {fileID: 0}
   ExitSpeed:
     UseConstant: 1

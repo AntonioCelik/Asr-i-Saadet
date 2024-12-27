@@ -25,7 +25,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   WaitForAllTasks: 0
   waitForTask: -1
-  list_index: 0
+  list_index: 1
   decisions:
   - {fileID: 937891121743794051}
   - {fileID: 3004435546196534271}
@@ -59,7 +59,7 @@ MonoBehaviour:
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
   TasksIndex: -1
-  DecisionIndex: -1
+  DecisionIndex: 0
 --- !u!114 &937891121743794051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +100,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AssignTarget: 1
   MoveToTarget: 0
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 
@@ -196,7 +195,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AssignTarget: 1
   MoveToTarget: 0
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 

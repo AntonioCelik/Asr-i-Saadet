@@ -14,6 +14,10 @@ namespace MalbersAnimations.Conditions
     [AddComponentMenu("Malbers/Interactions/Conditions"), DisallowMultipleComponent]
     public class MConditions : MonoBehaviour
     {
+        [Tooltip("Evaluate the conditions on Enable")]
+        public bool EvaluateOnEnable = false;
+        public bool EvaluateOnDisable = false;
+
         [SerializeReference]
         public List<MCondition> conditions;
 
@@ -25,9 +29,20 @@ namespace MalbersAnimations.Conditions
         public bool debug;
 
 #pragma warning disable 414
-        [HideInInspector,SerializeField] private int SelectedState = -1;
+        [HideInInspector, SerializeField] private int SelectedState = -1;
         [HideInInspector, SerializeField] private bool showResponse = true;
 #pragma warning restore 414
+
+
+        private void OnEnable()
+        {
+            if (EvaluateOnEnable) TryEvaluate();
+        }
+
+        private void OnDisable()
+        {
+            if (EvaluateOnDisable) TryEvaluate();
+        }
 
         /// <summary> Set the Target of the conditions depending of the Object Type</summary>
         public virtual void SetTarget(UnityEngine.Object target)
@@ -47,13 +62,11 @@ namespace MalbersAnimations.Conditions
             TryEvaluate();
         }
 
-        /// <summary>
-        /// Evaluate all conditions when
-        /// </summary>
+        /// <summary> Evaluate all conditions when  </summary>
         /// <param name="value"></param>
         public void Evaluate_OnTrue(bool value)
         {
-           if (value) TryEvaluate();
+            if (value) TryEvaluate();
         }
         public void Evaluate_OnFalse(bool value)
         {
@@ -103,8 +116,10 @@ namespace MalbersAnimations.Conditions
                     Debuggin(c, nextResult);
                     result = c.OrAnd ? (result || nextResult) : (result && nextResult);
                 }
-                if (result) Then.Invoke();
-                else Else.Invoke();
+                if (result)
+                    Then.Invoke();
+                else
+                    Else.Invoke();
 
 
                 if (debug) Debug.Log($"[{name}] → Conditions Result → <B><color={(result ? "green" : "red")}>[{result}] </color></B>", this);
@@ -118,7 +133,7 @@ namespace MalbersAnimations.Conditions
 
         private void Debuggin(MCondition c, bool result)
         {
-            if (debug) Debug.Log($"[{name}] →  Cond: <B>[{c.GetType().Name}] {(c.invert ? "[!]" : " ")}  → <color={(result ? "green" : "red")}>[{result}] </color></B>.");
+            if (debug) Debug.Log($"[{name}] →  Cond: <B>[{c.GetType().Name}] {(c.invert ? "[!]" : " ")}  → <color={(result ? "green" : "red")}>[{result}] </color></B>.", this);
         }
     }
 
@@ -129,7 +144,7 @@ namespace MalbersAnimations.Conditions
     {
         SerializedObject so;
         MConditions M;
-        SerializedProperty conditions, Then, Else, SelectedState, showResponse,
+        SerializedProperty conditions, Then, Else, SelectedState, showResponse, EvaluateOnEnable, EvaluateOnDisable,
             debug;
 
         private List<Type> StatesType = new();
@@ -142,11 +157,13 @@ namespace MalbersAnimations.Conditions
             M = (MConditions)target;
             conditions = so.FindProperty("conditions");
             Then = so.FindProperty("Then");
+            Then = so.FindProperty("Then");
             Else = so.FindProperty("Else");
             debug = so.FindProperty("debug");
             SelectedState = so.FindProperty("SelectedState");
             showResponse = so.FindProperty("showResponse");
-
+            EvaluateOnEnable = so.FindProperty("EvaluateOnEnable");
+            EvaluateOnDisable = so.FindProperty("EvaluateOnDisable");
 
             Reo_List_States = new ReorderableList(serializedObject, conditions, true, true, true, true)
             {
@@ -164,19 +181,108 @@ namespace MalbersAnimations.Conditions
 
             Reo_List_States.index = SelectedState.intValue;
         }
+        public override void OnInspectorGUI()
+        {
+            MalbersEditor.DrawDescription($"Global Conditions. Call MConditions.Evaluate() to invoke the response");
+
+            so.Update();
+
+            if (Application.isPlaying)
+            {
+                if (GUILayout.Button("Evaluate All"))
+                {
+                    M.TryEvaluate();
+                }
+            }
+
+            Reo_List_States.DoLayoutList();
+
+            var index = Mathf.Clamp(Reo_List_States.index, -1, Reo_List_States.count);
+
+            if (index != -1)
+            {
+                var element = conditions.GetArrayElementAtIndex(index);
+
+                if (element != null)
+                {
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        using (new GUILayout.HorizontalScope())
+                        {
+                            var dC = GUI.backgroundColor;
+                            GUI.backgroundColor = MTools.MGreen;
+
+                            EditorGUI.indentLevel++;
+                            element.isExpanded = GUILayout.Toggle(element.isExpanded,
+                                $"Condition [{index}] : [{M.conditions[index].Name}] ",
+                                EditorStyles.foldoutHeader, GUILayout.MinWidth(40));
+                            EditorGUI.indentLevel--;
+
+                            GUI.backgroundColor = dC;
+
+
+
+                            SerializedObject elementSo = new(element.objectReferenceValue);
+                            var invert = elementSo.FindProperty("invert");
+
+                            elementSo.Update();
+                            GUI.color = invert.boolValue ? Color.red : dC;
+                            invert.boolValue = GUILayout.Toggle(invert.boolValue, new GUIContent("NOT", "Inverts the result of the condition"),
+                               EditorStyles.miniButton, GUILayout.Width(38));
+                            GUI.color = dC;
+                            elementSo.ApplyModifiedProperties();
+                        }
+
+                        if (element.isExpanded)
+                        {
+                            MTools.DrawObjectReferenceInspector(element);
+
+                        }
+                    }
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+
+                        showResponse.boolValue = MalbersEditor.Foldout(showResponse.boolValue, "Response (Then-Else)");
+
+                        if (showResponse.boolValue)
+                        {
+                            EditorGUILayout.PropertyField(Then);
+                            EditorGUILayout.PropertyField(Else);
+                        }
+                    }
+                }
+            }
+
+            so.ApplyModifiedProperties();
+        }
+
 
         private void Draw_Header_State(Rect rect)
         {
             var r = new Rect(rect);
-            r.x += 13;
-            r.width -= 60;
+            r.x += 6;
+            r.width = 300;
 
             EditorGUI.LabelField(r, new GUIContent("       Conditions", "Description or Name for the Condition"), EditorStyles.boldLabel);
-            Rect R_2 = new Rect(rect.width, rect.y, 25, EditorGUIUtility.singleLineHeight - 3);
+
+            Rect R_2 = new(rect.width + 4, rect.y - 1, 25, EditorGUIUtility.singleLineHeight - 3);
+
+            Rect R_3 = new(rect.width - 76, rect.y - 1, 78, EditorGUIUtility.singleLineHeight);
+            Rect R_4 = new(rect.width - 155, rect.y - 1, 78, EditorGUIUtility.singleLineHeight);
 
             MalbersEditor.DrawDebugIcon(R_2, debug);
 
+            // var ON = EvaluateOnEnable.boolValue;
+            // var currentGUIColor = GUI.color;
+            //GUI.color = ON ? Color.green : currentGUIColor;
+            EvaluateOnEnable.boolValue = GUI.Toggle(R_4, EvaluateOnEnable.boolValue, _OnEnableG, EditorStyles.miniButton);
+            EvaluateOnDisable.boolValue = GUI.Toggle(R_3, EvaluateOnDisable.boolValue, _OnDisableG, EditorStyles.miniButton);
+            // GUI.color = currentGUIColor;
         }
+
+
+        private GUIContent _OnEnableG = new("On Enable", "Evaluate all conditions on Enable");
+        private GUIContent _OnDisableG = new("On Disable", "Evaluate all conditions on Disable");
 
         private void Draw_Element_State(Rect rect, int index, bool isActive, bool isFocused)
         {
@@ -292,86 +398,7 @@ namespace MalbersAnimations.Conditions
             SelectedState.intValue = list.index;
             EditorUtility.SetDirty(target);
         }
-
         private void Selected_Cond(ReorderableList list) => SelectedState.intValue = list.index;
-
-        public override void OnInspectorGUI()
-        {
-            MalbersEditor.DrawDescription($"Global Conditions. Call MConditions.Evaluate() to invoke the response");
-
-            so.Update();
-
-            if (Application.isPlaying)
-            {
-                if (GUILayout.Button("Evaluate All"))
-                {
-                    M.TryEvaluate();
-                }
-            }
-
-            Reo_List_States.DoLayoutList();
-
-            var index = Mathf.Clamp(Reo_List_States.index, -1, Reo_List_States.count);
-
-            if (index != -1)
-            {
-                var element = conditions.GetArrayElementAtIndex(index);
-
-                if (element != null)
-                {
-                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
-                    {
-                        using (new GUILayout.HorizontalScope())
-                        {
-                            var dC = GUI.backgroundColor;
-                            GUI.backgroundColor = MTools.MGreen;
-
-                            EditorGUI.indentLevel++;
-                            element.isExpanded = GUILayout.Toggle(element.isExpanded,
-                                $"Condition [{index}] : [{M.conditions[index].Name}] ",
-                                EditorStyles.foldoutHeader, GUILayout.MinWidth(40));
-                            EditorGUI.indentLevel--;
-
-                            GUI.backgroundColor = dC;   
-
-
-
-                            SerializedObject elementSo = new(element.objectReferenceValue);
-                            var invert = elementSo.FindProperty("invert");
-
-                            elementSo.Update();  
-                            GUI.color = invert.boolValue ? Color.red : dC;
-                            invert.boolValue = GUILayout.Toggle(invert.boolValue, new GUIContent("NOT", "Inverts the result of the condition"),
-                               EditorStyles.miniButton, GUILayout.Width(38));
-                            GUI.color = dC;
-                            elementSo.ApplyModifiedProperties();
-                        }
-
-                        if (element.isExpanded)
-                        {
-                            MTools.DrawObjectReferenceInspector(element);
-
-                        }
-                    }
-                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
-                    {
-
-                        showResponse.boolValue = MalbersEditor.Foldout(showResponse.boolValue, "Response (Then-Else)");
-
-                        if (showResponse.boolValue)
-                        {
-                            EditorGUILayout.PropertyField(Then);
-                            EditorGUILayout.PropertyField(Else);
-                        }
-                    }
-                }
-            }
-
-            so.ApplyModifiedProperties();
-        }
-
-
-
         protected virtual void ShowConditionEditor(SerializedObject serializedObject)
         {
             var skip = 1;

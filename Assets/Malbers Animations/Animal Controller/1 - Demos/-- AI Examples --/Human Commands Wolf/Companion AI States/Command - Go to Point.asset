@@ -36,7 +36,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
-  MoveToTarget: 0
+  MoveToTarget: 1
 --- !u!114 &-7115772963515801959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +77,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AssignTarget: 1
   MoveToTarget: 0
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 
@@ -227,3 +226,5 @@ MonoBehaviour:
   GizmoStateColor: {r: 0, g: 1, b: 0.1323154, a: 1}
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
+  TasksIndex: 0
+  DecisionIndex: -1

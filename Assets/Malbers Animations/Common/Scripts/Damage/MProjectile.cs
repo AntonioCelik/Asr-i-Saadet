@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using MalbersAnimations.Controller;
-using UnityEngine.UI;
 
 
 #if UNITY_EDITOR
@@ -13,7 +12,7 @@ using UnityEditor;
 namespace MalbersAnimations.Weapons
 {
     public enum ProjectileRotation { None, FollowTrajectory, Random, Axis };
-    public enum ImpactBehaviour { None, StickOnSurface, DestroyOnImpact, ActivateRigidBody};
+    public enum ImpactBehaviour { None, StickOnSurface, DestroyOnImpact, ActivateRigidBody };
 
     [AddComponentMenu("Malbers/Damage/Projectile")]
     [SelectionBase]
@@ -109,8 +108,8 @@ namespace MalbersAnimations.Weapons
 
         protected virtual void Awake()
         {
-           if (!rb) rb = GetComponent<Rigidbody>();
-           if(!m_collider) m_collider = GetComponentInChildren<Collider>();
+            if (!rb) rb = GetComponent<Rigidbody>();
+            if (!m_collider) m_collider = GetComponentInChildren<Collider>();
 
 
             m_audio = GetComponent<AudioSource>(); //Gets the Weapon Source
@@ -132,7 +131,7 @@ namespace MalbersAnimations.Weapons
 
 
         /// <summary> Prepare the Projectile for firing </summary>
-        public virtual void Prepare(GameObject Owner, Vector3 Gravity, 
+        public virtual void Prepare(GameObject Owner, Vector3 Gravity,
             Vector3 ProjectileVelocity, LayerMask HitLayer, QueryTriggerInteraction triggerInteraction)
         {
             this.Layer = HitLayer;
@@ -142,9 +141,9 @@ namespace MalbersAnimations.Weapons
             this.Velocity = ProjectileVelocity;
             this.MaxForce = Velocity.magnitude;
             this.MinForce = Velocity.magnitude;
-            Debugging("Projectile Prepared",this);
+            Debugging("Projectile Prepared", this);
         }
-        
+
         public virtual void Fire(Vector3 ProjectileVelocity)
         {
             this.Velocity = ProjectileVelocity;
@@ -177,7 +176,7 @@ namespace MalbersAnimations.Weapons
 
             if (rb)
             {
-            
+
                 EnableRigidBody();
                 rb.velocity = Vector3.zero; //Reset the velocity IMPORTANT!
 
@@ -192,9 +191,9 @@ namespace MalbersAnimations.Weapons
                 //  Debug.Log("RIGID BODY Gravity");
                 rb.AddForce(Velocity, ForceMode.VelocityChange);
             }
-           
-                StartCoroutine(FlyingProjectile()); //Trajectory movement is done here.
-              
+
+            StartCoroutine(FlyingProjectile()); //Trajectory movement is done here.
+
 
             OnFire.Invoke();
 
@@ -232,7 +231,7 @@ namespace MalbersAnimations.Weapons
 
             if (Prev_pos == Vector3.zero) Prev_pos = transform.position;
 
-            ProjectileImpact(other.rigidbody, other.collider, other.contacts[0].point, (other.collider.bounds.center - m_collider.transform.position).normalized); 
+            ProjectileImpact(other.rigidbody, other.collider, other.contacts[0].point, (other.collider.bounds.center - m_collider.transform.position).normalized);
 
         }
 
@@ -273,7 +272,7 @@ namespace MalbersAnimations.Weapons
             while (!HasImpacted && enabled)
             {
                 var time = deltatime * step;
-                var Gravitytime =  deltatime * (step - NoGravityStep);
+                var Gravitytime = deltatime * (step - NoGravityStep);
 
                 Vector3 next_pos = (start + Velocity * time) + (Gravitytime * Gravitytime * Gravity / 2);
 
@@ -288,13 +287,13 @@ namespace MalbersAnimations.Weapons
                 }
                 else
                 {
-                   // rb.velocity = Direction;
+                    // rb.velocity = Direction;
                     rb.MovePosition(Prev_pos);
                 }
 
                 Direction = (next_pos - Prev_pos);
 
-               
+
 
                 Debug.DrawLine(Prev_pos, next_pos, Color.yellow);
                 if (Radius > 0)
@@ -307,7 +306,7 @@ namespace MalbersAnimations.Weapons
 
                 var Length = Vector3.Distance(next_pos, Prev_pos);
                 //if ( Physics.Linecast(Prev_pos, next_pos,  out RaycastHit hit,  Layer, triggerInteraction))
-                if (Physics.SphereCast(Prev_pos, Radius, Direction,  out RaycastHit hit, Length, Layer, triggerInteraction))
+                if (Physics.SphereCast(Prev_pos, Radius, Direction, out RaycastHit hit, Length, Layer, triggerInteraction))
                 {
                     if (!IsInvalid(hit.collider))
                     {
@@ -333,7 +332,7 @@ namespace MalbersAnimations.Weapons
                     TraveledDistance += Direction.magnitude;
                     NoGravityStep++;
                 }
-                 
+
 
 
                 Prev_pos = next_pos;
@@ -345,18 +344,25 @@ namespace MalbersAnimations.Weapons
             Debug.Log("exit one");
             yield return null;
         }
-       
+
 
         public virtual void ProjectileImpact(Rigidbody targetRB, Collider collider, Vector3 HitPosition, Vector3 normal)
         {
             if (!Enabled) return;
 
-            Debugging($"<color=yellow> <b>[Projectile Impact] </b> [{collider.name}] </color>",this);  //Debug
+            Debugging($"<color=yellow> <b>[Projectile Impact] </b> [{collider.name}] </color>", this);  //Debug
 
             HasImpacted = true;
             this.HitPosition = HitPosition; //Store the Hit position of the Projectile
 
             StopAllCoroutines();
+
+            if (MissAttack())
+            {
+                Debugging("Destroy Projectile Missed", null);
+                Destroy(gameObject);
+                return;
+            }
 
             //if there's no collider OR the projectile collider is a trigger
             if (!m_collider || m_collider.isTrigger)
@@ -370,9 +376,9 @@ namespace MalbersAnimations.Weapons
             damagee = collider.GetComponentInParent<IMDamage>();                      //Get the Animal on the Other collider
             //Store the Last Collider that the animal hit
             if (damagee != null) { damagee.HitCollider = collider; }
-            
+
             TryDamage(damagee, statModifier);
-         
+
 
             // TryPhysics(targetRB, collider, Direction, Force);
             //Add a force to the Target RigidBody
@@ -382,45 +388,50 @@ namespace MalbersAnimations.Weapons
             OnHitPosition.Invoke(HitPosition);
 
 
-            //IF it has an animation means is a Character ??
-            var ClosestTransform = !collider.gameObject.FindComponent<Animator>() ? collider.transform : 
-                MTools.GetClosestTransform(HitPosition, collider.transform, Layer);
+            var hasAnimator = collider.gameObject.GetComponentInParent<Animator>();
+            var RootBone = collider.transform;
+            if (hasAnimator != null) { RootBone = hasAnimator.avatarRoot; }
 
+            var ClosestTransform = collider.transform; //If the collider is a MeshCollider then use the same transform (To avoid errors with the ClosestPoint
 
-            //THIS NEEDS A BETTER SOLUTION!!!
-
-            //Meaning it found a nearest transform
-            if (ClosestTransform != collider.transform)
+            if (collider is not MeshCollider && collider is not TerrainCollider && !collider.gameObject.isStatic && hasAnimator)
             {
-                var colTranform = ClosestTransform.GetComponent<Collider>();
+                ClosestTransform = MTools.GetClosestTransform(HitPosition, RootBone, Layer);
 
-                if (colTranform != null && !colTranform.isTrigger && colTranform is not MeshCollider)
+                //Meaning it found a nearest transform
+                if (ClosestTransform != collider.transform)
                 {
-                    HitPosition = colTranform.ClosestPoint(HitPosition);
-                    ClosestTransform = colTranform.transform;
-                }
-                else
-                {
-                    //find the closes point in the uper bone or the lower bone
-                    var MainPos = ClosestTransform.parent.position;
+                    var colTranform = ClosestTransform.GetComponent<Collider>();
 
-                    //find the parent bone
-                    var parentPoint = ClosestTransform.parent != null ? ClosestTransform.parent.position : MainPos;
+                    if (colTranform != null && !colTranform.isTrigger && colTranform is not MeshCollider)
+                    {
+                        HitPosition = colTranform.ClosestPoint(HitPosition);
+                    }
+                    else
+                    {
+                        //find the closes point in the uper bone or the lower bone
+                        var MainPos = ClosestTransform.position;
 
-                    //find the child bone
-                    var ChildPoint = ClosestTransform.childCount > 0 ? ClosestTransform.GetChild(0).position : MainPos;
+                        //find the parent bone
+                        var parentPoint = ClosestTransform.parent != null ? ClosestTransform.parent.position : MainPos;
 
-                    var P1 = MTools.ClosestPointOnLine(HitPosition, ChildPoint, MainPos);
-                    var P2 = MTools.ClosestPointOnLine(HitPosition, parentPoint, MainPos);
+                        //find the child bone
+                        var ChildPoint = ClosestTransform.childCount > 0 ? ClosestTransform.GetChild(0).position : MainPos;
 
-                    var Dist1 = Vector3.Distance(P1, MainPos);
-                    var Dist2 = Vector3.Distance(P2, MainPos);
+                        var P1 = MTools.ClosestPointOnLine(HitPosition, ChildPoint, MainPos);
+                        var P2 = MTools.ClosestPointOnLine(HitPosition, parentPoint, MainPos);
 
-                    HitPosition = Dist1 < Dist2 ? P1 : P2;
+                        var Dist1 = Vector3.Distance(P1, MainPos);
+                        var Dist2 = Vector3.Distance(P2, MainPos);
+
+                        HitPosition = Dist1 < Dist2 ? P1 : P2;
+                    }
                 }
             }
 
             TryHitEffectProjectile(HitPosition, normal, ClosestTransform);
+
+
 
             switch (impactBehaviour)
             {
@@ -430,15 +441,15 @@ namespace MalbersAnimations.Weapons
                     Stick_On_Surface(ClosestTransform, HitPosition);
                     break;
                 case ImpactBehaviour.DestroyOnImpact:
-                    Debugging("DestroyOnImpact",null);
+                    Debugging("DestroyOnImpact", null);
                     Destroy(gameObject);
                     return;
                 case ImpactBehaviour.ActivateRigidBody:
                     EnableRigidBody();
                     Enable_Collider();
-                    
+
                     if (rb) rb.drag = DragOnImpact;
-                    
+
                     Debugging("Activate Rigid Body", null);
                     break;
                 default:
@@ -465,12 +476,12 @@ namespace MalbersAnimations.Weapons
             }
         }
 
-       protected virtual void DisableRigidBody()
+        protected virtual void DisableRigidBody()
         {
             if (rb)
             {
                 //For Kinematic!!= CollisionDetectionMode.Discrete;
-                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative; 
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
                 rb.useGravity = false;
                 rb.isKinematic = true;
             }
@@ -499,7 +510,7 @@ namespace MalbersAnimations.Weapons
         {
 
             var HitEffect = this.HitEffect;
-          //  var hitSound = this.hitSound; Debug.Log($"hitSound {hitSound.Value.name}");
+            //  var hitSound = this.hitSound; Debug.Log($"hitSound {hitSound.Value.name}");
 
             //Find Hit Effects and Sounds
             if (damagee != null && hitEffects != null && hitEffects.Count > 0)
@@ -568,7 +579,7 @@ namespace MalbersAnimations.Weapons
                 }
             }
         }
-         
+
 #if UNITY_EDITOR
         protected override void Reset()
         {
@@ -588,7 +599,7 @@ namespace MalbersAnimations.Weapons
         protected void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow + Color.red;
-           // Gizmos.DrawSphere(transform.position, Radius);
+            // Gizmos.DrawSphere(transform.position, Radius);
             Gizmos.DrawWireSphere(transform.position, Radius);
         }
 #endif
@@ -642,18 +653,18 @@ namespace MalbersAnimations.Weapons
             Penetration = serializedObject.FindProperty("Penetration");
             DragOnImpact = serializedObject.FindProperty("DragOnImpact");
             PushMultiplier = serializedObject.FindProperty("PushMultiplier");
-           
+
             m_PosOffset = serializedObject.FindProperty("m_PosOffset");
             m_RotOffset = serializedObject.FindProperty("m_RotOffset");
             KeepDamageValues = serializedObject.FindProperty("m_KeepDamageValues");
             m_AfterDistance = serializedObject.FindProperty("m_AfterDistance");
-         
+
 
 
             torque = serializedObject.FindProperty("torque");
             TrajectoryRoll = serializedObject.FindProperty("TrajectoryRoll");
             torqueAxis = serializedObject.FindProperty("torqueAxis");
-          //  InstantiateOnImpact = serializedObject.FindProperty("InstantiateOnImpact");
+            //  InstantiateOnImpact = serializedObject.FindProperty("InstantiateOnImpact");
             Editor_Tabs1 = serializedObject.FindProperty("Editor_Tabs1");
             rb = serializedObject.FindProperty("rb");
             m_collider = serializedObject.FindProperty("m_collider");
@@ -672,7 +683,7 @@ namespace MalbersAnimations.Weapons
             else if (Selection == 1) DrawDamage();
             else if (Selection == 2) DrawExtras();
             else if (Selection == 3) DrawEvents();
-           // EditorGUILayout.PropertyField(debug);
+            // EditorGUILayout.PropertyField(debug);
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -685,7 +696,7 @@ namespace MalbersAnimations.Weapons
                 EditorGUILayout.PropertyField(PushMultiplier);
                 EditorGUILayout.PropertyField(m_AfterDistance);
             }
-           
+
             DrawMisc();
         }
 
@@ -701,12 +712,14 @@ namespace MalbersAnimations.Weapons
                 DrawStatModifier();
                 DrawCriticalDamage();
             }
+
+            DrawMisc();
         }
 
         protected override void DrawGeneral(bool drawbox = true)
         {
             base.DrawGeneral(drawbox);
-          
+
 
 
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
@@ -761,7 +774,7 @@ namespace MalbersAnimations.Weapons
                 {
                     EditorGUILayout.PropertyField(impactBehaviour);
                     if (impactBehaviour.intValue == 1)
-                        EditorGUILayout.PropertyField(Penetration); 
+                        EditorGUILayout.PropertyField(Penetration);
                     if (impactBehaviour.intValue == 3)
                         EditorGUILayout.PropertyField(DragOnImpact);
                 }

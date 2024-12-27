@@ -12,11 +12,11 @@ using UnityEngine;
 namespace MalbersAnimations.Controller
 {
     [System.Serializable]
-    public class MSpeedSet : IComparable,IComparer
+    public class MSpeedSet : IComparable, IComparer
     {
         [Tooltip("Name of the Speed Set")]
         public string name;
-       
+
         [Tooltip("Which Speed the Set will start, This value is the Index for the Speed Modifier List, Starting the first index with (1) instead of (0)")]
         public IntReference StartVerticalIndex;
         [Tooltip("Set the Top Index when Increasing the Speed using SpeedUP")]
@@ -68,7 +68,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary>THis Speed Set has no Stances
         public bool HasStances => stances != null && stances.Count > 0;
-      // public bool HasStates => states != null && states.Count > 0;
+        // public bool HasStates => states != null && states.Count > 0;
 
         /// <summary> Current Active Index of the SpeedSet</summary>
         public int CurrentIndex { get; set; }
@@ -88,9 +88,9 @@ namespace MalbersAnimations.Controller
             set
             {
                 m_LockSpeed.Value = value;
-               
+
                 if (value)
-                    LockedSpeedModifier = Speeds[Mathf.Clamp(LockIndex-1, 0, Speeds.Count - 1)]; //Extract the Lock Speed
+                    LockedSpeedModifier = Speeds[Mathf.Clamp(LockIndex - 1, 0, Speeds.Count - 1)]; //Extract the Lock Speed
             }
         }
 
@@ -117,11 +117,11 @@ namespace MalbersAnimations.Controller
         /// <param name="name"></param>
         /// <returns></returns>
         public MSpeed this[string name] => Speeds.Find(x => x.name == name);
-       
+
         public bool HasStance(int stance)
         {
             if (!HasStances) return true;
-            else  return stances.Find(s => s.ID == stance);
+            else return stances.Find(s => s.ID == stance);
         }
 
         public int Compare(object x, object y)
@@ -149,17 +149,36 @@ namespace MalbersAnimations.Controller
         }
 
         public MSpeed GetSpeed(string name) => Speeds.Find(x => x.name == name);
+        public int GetSpeedIndex(string name) => Speeds.FindIndex(x => x.name == name);
+
+        internal void SwapSpeed(MSpeed NewSpeed)
+        {
+            //find the SpeedSet
+            var speedIndex = GetSpeedIndex(NewSpeed.Name);
+
+            Debug.Log($"speedIndex : {speedIndex}");
+
+            if (speedIndex != -1)
+            {
+                Speeds[speedIndex] = NewSpeed;
+            }
+        }
+
+        internal void AddSpeed(MSpeed NewSpeed)
+        {
+            Speeds.Add(NewSpeed);
+        }
     }
     [System.Serializable]
     /// <summary>Position, Rotation and Animator Modifiers for the Animals</summary>
-    public struct MSpeed  
+    public struct MSpeed
     {
         /// <summary>Default value for an MSpeed</summary>
         public static readonly MSpeed Default = new MSpeed("Default", 1, 4, 4);
 
         /// <summary>Name of this Speed</summary>
         public string name;
-         
+
         /// <summary>Vertical Mutliplier for the Animator</summary>
         public FloatReference Vertical;
 
@@ -175,7 +194,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Add Aditional Rotation to the Speed</summary>
         public FloatReference rotation;
- 
+
         /// <summary> Smoothness to change to the Animator Vertical speed, higher value more Responsiveness</summary>
         public FloatReference lerpRotAnim;
 
@@ -203,7 +222,7 @@ namespace MalbersAnimations.Controller
             lerpPosAnim = newSpeed.lerpPosAnim;
 
             rotation = newSpeed.rotation;
-          //  lerpRotation = newSpeed.lerpRotation;
+            //  lerpRotation = newSpeed.lerpRotation;
             lerpRotAnim = newSpeed.lerpRotAnim;
 
             animator = newSpeed.animator;
@@ -234,7 +253,7 @@ namespace MalbersAnimations.Controller
 
             animator = 1;
             lerpAnimator = lerpanim;
-           // nameHash = name.GetHashCode();
+            // nameHash = name.GetHashCode();
         }
 
         public MSpeed(string name, float vertical, float lerpPos, float lerpanim)
@@ -248,7 +267,7 @@ namespace MalbersAnimations.Controller
 
             rotation = 0;
             strafeSpeed = 0;
-           // lerpRotation = 4;
+            // lerpRotation = 4;
             lerpRotAnim = 4;
             lerpStrafe = 4;
 
@@ -256,7 +275,7 @@ namespace MalbersAnimations.Controller
             animator = 1;
             lerpAnimator = lerpanim;
 
-           // nameHash = name.GetHashCode();
+            // nameHash = name.GetHashCode();
         }
 
 
@@ -264,7 +283,7 @@ namespace MalbersAnimations.Controller
         {
             this.name = name;
             Vertical = 1;
-            
+
             position = 0;
             lerpPosition = 4;
             lerpPosAnim = 4;
@@ -273,7 +292,7 @@ namespace MalbersAnimations.Controller
             rotation = 0;
             strafeSpeed = 0;
 
-           // lerpRotation = 4;
+            // lerpRotation = 4;
             lerpRotAnim = 4;
             lerpStrafe = 4;
 
@@ -281,7 +300,7 @@ namespace MalbersAnimations.Controller
             animator = 1;
             lerpAnimator = 4;
 
-           // nameHash = name.GetHashCode();
+            // nameHash = name.GetHashCode();
         }
     }
 
@@ -299,7 +318,6 @@ namespace MalbersAnimations.Controller
 
                 if (list.index != -1)
                 {
-
                     var SelectedSpeed = list.serializedProperty.GetArrayElementAtIndex(list.index); //?!??!
 
                     if (SelectedSpeed != null)

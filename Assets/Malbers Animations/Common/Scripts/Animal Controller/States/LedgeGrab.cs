@@ -73,17 +73,12 @@ namespace MalbersAnimations.Controller
         private RaycastHit FoundLedgeHit;
         private RaycastHit FoundWallHit;
 
-       
+
 
         private bool OrientToWall = false;
 
-        /// <summary>
-        /// Use this with Messages to override the default value of the Climb at runtime
-        /// </summary>
-        public void LedgeAutomatic()
-        {
-            automatic.Value = true;
-        }
+        /// <summary> Use this with Messages to override the default value of the Climb at runtime   /// </summary>
+        public void LedgeAutomatic() => automatic.Value = true;
 
         public override Vector3 Speed_Direction() => Vector3.zero; //This State does not require a speed
 
@@ -106,6 +101,8 @@ namespace MalbersAnimations.Controller
             EnableHitTransform(false);
         }
 
+
+        private List<LedgeProfiles> UpdatedProfiles = new(); //Update the 
 
         public override bool TryActivate()
         {
@@ -130,11 +127,11 @@ namespace MalbersAnimations.Controller
 
         public bool FindLedge()
         {
-            foreach (var p in profiles)
+            foreach (var p in UpdatedProfiles)
             {
                 if (p.OnlyGrounded && !animal.Grounded) continue; //Check Ray only when the animal is grounded
                 if (p.MaxVSpeed != 0 && p.MaxVSpeed > animal.CurrentSpeedModifier.Vertical.Value) continue; //Do not check when the speed does not match
-
+                if (p.LastState != null && p.LastState != animal.ActiveStateID) continue; //Check if the Last State is the same as the current state
 
                 //Check if we are in Vertical Speed Range
                 // if (p.MaxVSpeed == 0 || p.MaxVSpeed <= animal.CurrentSpeedModifier.Vertical.Value)
@@ -205,11 +202,11 @@ namespace MalbersAnimations.Controller
 
                                     MDebug.DrawWireSphere(Y_Point, Color.yellow, 0.02f, seg);
 
-                                    var CloseEdgePoint = FoundWallHit.collider.ClosestPoint(Y_Point);
+                                    //  var CloseEdgePoint = FoundWallHit.collider.ClosestPoint(Y_Point);
 
                                     var H_Point = MTools.ClosestPointOnPlane(FoundWallHit.point, WallNormal, transform.position);
 
-                                 
+
                                     LedgeProfile = p; //Store the current Ledge Profile
 
 
@@ -225,22 +222,22 @@ namespace MalbersAnimations.Controller
                                     AlignmentOffset = UPDifference + (HorizontalDifference);
                                     AngleDifference = Vector3.SignedAngle(Forward, -WallNormal, Up); //?????
 
-                                   
+
+                                    //animal.SetPlatform(FoundWallHit.transform); //We need the Platform for moving grabing ledges    
                                     //CheckKinematic();
 
-                                    StartPosition = animal.transform.position;
-                                    StartRotation = animal.transform.rotation;
+                                    StartPosition = Position;
+                                    StartRotation = Rotation;
 
-                                    TargetPosition = animal.transform.position + (AlignmentOffset);
+                                    TargetPosition = StartPosition + (AlignmentOffset);
 
-
-                                    Debugging($"Distance Ledge and Start Position: {Vector3.Distance(Y_Point, StartPosition):F3}");
+                                    // Debugging($"Distance Ledge and Start Position: {Vector3.Distance(Y_Point, StartPosition):F3}");
 
                                     #region Debug
                                     MDebug.DrawRay(FoundLedgeHit.point, CrossLedgeHit, Color.white, seg);
                                     MDebug.DrawRay(FoundLedgeHit.point, WallNormal * 5, Color.green, seg);
 
-                                    MDebug.DrawWireSphere(CloseEdgePoint, Color.blue, 0.1f, seg);
+                                    // MDebug.DrawWireSphere(CloseEdgePoint, Color.blue, 0.1f, seg);
 
                                     MDebug.DrawWireSphere(Y_Point, Color.red, 0.1f, seg);
                                     MDebug.DrawWireSphere(FoundLedgeHit.point, Color.yellow, 0.1f, seg);
@@ -254,6 +251,8 @@ namespace MalbersAnimations.Controller
                                     MDebug.DrawWireSphere(StartPosition, Color.white, 0.02f, seg);
 
                                     MDebug.DrawWireSphere(TargetPosition, Color.green, 0.02f, seg);
+
+                                    MDebug.DrawLine(StartPosition, TargetPosition, Color.white, seg);
                                     #endregion
 
                                     //  WallNormal = FoundWallHit.normal;
@@ -277,11 +276,10 @@ namespace MalbersAnimations.Controller
         }
 
 
-
         public override void Activate()
         {
             base.Activate();
-           
+
             SetEnterStatus(LedgeProfile.EnterStatus);
             animal.Reset_Movement(); //Remove all Input stuff
             animal.Force_Remove(); //Remove all forces when grabbing a ledge
@@ -291,7 +289,18 @@ namespace MalbersAnimations.Controller
             animal.AdditivePosition = Vector3.zero; //Remove additive
             CheckKinematic();
             animal.SetPlatform(FoundLedgeHit.transform);
+
+
+            // StartPosition = transform.InverseTransformPoint(StartPosition);
+
+            AlignDir = (TargetPosition - StartPosition) / 2;
+            AlignDirDelta = Vector3.zero;
+
+            UpdateProfileLastState();
         }
+
+        private Vector3 AlignDir;
+        private Vector3 AlignDirDelta;
 
         private void CheckKinematic()
         {
@@ -319,16 +328,29 @@ namespace MalbersAnimations.Controller
             if (InCoreAnimation)
             {
                 InTransition = false;
-               
+
                 if (Anim.IsInTransition(0))
                 {
                     var TransTime = Anim.GetAnimatorTransitionInfo(0).normalizedTime;
                     animal.AdditivePosition = Vector3.zero;
                     animal.AdditiveRotation = Quaternion.identity;
 
+                    // if (!animal.Has_Pivot_Chest || !animal.Has_Pivot_Hip) WallNormal = Vector3.ProjectOnPlane(WallNormal, animal.UpVector); 
+
                     Quaternion AlignRot = Quaternion.FromToRotation(Forward, -WallNormal) * transform.rotation;  //Calculate the orientation to Terrain 
 
-                    transform.position = Vector3.Lerp(StartPosition, TargetPosition, TransTime);
+
+
+                    // transform.position = Vector3.Lerp(StartPosition, TargetPosition, TransTime);
+
+                    // StartPosition += animal.DeltaPlatformPos;
+                    //TargetPosition += animal.DeltaPlatformPos;
+
+                    var delta = Vector3.Lerp(Vector3.zero, AlignDir, TransTime);
+
+                    AlignDirDelta = delta - AlignDirDelta;
+
+                    transform.position += AlignDirDelta;
 
                     //Orient to wall 
                     if (OrientToWall)
@@ -339,7 +361,8 @@ namespace MalbersAnimations.Controller
 
                 if (!InTransition && !ExitTransition && IsActiveState)
                 {
-                    animal.transform.position = TargetPosition;
+                    //TargetPosition += animal.DeltaPlatformPos;
+                    //animal.transform.position = TargetPosition;
                     ExitTransition = true;
                     //Debug.Log("ExitTransition");
                 }
@@ -383,6 +406,8 @@ namespace MalbersAnimations.Controller
 
         public override void NewActiveState(StateID newState)
         {
+            UpdateProfileLastState();
+
             Automatic_By_State = false;
 
             if (automaticByState.Count > 0)
@@ -391,6 +416,13 @@ namespace MalbersAnimations.Controller
             }
 
             InClimb = newState == StateEnum.Climb;
+        }
+
+        private void UpdateProfileLastState()
+        {
+            UpdatedProfiles = profiles;
+            var FilterLastState = profiles.FindAll(p => p.LastState != null && p.LastState == animal.ActiveStateID);
+            if (FilterLastState != null && FilterLastState.Count != 0) UpdatedProfiles = FilterLastState; //Find all profiles using the last state
         }
 
 
@@ -402,6 +434,7 @@ namespace MalbersAnimations.Controller
 
         public override void ResetStateValues()
         {
+            UpdatedProfiles = profiles;
             LedgeProfile = null;
             InTransition = false;
             ExitTransition = false;
@@ -525,6 +558,9 @@ namespace MalbersAnimations.Controller
         [Tooltip("Max Vertical Speed Needed to Check this Profile")]
         public float MaxVSpeed = 0;
 
+        [Tooltip("Check the Last State as a condition to activate the profile")]
+        public StateID LastState;
+
         [Tooltip("Cast a Ray Upwards to check if there's a roof blocking the ledge")]
         public bool CheckUpwards = false;
 
@@ -563,12 +599,12 @@ namespace MalbersAnimations.Controller
         [Min(0)] public float ForwardSpeed = 0.5f;
 
         [Hide("AdditivePosition", false)]
-        public AnimationCurve HeightCurve = new AnimationCurve(
+        public AnimationCurve HeightCurve = new(
                new Keyframe(0, 1), new Keyframe(0.45f, 1), new Keyframe(0.55f, 0f), new Keyframe(1, 0f)
             );
 
         [Hide("AdditivePosition", false)]
-        public AnimationCurve ForwardCurve = new AnimationCurve(
+        public AnimationCurve ForwardCurve = new(
               new Keyframe(0, 0), new Keyframe(0.45f, 0), new Keyframe(0.55f, 1f), new Keyframe(1, 1f)
            );
     }

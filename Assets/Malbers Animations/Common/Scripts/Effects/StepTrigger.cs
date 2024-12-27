@@ -12,7 +12,7 @@ namespace MalbersAnimations
         [Tooltip("Re Parent this GameObject to a new Bone on Awake")]
         public Transform parent;
 
-        public float WaitNextStep = 0.2f;
+
         public AudioSource StepAudio;
 
         public SphereCollider m_Trigger;
@@ -48,16 +48,18 @@ namespace MalbersAnimations
                 return;
             }
 
+            m_StepsManager.Feet ??= new();
+
+            m_StepsManager.Feet.Add(this); //Add the reference to the step manager
+
             SetAudio();
 
-            wait = new WaitForSeconds(WaitNextStep);
+            wait = new WaitForSeconds(m_StepsManager.WaitNextStep);
         }
 
         private void SetAudio()
         {
-            if (StepAudio == null)
-                StepAudio = GetComponent<AudioSource>();
-            if (StepAudio == null)
+            if (StepAudio == null && !TryGetComponent(out StepAudio))
                 StepAudio = gameObject.AddComponent<AudioSource>();
 
             StepAudio.spatialBlend = 1;  //Make the Sound 3D
@@ -77,14 +79,13 @@ namespace MalbersAnimations
             }
         }
 
-  
+
         [ContextMenu("Find Sphere Trigger")]
         void GetTrigger()
         {
             m_Trigger = GetComponent<SphereCollider>();
             MTools.SetDirty(this);
         }
-
 
 
         private void OnValidate()
@@ -120,11 +121,19 @@ namespace MalbersAnimations
         }
 
 
-      
+
 
         void GizmoSelected(bool sel)
         {
-            if (m_Trigger && m_Trigger.enabled)
+
+
+            if (m_Trigger && m_Trigger.enabled
+#if UNITY_EDITOR
+                &&
+             UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(this) //Show Gizmos only when the Inspector is Open
+             )
+#endif
+
             {
                 var DebugColorWire = new Color(DebugColor.r, DebugColor.g, DebugColor.b, 1);
                 Gizmos.matrix = transform.localToWorldMatrix;

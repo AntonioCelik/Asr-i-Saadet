@@ -10,6 +10,9 @@ namespace MalbersAnimations.HAP
         private Vector3 LastRelativeRiderPosition;
         private float ScaleFactor;
 
+        [Range(0f, 1f)]
+        [Tooltip("Search for the ground Layer After this Normalized Time of the Dismount Animation")]
+        public float findGroundTime = 0.6f;
 
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,8 +30,9 @@ namespace MalbersAnimations.HAP
             rider.Start_Dismounting();
 
             LastRelativeRiderPosition = MountPoint.InverseTransformPoint(rider.transform.position); //Get the Relative position of the Rider Position
-
         }
+
+
 
         override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -43,28 +47,25 @@ namespace MalbersAnimations.HAP
 
             if (rider.Montura)  //Stop the Mountura from walking forward when Dismounting
             {
-                if (Physics.Raycast(rider.transform.position + rider.transform.up, -rider.transform.up, out RaycastHit hit, 1.5f, rider.Montura.Animal.GroundLayer))
+                if (findGroundTime < stateInfo.normalizedTime &&
+                    Physics.Raycast(rider.transform.position + rider.transform.up, -rider.transform.up, out var hit, 1.5f, rider.Montura.Animal.GroundLayer))
                 {
                     if (TargetPos.y < hit.point.y)
                         TargetPos = new Vector3(TargetPos.x, hit.point.y, TargetPos.z);
                 }
 
-                //if (TargetPos.y < rider.Montura.transform.position.y)
-                //    TargetPos = new Vector3(TargetPos.x, rider.Montura.transform.position.y, TargetPos.z);
-
                 TargetRot *= rider.Montura.Animal.AdditiveRotation; //Keep Inertia
 
-                if (stateInfo.normalizedTime > 0.5f && animator.IsInTransition(layerIndex)) //if the Rider is in the Last Transition Put him Up Right 
+                //if the Rider is in the Last Transition Put him Up Right 
+                if (stateInfo.normalizedTime > 0.5f && animator.IsInTransition(layerIndex))
                 {
                     TargetRot = Quaternion.Lerp(TargetRot, Quaternion.FromToRotation(rider.transform.up, Vector3.up) * TargetRot, transition.normalizedTime); //Rotate him UpRight
                 }
             }
 
-            LastRelativeRiderPosition = MountPoint.InverseTransformPoint(TargetPos);            //Keep the Relative Position of the Last Mounting
+            LastRelativeRiderPosition = MountPoint.InverseTransformPoint(TargetPos); //Keep the Relative Position of the Last Mounting
 
-            rider.MountRotation = TargetRot;
-            rider.MountPosition = TargetPos;
-            rider.Mount_TargetTransform();
+            rider.Mount_TargetTransform(TargetPos, TargetRot);
         }
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { rider.End_Dismounting(); }

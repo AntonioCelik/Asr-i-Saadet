@@ -91,6 +91,11 @@ MonoBehaviour:
   SleepFromMode:
   - {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
   - {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
+  DisableModes: []
+  noModes:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   QueueFrom: []
   ResetFrom: []
   SleepFromStance: []
@@ -151,6 +156,8 @@ MonoBehaviour:
     Variable: {fileID: 0}
   ResetJump:
   - {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
+  lockJumpProfile: -1
+  KeepHeightOnHighSlope: 0
   jumpProfiles:
   - name: Neigh
     VerticalSpeed: 0
@@ -166,10 +173,10 @@ MonoBehaviour:
     ForwardPressed: 0
     LastState: {fileID: 0}
   - name: Jump Forward
-    VerticalSpeed: 0.1
-    JumpLandDistance: 2.21
-    fallingTime: 0.6
-    ExitTime: 0.95
+    VerticalSpeed: 0.2
+    JumpLandDistance: 2.3
+    fallingTime: 0.53
+    ExitTime: 0.71
     CliffTime:
       minValue: 0.5
       maxValue: 0.7
@@ -179,10 +186,10 @@ MonoBehaviour:
     ForwardPressed: 0
     LastState: {fileID: 0}
   - name: Jump Canter
-    VerticalSpeed: 2.9
-    JumpLandDistance: 2.4
-    fallingTime: 0.57
-    ExitTime: 0.85
+    VerticalSpeed: 2.5
+    JumpLandDistance: 2.5
+    fallingTime: 0.53
+    ExitTime: 0.7
     CliffTime:
       minValue: 0.5
       maxValue: 0.7
@@ -192,10 +199,10 @@ MonoBehaviour:
     ForwardPressed: 0
     LastState: {fileID: 0}
   - name: Jump Gallop
-    VerticalSpeed: 3.9
-    JumpLandDistance: 2.41
-    fallingTime: 0.51
-    ExitTime: 0.9
+    VerticalSpeed: 3.5
+    JumpLandDistance: 2.51
+    fallingTime: 0.52
+    ExitTime: 0.8
     CliffTime:
       minValue: 0.5
       maxValue: 0.7
@@ -205,10 +212,10 @@ MonoBehaviour:
     ForwardPressed: 0
     LastState: {fileID: 0}
   - name: Jump Sprint
-    VerticalSpeed: 4.9
-    JumpLandDistance: 2.515
-    fallingTime: 0.53
-    ExitTime: 0.9
+    VerticalSpeed: 4.5
+    JumpLandDistance: 2.46
+    fallingTime: 0.4
+    ExitTime: 0.75
     CliffTime:
       minValue: 0.4
       maxValue: 0.5

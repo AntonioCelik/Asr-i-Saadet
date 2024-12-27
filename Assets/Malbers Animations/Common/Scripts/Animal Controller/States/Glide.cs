@@ -64,13 +64,17 @@ namespace MalbersAnimations.Controller
         {
             if (StartHeight <= 0) return true; //if there's no height skip checking Start Height
 
+            var TouchedGround = Physics.Raycast(animal.Main_Pivot_Point, animal.Gravity, out _, animal.Height + StartHeight * ScaleFactor, animal.GroundLayer);
+
+            if (TouchedGround) ResetInputOnFailed();
+
             //if we touch any ground send False. Meaning the Glide cannot play.
-            return !Physics.Raycast(animal.Main_Pivot_Point, animal.Gravity, out _, animal.Height + StartHeight * ScaleFactor, animal.GroundLayer);
+            return !TouchedGround;
         }
 
         public override bool TryActivate()
         {
-            return base.TryActivate() && CheckStartHeight();
+            return base.TryActivate() && TryOverride && CheckStartHeight();
         }
 
         public override bool KeepForwardMovement => KeepForward.Value;
@@ -78,11 +82,12 @@ namespace MalbersAnimations.Controller
         public override void Activate()
         {
             base.Activate();
-          
-           // LastUseCameraInput = animal.UseCameraInput;     //Cache the Last Use Camera Input
+
+            // LastUseCameraInput = animal.UseCameraInput;     //Cache the Last Use Camera Input
             animal.UseCameraInput = UseCameraInput;     //Set the NEW Use Camera Input
-            InputValue = true; //Make sure the Input is set to True when the flying is not being activated by an input player
-            if (animal.ExternalForceAcel == 0) animal.Force_Remove(0);
+            InputValue = true; //Make sure the Input is set to True when the glide is not being activated by an input player
+
+            animal.Force_Reset(); //Remove forces
         }
 
         public override void EnterCoreAnimation()
@@ -192,7 +197,6 @@ namespace MalbersAnimations.Controller
         }
 
 #if UNITY_EDITOR
-
         public override void SetSpeedSets(MAnimal animal)
         {
             var setName = "Glide";

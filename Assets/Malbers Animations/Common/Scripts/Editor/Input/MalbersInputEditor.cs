@@ -68,6 +68,7 @@ namespace MalbersAnimations
                     {
                         EditorGUILayout.PropertyField(OnInputEnabled);
                         EditorGUILayout.PropertyField(OnInputDisabled);
+                        EditorGUILayout.PropertyField(OnUsingGamePad);
                         EditorGUILayout.PropertyField(MovementEvent);
                     }
                 }

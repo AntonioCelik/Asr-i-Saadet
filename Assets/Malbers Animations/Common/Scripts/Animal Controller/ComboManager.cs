@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MalbersAnimations.Events;
-using System.Collections; 
+using System.Collections;
 
 #if UNITY_EDITOR
 using UnityEditorInternal;
@@ -11,6 +11,7 @@ using UnityEditor;
 
 namespace MalbersAnimations.Controller
 {
+    [DefaultExecutionOrder(3000)]
     [AddComponentMenu("Malbers/Animal Controller/Combo Manager")]
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/combo-manager")]
     public class ComboManager : MonoBehaviour
@@ -205,6 +206,12 @@ namespace MalbersAnimations.Controller
         public virtual bool TryPlay() => TryPlay(Branch);
         public virtual void Play(int branch) => TryPlay(Branch = branch);
 
+        ///// <summary>  Play Combo Sequence  <param name="branch"></param>
+        //public virtual void Play(int[] branch)
+        //{
+
+        //}
+
 
         public virtual bool TryPlay(int branch)
         {
@@ -289,8 +296,7 @@ namespace MalbersAnimations.Controller
         }
 
         internal void MDebug(string value)
-        { 
-          
+        {
 #if UNITY_EDITOR
             if (debug) Debug.Log($"<b><color=orange>[{animal.name}] - [Combo - {(ActiveCombo != null ? ActiveCombo.Name : "NULL")}] - {value}</color></b>", this);
 #endif
@@ -301,6 +307,12 @@ namespace MalbersAnimations.Controller
         internal Combo GetCombo(ModeID weaponID)
         {
             return combos.Find(x => x.Mode == weaponID);
+        }
+
+
+        private void Reset()
+        {
+            animal = this.FindComponent<MAnimal>();
         }
     }
 
@@ -383,6 +395,12 @@ namespace MalbersAnimations.Controller
                             M.PlayingCombo = true;
                             PlaySequence(M, Starter);
                             ActiveSequenceIndex = i; //Finding which is the active secuence index;
+
+                            if (CachedMode.ActiveAbility.Status == AbilityStatus.Charged)
+                            {
+                                CachedMode.InputValue = true; //Make sure the Input is set to true for charged modes?
+                            }
+
                             return true;
                         }
                         else
@@ -396,18 +414,18 @@ namespace MalbersAnimations.Controller
             //Check if we are playing the same mode or if the current mode has lower priority
             else //if (animal.ActiveMode == CachedMode) 
             {
-
                 var ModeTime = animal.ModeTime;
 
+                var sequence = Sequence[ActiveSequenceIndex];
 
                 //If we are on a Finisher Secuence Ignore!! This will allow to finish the combo
-                if (Sequence[ActiveSequenceIndex].Finisher)
+                if (sequence.Finisher)
                 {
                     //Use this to restart the combo at the end of a Finisher
-                    if (Sequence[ActiveSequenceIndex].Restarter && Sequence[ActiveSequenceIndex].Activation.IsInRange(ModeTime))
+                    if (sequence.Restarter && sequence.FinisherTime < (ModeTime))
                     {
                         OnComboFinished.Invoke(ActiveSequenceIndex);
-                        M.MDebug($"Combo Finished --RESTARTING--. <b>[{ActiveSequenceIndex}]</b> Branch:<b>[{M.Branch}]</b>. [Restarting]");
+                        M.MDebug($"Combo Finished -<RESTARTING>-. <b>[{ActiveSequenceIndex}]</b> Branch:<b>[{M.Branch}]</b>. [Restarting]");
                         M.Restart();
 
                         //RESTART CLEAN
@@ -445,8 +463,8 @@ namespace MalbersAnimations.Controller
 
                         if (!seq.Used && seq.Branch == M.Branch && seq.PreviewsAbility != 0 && seq.PreviewsAbility == CachedMode.AbilityIndex)
                         {
-                                //Play the nex animation on the sequence if is not buffered
-                            if (seq.Activation.IsInRange(ModeTime)) 
+                            //Play the nex animation on the sequence if is not buffered
+                            if (seq.Activation.IsInRange(ModeTime))
                             {
                                 if (ModeTime > seq.ActivationTime)
                                 {
@@ -456,7 +474,7 @@ namespace MalbersAnimations.Controller
                                 }
                                 else
                                 {
-                                    if (!seq.Buffer) 
+                                    if (!seq.Buffer)
                                     {
                                         seq.Buffer = true;  //The Combo will definetely play after the Mode Time has passed
 
@@ -510,8 +528,8 @@ namespace MalbersAnimations.Controller
 
             M.animal.Mode_ForceActivate(Mode, seq.Ability); //Play the mode!!
 
-           //  M.MDebug($"Sequence Buffered!" );
-           // Debug.Log($"Sequence Buffered Played!" );
+            //  M.MDebug($"Sequence Buffered!" );
+            // Debug.Log($"Sequence Buffered Played!" );
             PlaySequence(M, seq);
             ActiveSequenceIndex = Index; //Finding which is the active secuence index;
 
@@ -528,21 +546,33 @@ namespace MalbersAnimations.Controller
         [MinMaxRange(0, 1)]
         [Tooltip("Buffer Input Activation time for activating the next Sequence")]
         public RangedFloat Activation = new(0.3f, 0.6f);
-        
+
         [Range(0, 1)]
         [Tooltip("Normalized time on the animation to activate the next ability if the animation reached this normalize time and the Sequence has been buffered.")]
         public float ActivationTime = 0.5f;
 
+        [Tooltip("Ability needed to activate the next Sequence")]
         public int PreviewsAbility = 0;
-        /// <summary> Ability needed to activate</summary>
+
+        [Tooltip("Name of the Ability that will be used to activate the next Sequence")]
+        public string previewAbilityName;
+
+        /// <summary>Next Ability on the Sequence</summary>
         public int Ability = 0;
+
+        [Tooltip("Name of the Next Ability to activate")]
+        public string nextAbilityName;
+
+
         [Tooltip("Branch used on the combo sequence")]
         public int Branch = 0;
-    
+
         [Tooltip("Is this Secuence a Finisher Combo?")]
         public bool Finisher;
         [Tooltip("Is the sequence a Restarter if is a finisher?")]
         public bool Restarter;
+        [Tooltip("Restarter Finisher needs to pass this time to finish")]
+        public float FinisherTime = 0.5f;
         public IntEvent OnSequencePlay = new();
 
 
@@ -550,7 +580,7 @@ namespace MalbersAnimations.Controller
         public bool Used { get; set; }
 
         /// <summary> The Sequence is waiting for the activation time  </summary>
-        public bool Buffer {  get; set; }
+        public bool Buffer { get; set; }
 
         public void Reset()
         {
@@ -560,8 +590,7 @@ namespace MalbersAnimations.Controller
 
     }
 
-
-
+    #region INSPECTOR
 #if UNITY_EDITOR
     [CustomEditor(typeof(ComboManager))]
 
@@ -584,6 +613,8 @@ namespace MalbersAnimations.Controller
         private ComboManager M;
         private int SelectedAbilityIndex;
         private readonly int IndexAbility;
+
+        private string activeComboName;
 
         private void OnEnable()
         {
@@ -632,14 +663,22 @@ namespace MalbersAnimations.Controller
                     var IDIndex = new Rect(rect.x, rect.y, 25, EditorGUIUtility.singleLineHeight);
                     var IDName = new Rect(rect.x + 25, rect.y, half - 15 - 25, EditorGUIUtility.singleLineHeight);
                     var IDRect = new Rect(rect.x + half + 10, rect.y, half - 10, EditorGUIUtility.singleLineHeight);
+                    var IDRectActive = new Rect(rect.x + half - 15 - 25 - 30, rect.y, 60, EditorGUIUtility.singleLineHeight);
 
-                    var oldColor = GUI.contentColor;
+                    var oldColor = GUI.color;
 
-                    if (index == M.ActiveComboIndex) GUI.contentColor = Color.yellow;
+                    if (index == selectedComboEditor.intValue)
+                    {
+                        GUI.color = MTools.MBlue * 3;
+
+                    }
+
 
 
                     EditorGUI.LabelField(IDIndex, "(" + index.ToString() + ")");
                     EditorGUI.PropertyField(IDName, Name, GUIContent.none);
+
+
 
                     if (states.arraySize > 0)
                     {
@@ -659,9 +698,15 @@ namespace MalbersAnimations.Controller
                         EditorGUI.LabelField(UpRect, con);
                     }
 
+                    if (index == M.ActiveComboIndex)
+                    {
+                        EditorGUI.LabelField(IDRectActive, "(Active)");
+                        activeComboName = Name.stringValue;
+                    }
+
                     EditorGUI.PropertyField(IDRect, Mode, GUIContent.none);
 
-                    GUI.contentColor = oldColor;
+                    GUI.color = oldColor;
                 },
 
 
@@ -691,7 +736,7 @@ namespace MalbersAnimations.Controller
 
             if (popupStyle == null)
             {
-                popupStyle = new(GUI.skin.GetStyle("PaneOptions"));
+                popupStyle = (GUI.skin.GetStyle("PaneOptions"));
                 popupStyle.imagePosition = ImagePosition.ImageOnly;
             }
 
@@ -712,19 +757,21 @@ namespace MalbersAnimations.Controller
 
                         //var Activation = element.FindPropertyRelative("Activation");
                         var PreviewsAbility = element.FindPropertyRelative("PreviewsAbility");
+                        var previewAbilityName = element.FindPropertyRelative("previewAbilityName");
+
                         var Ability = element.FindPropertyRelative("Ability");
+                        var abilityName = element.FindPropertyRelative("nextAbilityName");
+
                         var Branch = element.FindPropertyRelative("Branch");
-                   
+
                         var Activation = element.FindPropertyRelative("Activation");
                         var finisher = element.FindPropertyRelative("Finisher");
+                        var FinisherTime = element.FindPropertyRelative("FinisherTime");
                         var Restarter = element.FindPropertyRelative("Restarter");
                         var ActivationTime = element.FindPropertyRelative("ActivationTime");
 
                         var IDRect = new Rect(rect) { height = Height };
-
-                       
                         float wid = rect.width / 2;
-
 
                         var IRWidth = 30f;
                         var Sep = -10f;
@@ -736,13 +783,26 @@ namespace MalbersAnimations.Controller
 
                         var IndexRect = new Rect(IDRect) { width = IRWidth };
                         var BranchRect = new Rect(IDRect) { x = xx, width = 45 };
+
+
                         var PrevARect = new Rect(IDRect) { x = 75 + xx + Sep + 5, width = wid - 15 - Sep - 20 - 45 };
 
+                        var PrevARectName = new Rect(PrevARect);
+                        PrevARectName.x += 30;
+                        PrevARectName.width -= 30;
+
                         var AbilityRect = new Rect(IDRect) { x = wid + xx + Sep + 35, width = wid - Sep - 60 - 15 - (HasRestarter ? 30 : 0) };
+                        var AbilityRectName = new Rect(AbilityRect);
+                        AbilityRectName.x += 30;
+                        AbilityRectName.width -= 30;
+
+                        if (HasRestarter && Restarter.boolValue) AbilityRect.width -= 28;
 
                         var FinisherRect = new Rect(IDRect) { x = IDRect.width + 35, width = 20 };
 
                         var RestarterRect = new Rect(IDRect) { x = IDRect.width + 10, width = 20 };
+
+                        var FinisherTimeRect = new Rect(IDRect) { x = IDRect.width - 23, width = 30 };
 
 
                         var ActivationRect = new Rect(rect) { height = Height, width = rect.width - 17 };
@@ -754,15 +814,12 @@ namespace MalbersAnimations.Controller
                         var RActivationTime = new Rect(rect) { height = Height, width = rect.width - 17 };
                         RActivationTime.y += Height + 2;
                         RActivationTime.width = (rect.width / 3);
-                        RActivationTime.x = (rect.width / 3) *2+50;
+                        RActivationTime.x = (rect.width / 3) * 2 + 50;
 
 
                         var style = new GUIStyle(EditorStyles.label);
 
-
-                      
-
-                        if (Application.isPlaying && !M.ActiveCombo.Sequence[index].Used) 
+                        if (Application.isPlaying && !M.ActiveCombo.Sequence[index].Used)
                             style.normal.textColor = Color.green; //If the Combo is not used turn the combos to Green
 
 
@@ -838,7 +895,7 @@ namespace MalbersAnimations.Controller
                         {
                             var Mode = M.animal.Mode_Get(M.combos[ComboIndex].Mode);
 
-                            if (Mode != null && Mode.Abilities != null)
+                            if (Mode != null && Mode.Abilities != null && Mode.Abilities.Count > 0)
                             {
                                 foreach (var item in Mode.Abilities)
                                 {
@@ -848,16 +905,67 @@ namespace MalbersAnimations.Controller
 
                                 result = EditorGUI.Popup(PrevbuttonRect, result, popupOptions.ToArray(), popupStyle);
 
-                                if (result != -1) PreviewsAbility.intValue = AbilitiesIndex[result];
+                                if (result != -1)
+                                {
+                                    PreviewsAbility.intValue = AbilitiesIndex[result];
+
+                                    if (PreviewsAbility.intValue <= 0)
+                                        previewAbilityName.stringValue = "Combo Starter";
+                                    else
+                                        previewAbilityName.stringValue = Mode.Abilities[result - 1].Name;
+                                }
+
+                                popupOptions = new List<string>();
+                                AbilitiesIndex = new();
+
+                                foreach (var item in Mode.Abilities)
+                                {
+                                    popupOptions.Add("[" + item.Index.Value + "] " + item.Name);
+                                    AbilitiesIndex.Add(item.Index.Value);
+                                }
+
                                 result = -1;
 
+                                //Do NEXT ABILITY
+
                                 result = EditorGUI.Popup(NextbuttonRect, result, popupOptions.ToArray(), popupStyle);
-                                if (result != -1) Ability.intValue = AbilitiesIndex[result];
+
+                                if (result != -1)
+                                {
+                                    Ability.intValue = AbilitiesIndex[result];
+                                    abilityName.stringValue = Mode.Abilities[result].Name;
+                                }
+
+                                //Check Ability Empty
+
+                                if (abilityName.stringValue == string.Empty)
+                                {
+                                    if (Ability.intValue <= 0)
+                                        abilityName.stringValue = "<CANNOT BE COMBO STARTER>";
+
+                                    var ability = Mode.GetAbility(Ability.intValue);
+
+
+                                    abilityName.stringValue = ability != null ? ability.Name : "<Not Found>";
+                                }
+
+                                if (previewAbilityName.stringValue == string.Empty)
+                                {
+                                    if (PreviewsAbility.intValue <= 0)
+                                        previewAbilityName.stringValue = "Combo Starter";
+                                    else
+                                    {
+                                        var ability = Mode.GetAbility(Ability.intValue);
+                                        previewAbilityName.stringValue = ability != null ? ability.Name : "<Not Found>";
+                                    }
+                                }
                             }
                         }
                         EditorGUI.PropertyField(PrevARect, PreviewsAbility, GUIContent.none);
+                        EditorGUI.LabelField(PrevARectName, previewAbilityName.stringValue);
 
                         EditorGUI.PropertyField(AbilityRect, Ability, GUIContent.none);
+                        EditorGUI.LabelField(AbilityRectName, abilityName.stringValue);
 
                         var old = GUI.contentColor;
 
@@ -875,6 +983,12 @@ namespace MalbersAnimations.Controller
 
                                 GUI.contentColor = GUI.color = old;
                                 // EditorGUI.PropertyField(RestarterRect, Restarter, GUIContent.none);
+
+                                if (Restarter.boolValue)
+                                {
+                                    EditorGUI.PropertyField(FinisherTimeRect, FinisherTime, GUIContent.none);
+                                    FinisherTime.floatValue = Mathf.Clamp01(FinisherTime.floatValue);
+                                }
                             }
                         }
 
@@ -994,7 +1108,7 @@ namespace MalbersAnimations.Controller
                         {
                             int oldActiveCIndex = M.ActiveComboIndex.Value;
 
-                            EditorGUILayout.PropertyField(ActiveComboIndex, new GUIContent("Active Combo Index", "Active Combo"));
+                            EditorGUILayout.PropertyField(ActiveComboIndex, new GUIContent($"Active Combo [{activeComboName}]", "Active Combo Index"));
                             if (cc.changed && Application.isPlaying)
                             {
                                 ActiveComboIndex.serializedObject.ApplyModifiedProperties();
@@ -1079,4 +1193,5 @@ namespace MalbersAnimations.Controller
         }
     }
 #endif
+    #endregion
 }

@@ -74,8 +74,8 @@ namespace MalbersAnimations.Utilities
                 var thisRenderer = GetComponent<SkinnedMeshRenderer>();
 
                 SkinnedMeshRenderer Old = AllSkinMeshes.ToList().Find(x => x.name == name && x != thisRenderer);
-                 
-                if ( Old != null)
+
+                if (Old != null)
                 {
                     RootBone = Old.rootBone;
                 }

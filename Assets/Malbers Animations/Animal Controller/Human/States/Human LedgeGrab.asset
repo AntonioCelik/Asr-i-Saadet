@@ -54,6 +54,7 @@ MonoBehaviour:
   IncludeSleepState: 1
   SleepFromState:
   - {fileID: 11400000, guid: 4dba83308a0851f4897d08125b3b9420, type: 2}
+  - {fileID: 11400000, guid: c4d4b48bc0215ed4db52e7f962297a8c, type: 2}
   SleepFromMode: []
   DisableModes: []
   noModes:
@@ -66,7 +67,7 @@ MonoBehaviour:
   stances: []
   TryLoop:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 6
     Variable: {fileID: 0}
   Duration:
     UseConstant: 1
@@ -105,7 +106,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   automatic:
     UseConstant: 1
-    ConstantValue: 0
+    ConstantValue: 1
     Variable: {fileID: 0}
   automaticByState:
   - {fileID: 11400000, guid: 975403cc10f8cec46a3caa6ed4e3d6c5, type: 2}
@@ -126,6 +127,7 @@ MonoBehaviour:
   - name: Step 1 Meter
     EnterStatus: 1
     MaxVSpeed: 0
+    LastState: {fileID: 0}
     CheckUpwards: 0
     OnlyGrounded: 0
     ForwardMultiplier: 1
@@ -225,6 +227,7 @@ MonoBehaviour:
   - name: Ledge Grab
     EnterStatus: 0
     MaxVSpeed: 0
+    LastState: {fileID: 0}
     CheckUpwards: 0
     OnlyGrounded: 0
     ForwardMultiplier: 1
@@ -324,6 +327,7 @@ MonoBehaviour:
   - name: 3M Grab
     EnterStatus: 2
     MaxVSpeed: 2
+    LastState: {fileID: 0}
     CheckUpwards: 1
     OnlyGrounded: 1
     ForwardMultiplier: 1

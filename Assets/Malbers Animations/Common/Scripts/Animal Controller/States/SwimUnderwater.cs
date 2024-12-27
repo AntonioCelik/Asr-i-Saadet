@@ -1,6 +1,6 @@
-﻿using UnityEngine; 
-using MalbersAnimations.Scriptables;
+﻿using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MalbersAnimations.Controller
 {
@@ -13,7 +13,7 @@ namespace MalbersAnimations.Controller
         [Header("UnderWater Parameters")]
         [Range(0, 90)]
         public float Bank = 30;
-        [Range(0, 90),Tooltip("Limit to go Up and Down")]
+        [Range(0, 90), Tooltip("Limit to go Up and Down")]
         public float Ylimit = 80;
         [Tooltip("It will push the animal down into the water for a given time")]
         public float EnterWaterDrag = 10;
@@ -28,16 +28,16 @@ namespace MalbersAnimations.Controller
 
         protected Vector3 Inertia;
         protected Swim SwimState;
-         
+
 
         public override void InitializeState()
         {
             SwimState = null;
-            SwimState = (Swim)animal.State_Get(StateEnum.Swim); //Get the Store the Swim State
- 
+            SwimState = (Swim)animal.State_Get(StateEnum.Swim); //Cache the Swim State
+
             if (SwimState == null)
             {
-                Debug.LogError($"UnderWater State needs Swim State in order to work, please add the Swim State to {animal.name}",animal);
+                Debug.LogError($"UnderWater State needs Swim State in order to work, please add the Swim State to {animal.name}", animal);
             }
         }
 
@@ -47,10 +47,7 @@ namespace MalbersAnimations.Controller
             Inertia = animal.DeltaPos;
         }
 
-       
-     
-
-        public override Vector3 Speed_Direction() => animal.FreeMovement ?  animal.PitchDirection : animal.Forward;
+        public override Vector3 Speed_Direction() => animal.FreeMovement ? animal.PitchDirection : animal.Forward;
 
         public override bool TryActivate()
         {
@@ -86,9 +83,9 @@ namespace MalbersAnimations.Controller
         public override void TryExitState(float DeltaTime)
         {
             var checkWater = SwimState.CheckWater();
-          //  SwimState.FindWaterLevel2();
+            //  SwimState.FindWaterLevel2();
 
-           // var radius = SwimState.m_Radius;
+            // var radius = SwimState.m_Radius;
 
             if (!checkWater)
             {
@@ -99,7 +96,7 @@ namespace MalbersAnimations.Controller
                     AllowExit();
                 }
                 //If we  touched the waterLevel
-                else 
+                else
                 {
                     Debugging("[Allow Exit to Swim]");
                     SwimState.Activate();
@@ -134,7 +131,7 @@ namespace MalbersAnimations.Controller
                         StartVerticalIndex = new IntReference(1),
                         TopIndex = new IntReference(2),
                         states = new List<StateID>(1) { ID },
-                        Speeds = new List<MSpeed>() { new MSpeed(setName), new MSpeed(setName + " Fast",2,4,4) { animator = new FloatReference(1.33f) } }
+                        Speeds = new List<MSpeed>() { new MSpeed(setName), new MSpeed(setName + " Fast", 2, 4, 4) { animator = new FloatReference(1.33f) } }
                     }
                     );
             }
@@ -152,8 +149,8 @@ namespace MalbersAnimations.Controller
                 Sprint = true,
                 OrientToGround = false,
                 CustomRotation = false,
-                FreeMovement  = true,
-                IgnoreLowerStates = true,  
+                FreeMovement = true,
+                IgnoreLowerStates = true,
                 AdditivePosition = true,
                 AdditiveRotation = true,
                 Gravity = false,
@@ -164,7 +161,7 @@ namespace MalbersAnimations.Controller
 
         public override void StateGizmos(MAnimal animal)
         {
-            if (Application.isPlaying && SwimState != null && animal != null)   
+            if (Application.isPlaying && SwimState != null && animal != null)
             {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawSphere(SwimState.WaterPivotPoint, SwimState.m_Radius * animal.ScaleFactor);

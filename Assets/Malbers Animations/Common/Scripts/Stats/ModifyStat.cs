@@ -30,9 +30,16 @@ namespace MalbersAnimations
           "Reset the Stat to the maximun Value",
           "Reset the Stat to the minimun Value",
           "Enable/Disable the Stat",
-           "Set Imnune",
-           "Starts the Regeneration",
-           "Starts the Degeneration",
+          "Set Imnune",
+          "Starts the Regeneration",
+          "Restore the Regeneration to its default",
+          "Restore the Degeneration to its default",
+          "Restore the Value to its default",
+          "Restore the Max Value to its default",
+          "Restore the Min to its default",
+          "Restore the value to its default",
+          "Restore the Mutliplier to its default",
+          "Adds or Remove a value to the Multiplier",
     };
 
 
@@ -69,7 +76,7 @@ namespace MalbersAnimations
         }
     }
 
-   
+
 
     /// <summary> Modify a Stat usings its properties </summary>
     [System.Serializable]
@@ -112,9 +119,9 @@ namespace MalbersAnimations
             MaxValue = new(mod.MaxValue.Value);
             enable = new(true);
         }
-        
 
-      //  public static implicit operator StatModifier(StatModifierPlus r) => new StatModifier() { ID = r.ID, modify = r.modify, Value = r.Value };
+
+        //  public static implicit operator StatModifier(StatModifierPlus r) => new StatModifier() { ID = r.ID, modify = r.modify, Value = r.Value };
 
         /// <summary>There's No ID stat</summary>
         public bool IsNull => ID == null;
@@ -188,7 +195,7 @@ namespace MalbersAnimations
             var indent = EditorGUI.indentLevel;
             var height = EditorGUIUtility.singleLineHeight;
 
-            EditorGUI.indentLevel = 0;
+            //  EditorGUI.indentLevel = 0;
 
             var ID = property.FindPropertyRelative("ID");
             var MaxValue = property.FindPropertyRelative("MaxValue");
@@ -198,18 +205,18 @@ namespace MalbersAnimations
 
             var line = new Rect(position)
             {
-                width = position.width / 3 * 2,
-                height = height
+                width = position.width * 0.6f,
+                height = height,
             };
 
-            var LabelWith = 55;
+            var LabelWith = 50;
 
             EditorGUIUtility.labelWidth = LabelWith;
             EditorGUI.PropertyField(line, ID, new GUIContent("Stat", "Stat ID to modify"));
             EditorGUIUtility.labelWidth = 0;
 
-            line.x += position.width / 3 * 2 + 5;
-            line.width = position.width / 3 - 5;
+            line.x += position.width * 0.6f + 5;
+            line.width = position.width * 0.4f - 5;
             EditorGUI.PropertyField(line, modify, new GUIContent(string.Empty, ModifyStat.Tooltips[modify.intValue]));
             EditorGUI.LabelField(line, new GUIContent("             ", ModifyStat.Tooltips[modify.intValue]));
 
@@ -218,22 +225,13 @@ namespace MalbersAnimations
 
 
             EditorGUIUtility.labelWidth = LabelWith;
-            if (
-               modify.intValue == (int)StatOption.None ||
-               modify.intValue == (int)StatOption.Reset ||
-               modify.intValue == (int)StatOption.DegenerateOff ||
-               modify.intValue == (int)StatOption.RegenerateOff ||
-               modify.intValue == (int)StatOption.ResetToMax ||
-               modify.intValue == (int)StatOption.ResetToMin  ||
-               modify.intValue == (int)StatOption.RegenerateOn  ||
-               modify.intValue == (int)StatOption.DegenerateOn
-               )
+            if (CheckEnum(modify.intValue))
             {
                 //Don't Draw anything
             }
             else if (modify.intValue == (int)StatOption.Enable || modify.intValue == (int)StatOption.Inmune)
             {
-                EditorGUI.PropertyField(line2, enable);
+                EditorGUI.PropertyField(line2, enable, new GUIContent("Value"));
             }
             else
             {
@@ -249,7 +247,7 @@ namespace MalbersAnimations
             }
             EditorGUIUtility.labelWidth = 0;
             property.serializedObject.ApplyModifiedProperties();
-            EditorGUI.indentLevel = indent;
+            // EditorGUI.indentLevel = indent;
 
             EditorGUI.EndProperty();
         }
@@ -257,17 +255,7 @@ namespace MalbersAnimations
         {
             var modify = property.FindPropertyRelative("modify");
 
-            if (
-                modify.intValue == (int)StatOption.None ||
-                modify.intValue == (int)StatOption.Reset ||
-                modify.intValue == (int)StatOption.DegenerateOff ||
-                modify.intValue == (int)StatOption.RegenerateOff ||
-                modify.intValue == (int)StatOption.ResetToMax ||
-                modify.intValue == (int)StatOption.ResetToMin ||
-                modify.intValue == (int)StatOption.RegenerateOn ||
-                modify.intValue == (int)StatOption.DegenerateOn
-                )
-
+            if (CheckEnum(modify.intValue))
             {
                 return 18;
             }
@@ -275,6 +263,25 @@ namespace MalbersAnimations
             {
                 return (18 * 2) + 2;
             }
+        }
+
+        private bool CheckEnum(int modify)
+        {
+            return
+                modify == (int)StatOption.None ||
+                modify == (int)StatOption.Reset ||
+                modify == (int)StatOption.DegenerateOff ||
+                modify == (int)StatOption.RegenerateOff ||
+                modify == (int)StatOption.ResetToMax ||
+                modify == (int)StatOption.ResetToMin ||
+                modify == (int)StatOption.RegenerateOn ||
+                modify == (int)StatOption.DegenerateOn ||
+                modify == (int)StatOption.RestoreValue ||
+                modify == (int)StatOption.RestoreMax ||
+                modify == (int)StatOption.RestoreMin ||
+                modify == (int)StatOption.RestoreDegeneration ||
+                modify == (int)StatOption.RestoreMultiplier ||
+                modify == (int)StatOption.RestoreRegeneration;
         }
     }
 #endif

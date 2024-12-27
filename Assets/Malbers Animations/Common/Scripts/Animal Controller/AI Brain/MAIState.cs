@@ -170,7 +170,7 @@ namespace MalbersAnimations.Controller.AI
             for (int i = 0; i < tasks.Length; i++)
             {
                 if (this != brain.currentState) return; //BUG when a Task call another AI STATE
-                
+
                 if (brain.TasksStarted[i] && !brain.TasksDone[i] && tasks[i].active)
                 {
                     tasks[i].InternalUpdateTask(brain, i);
@@ -627,7 +627,7 @@ namespace MalbersAnimations.Controller.AI
 
                         if (GUI.Button(AddButtonRect, plus, EditorStyles.helpBox))
                         {
-                            var NewAsset = MTools.CreateAssetWithSavePrompt(typeof(MAIState), MTools.GetSelectedPathOrFallback());
+                            var NewAsset = MTools.CreateAssetWithSavePrompt(typeof(MAIState), MalbersEditor.GetSelectedPathOrFallback());
                             EditorUtility.SetDirty(NewAsset);
 
                             m.transitions[index].trueState = NewAsset as MAIState;
@@ -657,7 +657,7 @@ namespace MalbersAnimations.Controller.AI
 
                         if (GUI.Button(AddButtonRect, plus, EditorStyles.helpBox))
                         {
-                            var NewAsset = MTools.CreateAssetWithSavePrompt(typeof(MAIState), MTools.GetSelectedPathOrFallback());
+                            var NewAsset = MTools.CreateAssetWithSavePrompt(typeof(MAIState), MalbersEditor.GetSelectedPathOrFallback());
                             EditorUtility.SetDirty(NewAsset);
                             m.transitions[index].falseState = NewAsset as MAIState;
                             EditorUtility.SetDirty(target);

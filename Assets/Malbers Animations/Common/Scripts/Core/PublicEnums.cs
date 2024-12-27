@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MalbersAnimations
+﻿namespace MalbersAnimations
 {
     public enum InputType { Input, Key }
 
@@ -28,19 +26,19 @@ namespace MalbersAnimations
 
     public enum MathOperation
     {
-     //   [InspectorName("+")]
+        //   [InspectorName("+")]
         Add,
-     //   [InspectorName("-")]
+        //   [InspectorName("-")]
         Substract,
-       // [InspectorName("*")]
+        // [InspectorName("*")]
         Multiply,
-      //  [InspectorName("/")]
+        //  [InspectorName("/")]
         Divide
     }
 
     public enum ComparerBool { Equal = 0, NotEqual = 1, }
 
-    public enum ComparerString { Equal = 0, NotEqual = 1, Empty = 2, }
+    public enum ComparerString { Equal = 0, NotEqual = 1, Empty = 2, Contains, DoesNotContains }
 
     public enum EEnterExit { Enter = 1, Exit = 2, }
 
@@ -152,7 +150,7 @@ namespace MalbersAnimations
         public static int Ready => 95;
 
 
-        
+
     }
 
 }

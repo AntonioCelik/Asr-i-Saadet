@@ -252,6 +252,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 300
     Variable: {fileID: 0}
+  holder: -1
   OnFocused:
     m_PersistentCalls:
       m_Calls:
@@ -268,6 +269,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   OnFocusedBy:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnfocusedBy:
     m_PersistentCalls:
       m_Calls: []
   OnPicked:
@@ -307,11 +311,28 @@ MonoBehaviour:
   OnPreDropped:
     m_PersistentCalls:
       m_Calls: []
+  FocusedByReaction:
+    rid: -2
+  UnFocusedByReaction:
+    rid: -2
+  PickedReaction:
+    rid: -2
+  PrePickedReaction:
+    rid: -2
+  DroppedReaction:
+    rid: -2
+  PreDroppedReaction:
+    rid: -2
   rb: {fileID: 7311064213735106484}
   m_colliders:
   - {fileID: 7184143900747218106}
   - {fileID: 2882026541599954611}
   EditorTabs: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!4 &268348779404491399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000011008835940, guid: 2c5225f5669a34c4692d95a8d5dfe2aa,

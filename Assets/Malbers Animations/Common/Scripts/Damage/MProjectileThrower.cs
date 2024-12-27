@@ -8,7 +8,7 @@ namespace MalbersAnimations.Weapons
 {
     [AddComponentMenu("Malbers/Damage/Projectile Thrower")]
 
-    public class MProjectileThrower : MonoBehaviour, IThrower , IAnimatorListener
+    public class MProjectileThrower : MonoBehaviour, IThrower, IAnimatorListener
     {
         /// <summary> Is Used to calculate the Trajectory and Display it as a LineRenderer </summary>
         public System.Action<bool> Predict { get; set; }
@@ -24,7 +24,7 @@ namespace MalbersAnimations.Weapons
 
         [Header("Multipliers")]
 
-        [Tooltip("Multiplier value to Apply to the Projectile Stat Modifier"),FormerlySerializedAs("Multiplier") ]
+        [Tooltip("Multiplier value to Apply to the Projectile Stat Modifier"), FormerlySerializedAs("Multiplier")]
         public FloatReference DamageMultiplier = new(1);
         [Tooltip("Multiplier value to apply to the Projectile Scale")]
         public FloatReference ScaleMultiplier = new(1);
@@ -41,14 +41,14 @@ namespace MalbersAnimations.Weapons
         private TransformReference m_Target;
         [SerializeField, Tooltip("Transform Reference for to calculate the Thrower Aim Origin Position")]
         private Transform m_AimOrigin;
-        [SerializeField, Tooltip("Owner of the Thrower Component. By default it should be the Root GameObject")] 
+        [SerializeField, Tooltip("Owner of the Thrower Component. By default it should be the Root GameObject")]
         private GameObjectReference m_Owner;
 
         [Header("Aimer")]
         [Tooltip("Reference for the Aimer Component")]
         public Aim Aimer;
         [Tooltip("if its set to False. it will use this GameObject Forward Direction")]
-        public BoolReference useAimerDirection = new( true);
+        public BoolReference useAimerDirection = new(true);
         [Hide("Aimer")]
         [Tooltip("Update the Thrower Target from the Aimer component")]
         public bool UpdateTargetFromAimer = false;
@@ -56,7 +56,7 @@ namespace MalbersAnimations.Weapons
         [Header("Physics Values")]
         [SerializeField, Tooltip("Launch force for the Projectile")]
         private float m_Force = 50f;
-        
+
         [Range(0, 90)]
         [SerializeField, Tooltip("Angle of the Projectile when a Target is assigned")]
         private float m_angle = 45f;
@@ -91,7 +91,7 @@ namespace MalbersAnimations.Weapons
 
         public Transform AimOrigin => m_AimOrigin;
 
-        [MButton(nameof(Fire),true)]
+        [MButton(nameof(Fire), true)]
         public bool FireTest;
 
         public bool CalculateTrajectory
@@ -120,7 +120,7 @@ namespace MalbersAnimations.Weapons
             Aimer?.OnSetTarget.AddListener(AimerTarget);
         }
 
-        
+
 
         private void OnDisable()
         {
@@ -129,7 +129,7 @@ namespace MalbersAnimations.Weapons
 
         private void AimerTarget(Transform target)
         {
-          if (UpdateTargetFromAimer)  Target = target;
+            if (UpdateTargetFromAimer) Target = target;
         }
 
         public virtual void SetProjectile(GameObject newProjectile)
@@ -168,7 +168,7 @@ namespace MalbersAnimations.Weapons
         void Prepare_Projectile(GameObject p)
         {
             //Means its a Malbers Projectile ^^
-            if (p.TryGetComponent<IProjectile>(out var projectile)) 
+            if (p.TryGetComponent<IProjectile>(out var projectile))
             {
                 projectile.Prepare(Owner, Gravity, Velocity, Layer, TriggerInteraction);
                 projectile.AfterDistance = AfterDistance;
@@ -189,6 +189,9 @@ namespace MalbersAnimations.Weapons
         public virtual void SetPowerMultiplier(float m) => ForceMultiplier = m;
         public virtual void SetForceMultiplier(float m) => SetPowerMultiplier(m);
 
+        public virtual void SetAimerDirection(float m) => useAimerDirection.Value = m > 0.5f;
+        public virtual void SetAimerDirection(int m) => useAimerDirection.Value = m == 1;
+
         public virtual void CalculateVelocity()
         {
             if (Target)
@@ -205,7 +208,7 @@ namespace MalbersAnimations.Weapons
             }
             else if (Aimer && useAimerDirection.Value)
             {
-                Velocity = Aimer.AimDirection.normalized * Power;
+                Velocity = (Aimer.AimPoint - AimOriginPos).normalized * Power;
             }
             else
             {

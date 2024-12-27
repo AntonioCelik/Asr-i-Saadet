@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace MalbersAnimations.Controller.AI
 {
+    public enum PlayWhen { PlayOnce, PlayForever, Interrupt }
 
     [CreateAssetMenu(menuName = "Malbers Animations/Pluggable AI/Tasks/Play Mode")]
     public class PlayModeTask : MTask
     {
         public override string DisplayName => "Animal/Set|Play Mode";
 
-        public enum PlayWhen { PlayOnce, PlayForever, Interrupt }
 
         [Tooltip("Mode you want to activate when the brain is using this task")]
         public ModeID modeID;
@@ -18,6 +18,9 @@ namespace MalbersAnimations.Controller.AI
         public FloatReference ModePower = new(0f);
         [Tooltip("Play the mode only when the animal has arrived to the target")]
         public bool near = false;
+
+        //[Tooltip("Play the mode only if the Target has a targeter and is ")]
+        //public bool waitingTarget= false;
 
         [Space, Tooltip("Apply the Task to the Animal(Self) or the Target(Target)")]
         public Affected affect = Affected.Self;
@@ -48,7 +51,8 @@ namespace MalbersAnimations.Controller.AI
             {
                 if (Play == PlayWhen.PlayOnce)
                 {
-                    if (near && !brain.AIControl.HasArrived) return; //Dont play if Play on target is true but we are not near the target.
+                    //Dont play if Play on target is true but we are not near the target.
+                    if (near && !brain.AIControl.HasArrived || brain.AIControl.IsWaitingOnTarget) return;
                     if (PlayMode(brain))
                     {
                         brain.TasksVars[index].boolValue = true; //Store on the Bool Variable of the Decision that it has already play the mode
@@ -74,9 +78,9 @@ namespace MalbersAnimations.Controller.AI
 
         public override void UpdateTask(MAnimalBrain brain, int index)
         {
-            if (near && !brain.AIControl.HasArrived)
+            if (near && !brain.AIControl.HasArrived || brain.AIControl.IsWaitingOnTarget)
             {
-              //  brain.TasksStartTime[index] = Time.time; //Reset the time to the Arrive time
+                //  brain.TasksStartTime[index] = Time.time; //Reset the time to the Arrive time
                 return; //Dont play if Play on target is true but we are not near the target.
             }
 
@@ -119,7 +123,7 @@ namespace MalbersAnimations.Controller.AI
                             brain.TasksVars[index].boolValue = true;    //Set that te mode was Played Once!!
                         }
                     }
-                    
+
                     if (MTools.ElapsedTime(brain.TasksStartTime[index], CoolDown)) //If the animal is in range of the Target
                     {
                         if (PlayMode(brain))
@@ -179,7 +183,9 @@ namespace MalbersAnimations.Controller.AI
                     var EyesForward = Vector3.ProjectOnPlane(brain.Eyes.forward, brain.Animal.UpVector);
                     if (ModeAngle == 360f || Vector3.Dot(Direction_to_Target.normalized, EyesForward) > Mathf.Cos(ModeAngle * 0.5f * Mathf.Deg2Rad)) //Mean is in Range:
                     {
-                        if (brain.Animal.Mode_TryActivate(modeID, AbilityID))
+                        if (Play == PlayWhen.PlayOnce && brain.Animal.Mode_TryActivate(modeID, AbilityID, AbilityStatus.PlayOneTime)
+                            || brain.Animal.Mode_TryActivate(modeID, AbilityID)
+                            )
                         {
                             if (lookAtAlign && brain.Target)
                                 brain.StartCoroutine(MTools.AlignLookAtTransform(brain.Animal.transform, brain.AIControl.GetTargetPosition(), alignTime));
@@ -211,7 +217,7 @@ namespace MalbersAnimations.Controller.AI
             }
             return false;
         }
-         
+
 
 
 
@@ -279,8 +285,8 @@ namespace MalbersAnimations.Controller.AI
 
             UnityEditor.EditorGUILayout.PropertyField(affect);
             UnityEditor.EditorGUILayout.PropertyField(Play, new GUIContent("Action"));
-            var playtype = (PlayModeTask.PlayWhen)Play.intValue;
-            if (playtype != PlayModeTask.PlayWhen.Interrupt)
+            var playtype = (PlayWhen)Play.intValue;
+            if (playtype != PlayWhen.Interrupt)
             {
                 UnityEditor.EditorGUILayout.PropertyField(near);
 
@@ -296,7 +302,7 @@ namespace MalbersAnimations.Controller.AI
 
 
                 UnityEditor.EditorGUILayout.PropertyField(CoolDown);
-               if (Play.intValue == 1 ) UnityEditor.EditorGUILayout.PropertyField(IgnoreFirstCoolDown);
+                if (Play.intValue == 1) UnityEditor.EditorGUILayout.PropertyField(IgnoreFirstCoolDown);
 
                 UnityEditor.EditorGUILayout.PropertyField(ModeAngle);
 

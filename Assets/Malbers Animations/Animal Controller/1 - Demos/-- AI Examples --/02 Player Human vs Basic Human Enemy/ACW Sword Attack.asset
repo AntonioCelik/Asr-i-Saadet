@@ -68,7 +68,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AssignTarget: 0
   MoveToTarget: 0
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 
@@ -137,7 +136,7 @@ MonoBehaviour:
   m_Name: T_Run
   m_EditorClassIdentifier: 
   active: 1
-  Description: Change the Speed on the Animal
+  Description: Change the Speed to maximum speed
   MessageID:
     UseConstant: 1
     ConstantValue: 0
@@ -145,11 +144,13 @@ MonoBehaviour:
   UpdateInterval: 0.2
   WaitForPreviousTask: 0
   affect: 0
-  SpeedSet: Ground
+  SpeedSet: 
   SpeedIndex:
     UseConstant: 1
-    ConstantValue: 2
+    ConstantValue: 10
     Variable: {fileID: 0}
+  Sprint: 0
+  ResetSprintOnExit: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ MonoBehaviour:
   GizmoStateColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
-  TasksIndex: 0
+  TasksIndex: 1
   DecisionIndex: -1
 --- !u!114 &5873187726266594735
 MonoBehaviour:

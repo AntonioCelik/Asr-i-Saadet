@@ -236,7 +236,7 @@ namespace Autohand {
 
         public int FindScenePoses() {
             scenePoses.Clear();
-            scenePoses = FindObjectsByType<HandPoseDataContainer>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
+            scenePoses = GameObject.FindObjectsOfType<HandPoseDataContainer>().ToList();
             Debug.Log("Found " + scenePoses.Count + " scene poses");
             for(int i = scenePoses.Count - 1; i >= 0; i--) {
                 if(!scenePoses[i].isDataDepricated)

@@ -14,7 +14,7 @@ namespace Autohand {
 
         void OnRelease(Hand hand);
 
-        public bool CanGrab(Hand hand);
+        bool CanGrab(Hand hand);
 
         Grabbable GetGrabbable();
     }

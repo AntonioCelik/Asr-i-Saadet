@@ -20,7 +20,7 @@ namespace MalbersAnimations.Events
     public class MEvent : ScriptableObject
     {
         /// <summary>The list of listeners that this event will notify if it is raised.</summary>
-        internal readonly List<MEventItemListener> eventListeners = new List<MEventItemListener>();
+        internal readonly List<MEventItemListener> eventListeners = new();
 
 
 #if UNITY_EDITOR
@@ -88,7 +88,7 @@ namespace MalbersAnimations.Events
 
         public virtual void Invoke(string value)
         {
-            DebugEvent(value, "string");
+            DebugEvent($"'{value}'", "string");
 
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
@@ -105,14 +105,14 @@ namespace MalbersAnimations.Events
         public virtual void Invoke(int value)
         {
             DebugEvent(value, "int");
-         
+
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
         }
 
         public virtual void Invoke(IntVar value)
         {
-            DebugEvent(value.Value,"Int Var");
+            DebugEvent(value.Value, "Int Var");
 
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value.Value);
@@ -121,7 +121,7 @@ namespace MalbersAnimations.Events
         public virtual void Invoke(IDs value)
         {
             DebugEvent($"({value.name} - {value.ID})", "Int[ID]");
- 
+
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value.ID);
 
@@ -134,12 +134,17 @@ namespace MalbersAnimations.Events
                 eventListeners[i].OnEventInvoked(value);
         }
 
+        public virtual void Invoke(GameObjectVar value) => Invoke(value.Value);
+
         public virtual void Invoke(Transform value)
         {
-            DebugEvent(value, "Transform");
+            DebugEvent(value != null ? value.name : null, "Transform");
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
         }
+
+        public virtual void Invoke(TransformVar value) => Invoke(value.Value);
+
 
         public virtual void Invoke(Vector3 value)
         {
@@ -148,28 +153,31 @@ namespace MalbersAnimations.Events
                 eventListeners[i].OnEventInvoked(value);
         }
 
-        public virtual void Invoke(Vector3Reference value) => Invoke(value.Value);
+        public virtual void Invoke(Vector3Var value) => Invoke(value.Value);
 
         public virtual void Invoke(Vector2 value)
         {
-            DebugEvent(value,"Vector2");
+            DebugEvent(value, "Vector2");
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
         }
 
         public virtual void Invoke(Component value)
         {
-            DebugEvent(value,"Component");
-            for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventInvoked(value);
-        } 
-
-        public virtual void Invoke(Sprite value)
-        {
-            DebugEvent(value,"Sprite");
+            DebugEvent(value, "Component");
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
         }
+
+        public virtual void Invoke(Sprite value)
+        {
+            DebugEvent(value, "Sprite");
+            for (int i = eventListeners.Count - 1; i >= 0; i--)
+                eventListeners[i].OnEventInvoked(value);
+        }
+
+        public virtual void Invoke(SpriteVar value) => Invoke(value.Value);
+
 
         public virtual void RegisterListener(MEventItemListener listener)
         {
@@ -182,9 +190,9 @@ namespace MalbersAnimations.Events
         }
 
         public virtual void InvokeAsGameObject(Component value) => Invoke(value != null ? value.gameObject : null);
-        public virtual void InvokeAsTransform(GameObject value) => Invoke(value != null ? value.transform: null);
+        public virtual void InvokeAsTransform(GameObject value) => Invoke(value != null ? value.transform : null);
         public virtual void InvokeAsTransform(Component value) => Invoke(value != null ? value.transform : null);
-        public virtual void InvokeAsString(Object value) => Invoke(value != null ? value.name.Replace("(Clone)","") : string.Empty);
+        public virtual void InvokeAsString(Object value) => Invoke(value != null ? value.name.Replace("(Clone)", "") : string.Empty);
         public virtual void InvokeAsBool(Object value) => Invoke(value != null);
         public virtual void InvokeAsBool(int value) => Invoke(value > 0);
 
@@ -196,7 +204,7 @@ namespace MalbersAnimations.Events
         private void DebugEvent(object value, string type)
         {
 #if UNITY_EDITOR
-            if (debug) Debug.Log($"<color=cyan><B>{name}</B> - Invoke({value}) Type({type}) </color>",this);
+            if (debug) Debug.Log($"<color=cyan><B>{name}</B> - Invoke({value}) Type({type}) </color>", this);
 #endif
         }
 
@@ -213,8 +221,13 @@ namespace MalbersAnimations.Events
 
         ////This is for Debugin porpuses
         #region Debuging Methods
-        public virtual void Pause() => Debug.Break();
-        public virtual void LogDeb(string value) => Debug.Log($"<color=white><B>{name} : [{value}] </B></color>",this);
+        public virtual void Pause()
+        {
+            Debug.Log("Pause Editor", this);
+            Debug.Break();
+        }
+
+        public virtual void LogDeb(string value) => Debug.Log($"<color=white><B>{name} : [{value}] </B></color>", this);
         public virtual void LogDeb(bool value) => Debug.Log($"<color=white><B>{name} : [{value}] </B></color>");
         public virtual void LogDeb(Vector3 value) => Debug.Log($"<color=white><B>{name} : [{value}] </B></color>");
         public virtual void LogDeb(Vector2 value) => Debug.Log($"<color=white><B>{name} : [{value}] </B></color>");
@@ -271,7 +284,7 @@ namespace MalbersAnimations.Events
 
         void Debuggin(string log, Object target)
         {
-            Debug.Log($"<color=cyan>Event [{target.name}]. <B>{log} Response</B> → Listener: <B>[{target.name}]</B> </color>",target);
+            Debug.Log($"<color=cyan>Event [{ev.name}]. <B>{log} Response</B> → Listener: <B>[{target.name}]</B> </color>", target);
         }
 
         public override void OnInspectorGUI()
@@ -299,7 +312,7 @@ namespace MalbersAnimations.Events
             }
 
             if (style == null)
-               style = new GUIStyle(Style_)
+                style = new GUIStyle(Style_)
                 {
                     fontSize = 12,
                     fontStyle = FontStyle.Bold,
@@ -328,7 +341,7 @@ namespace MalbersAnimations.Events
                         EditorGUILayout.PropertyField(m_bool);
                         if (GUILayout.Button("Invoke", GUILayout.Width(w))) { ev.Invoke(ev.m_bool); }
                     }
-                     
+
 
                     using (new GUILayout.HorizontalScope())
                     {
@@ -398,17 +411,21 @@ namespace MalbersAnimations.Events
         public class EventReferenceInfo
         {
             public MonoBehaviour Owner { get; set; }
-            public UnityEventBase Event { get; set; }  
+            public UnityEventBase Event { get; set; }
 
             public string name { get; set; }
-           // public List<string> MethodNames { get; set; } = new List<string>();
+            // public List<string> MethodNames { get; set; } = new List<string>();
         }
 
         private void FindAllInvokers()
         {
             //find all objects in current opened scene
-            var allObjects = GameObject.FindObjectsOfType(typeof(MonoBehaviour));
-          //  Debug.Log("All MOno = " + allObjects.Length);
+            // var allObjects = GameObject.FindObjectsOfType(typeof(MonoBehaviour));
+            //find all objects in current opened scene
+            var allObjects = GameObject.FindObjectsByType<MonoBehaviour>(sortMode: FindObjectsSortMode.None);
+            //  Debug.Log("All MOno = " + allObjects.Length);
+
+            //  Debug.Log("All MOno = " + allObjects.Length);
 
             var events = new List<EventReferenceInfo>();
 
@@ -436,14 +453,17 @@ namespace MalbersAnimations.Events
                 {
                     if (item.FieldType.IsGenericType && item.GetValue(b) is IEnumerable)
                     {
-                      //  Debug.Log($"item : {item.Name}, OWNER {b.name} {b.GetType().Name}");
+                        //  Debug.Log($"item : {item.Name}, OWNER {b.name} {b.GetType().Name}");
 
                         foreach (var prop in item.GetValue(b) as IEnumerable)
                         {
-                           // Debug.Log($"Internal : {prop.GetType().Name}");
+                            // Debug.Log($"Internal : {prop.GetType().Name}");
+
+                            if (prop == null) continue; //BUG
+
 
                             //Unity Event inside lists
-                            var EventsInsideList = 
+                            var EventsInsideList =
                                 prop.GetType().GetTypeInfo().DeclaredFields.Where(f => f.FieldType.IsSubclassOf(typeof(UnityEventBase))).ToList();
 
                             foreach (var e in EventsInsideList)
@@ -455,7 +475,7 @@ namespace MalbersAnimations.Events
                                     name = e.Name
                                 });
 
-                              //  Debug.Log($"EVENT NAME : {e.Name}");
+                                //  Debug.Log($"EVENT NAME : {e.Name}");
                             }
                         }
                     }
@@ -469,6 +489,8 @@ namespace MalbersAnimations.Events
             //PRINT ALL EVENTS
             foreach (var e in events)
             {
+                if (e.Event == null) continue;
+
                 int count = e.Event.GetPersistentEventCount();
 
                 for (int i = 0; i < count; i++)
@@ -484,7 +506,7 @@ namespace MalbersAnimations.Events
             }
 
 
-           // Debug.Log("All Events = " + events.Count);
+            // Debug.Log("All Events = " + events.Count);
         }
 
         private void FindListeners()
@@ -495,41 +517,54 @@ namespace MalbersAnimations.Events
             // Loop through the listeners and log their game object names
             foreach (var eventItem in ev.eventListeners)
             {
-
                 //Debug Void Responses
                 for (int i = 0; i < eventItem.Response.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.Response.GetPersistentTarget(i);
                     var what = eventItem.Response.GetPersistentMethodName(i);
-                    Debuggin($"Void -> [{what}]", item);
+                    Debuggin($"Void -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseBool.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseBool.GetPersistentTarget(i);
                     var what = eventItem.ResponseBool.GetPersistentMethodName(i);
-                    Debuggin($"Bool -> [{what}]", item);
+                    Debuggin($"Bool -> [{what}]. Target [{item.name}]", eventItem.Owner);
+                }
+
+                for (int i = 0; i < eventItem.ResponseBoolFalse.GetPersistentEventCount(); i++)
+                {
+                    var item = eventItem.ResponseBoolFalse.GetPersistentTarget(i);
+                    var what = eventItem.ResponseBoolFalse.GetPersistentMethodName(i);
+                    Debuggin($"Bool False -> [{what}]. Target [{item.name}]", eventItem.Owner);
+                }
+
+                for (int i = 0; i < eventItem.ResponseBoolTrue.GetPersistentEventCount(); i++)
+                {
+                    var item = eventItem.ResponseBoolTrue.GetPersistentTarget(i);
+                    var what = eventItem.ResponseBoolTrue.GetPersistentMethodName(i);
+                    Debuggin($"Bool True -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseInt.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseInt.GetPersistentTarget(i);
                     var what = eventItem.ResponseInt.GetPersistentMethodName(i);
-                    Debuggin($"Int -> [{what}]", item);
+                    Debuggin($"Int -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseFloat.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseFloat.GetPersistentTarget(i);
                     var what = eventItem.ResponseFloat.GetPersistentMethodName(i);
-                    Debuggin($"Float -> [{what}]", item);
+                    Debuggin($"Float -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseString.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseString.GetPersistentTarget(i);
                     var what = eventItem.ResponseString.GetPersistentMethodName(i);
-                    Debuggin($"String -> [{what}]", item);
+                    Debuggin($"String -> [{what}]. Target [{item.name}]", eventItem.Owner); ;
                 }
 
 
@@ -537,42 +572,55 @@ namespace MalbersAnimations.Events
                 {
                     var item = eventItem.ResponseTransform.GetPersistentTarget(i);
                     var what = eventItem.ResponseTransform.GetPersistentMethodName(i);
-                    Debuggin($"Transform -> [{what}]", item);
+                    Debuggin($"Transform -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseComponent.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseComponent.GetPersistentTarget(i);
                     var what = eventItem.ResponseComponent.GetPersistentMethodName(i);
-                    Debuggin($"Component -> [{what}]", item);
+                    Debuggin($"Component -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseGO.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseGO.GetPersistentTarget(i);
                     var what = eventItem.ResponseGO.GetPersistentMethodName(i);
-                    Debuggin($"GameObject -> [{what}]", item);
+                    Debuggin($"GameObject -> [{what}. Target [{item.name}]]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseVector2.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseVector2.GetPersistentTarget(i);
                     var what = eventItem.ResponseVector2.GetPersistentMethodName(i);
-                    Debuggin($"Vector2 -> [{what}]", item);
+                    Debuggin($"Vector2 -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseVector3.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseVector3.GetPersistentTarget(i);
                     var what = eventItem.ResponseVector3.GetPersistentMethodName(i);
-                    Debuggin($"Vector3 -> [{what}]", item);
+                    Debuggin($"Vector3 -> [{what}]. Target [{item.name}]", eventItem.Owner);
                 }
 
                 for (int i = 0; i < eventItem.ResponseSprite.GetPersistentEventCount(); i++)
                 {
                     var item = eventItem.ResponseSprite.GetPersistentTarget(i);
                     var what = eventItem.ResponseSprite.GetPersistentMethodName(i);
-                    Debuggin($"Sprite -> [{what}]", item);
+                    Debuggin($"Sprite -> [{what}]. Target [{item.name}]", eventItem.Owner);
+                }
+
+                for (int i = 0; i < eventItem.IntEventList.Count; i++)
+                {
+                    var advanceInt = eventItem.IntEventList[i];
+
+                    if (advanceInt.Response == null) continue;
+                    for (int j = 0; j < advanceInt.Response.GetPersistentEventCount(); j++)
+                    {
+                        var item = advanceInt.Response.GetPersistentTarget(i);
+                        var what = advanceInt.Response.GetPersistentMethodName(i);
+                        Debuggin($"Advanced Int -> [{what}]. Target [{item.name}]", eventItem.Owner);
+                    }
                 }
             }
         }

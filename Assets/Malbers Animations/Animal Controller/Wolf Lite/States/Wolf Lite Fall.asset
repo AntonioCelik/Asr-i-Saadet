@@ -49,9 +49,9 @@ MonoBehaviour:
   TagModifiers:
   - AnimationTag: FallEdge
     modifier:
-      modify: 1151
+      modify: 3199
       RootMotion: 1
-      Sprint: 1
+      Sprint: 0
       Gravity: 0
       Grounded: 0
       OrientToGround: 0
@@ -88,6 +88,11 @@ MonoBehaviour:
   IncludeSleepState: 1
   SleepFromState: []
   SleepFromMode: []
+  DisableModes: []
+  noModes:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   QueueFrom: []
   ResetFrom: []
   SleepFromStance: []
@@ -115,7 +120,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   ExitCooldown:
     UseConstant: 1
-    ConstantValue: 0.2
+    ConstantValue: 0
     Variable: {fileID: 0}
   CanStrafe: 1
   StrafeAnimations: 1
@@ -150,14 +155,13 @@ MonoBehaviour:
     ConstantValue: 0.1
     Variable: {fileID: 0}
   CheckFrontObstacle: 1
-  ShowFront: 1
   lengthMultiplier:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
-  RayHits:
+  rayHits:
     UseConstant: 1
-    ConstantValue: 2
+    ConstantValue: 6
     Variable: {fileID: 0}
   BlendFall: 0
   LowerBlendDistance:
@@ -181,3 +185,4 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 2
     Variable: {fileID: 0}
+  ShowFront: 1

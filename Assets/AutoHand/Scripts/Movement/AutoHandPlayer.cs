@@ -71,6 +71,22 @@ namespace Autohand {
         public bool bodyFollowsHead = true;
         public float maxHeadDistance = 0.5f;
 
+        // Neue Methoden f?r Movement Control
+        public void EnableMovement()
+        {
+            useMovement = true;
+        }
+
+        public void DisableMovement()
+        {
+            useMovement = false;
+        }
+
+        public void ToggleMovement()
+        {
+            useMovement = !useMovement;
+        }
+
 
 
         [AutoToggleHeader("Height")]

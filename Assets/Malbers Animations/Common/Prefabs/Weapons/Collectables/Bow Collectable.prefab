@@ -242,7 +242,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &7112515089088709850
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -282,6 +282,10 @@ MonoBehaviour:
   DebugColor: {r: 0, g: 0.6545739, b: 1, a: 0.27058825}
   DrawAxis: 0
   AxisSize: 0.65
+  _collider: {fileID: 0}
+  DrawLineTo: 0
+  ConnectTo: {fileID: 0}
+  Rect: {x: 1, y: 1, z: 1}
 --- !u!114 &5953020359679114554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,9 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Align: 0
-  AlignPos: 0
   AlignTime: 0.15
-  AlignDistance: 1
   PickDelay:
     UseConstant: 1
     ConstantValue: 0.15
@@ -326,6 +328,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  canBePicked:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   m_AutoPick:
     UseConstant: 1
     ConstantValue: 0
@@ -334,6 +340,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 200
     Variable: {fileID: 0}
+  holder: -1
   OnFocused:
     m_PersistentCalls:
       m_Calls:
@@ -352,6 +359,9 @@ MonoBehaviour:
   OnFocusedBy:
     m_PersistentCalls:
       m_Calls: []
+  OnUnfocusedBy:
+    m_PersistentCalls:
+      m_Calls: []
   OnPicked:
     m_PersistentCalls:
       m_Calls:
@@ -368,27 +378,63 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPickedFailed:
+    m_PersistentCalls:
+      m_Calls: []
   OnPrePicked:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 797619f9b2a1451479af45a1161a24e8, type: 2}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: React
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnDropped:
     m_PersistentCalls:
       m_Calls: []
   OnPreDropped:
     m_PersistentCalls:
       m_Calls: []
+  FocusedByReaction:
+    rid: -2
+  UnFocusedByReaction:
+    rid: -2
+  PickedReaction:
+    rid: -2
+  PrePickedReaction:
+    rid: 631734813757014018
+  DroppedReaction:
+    rid: -2
+  PreDroppedReaction:
+    rid: -2
   rb: {fileID: 722624809569109699}
+  DestroyRbOnPick:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   m_colliders: []
-  EditorTabs: 0
+  kinematicOnPick:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  disableColliders:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  EditorTabs: 2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 631734813757014018
+      type: {class: ModeReaction, ns: MalbersAnimations.Reactions, asm: MalbersAnimations}
+      data:
+        Active: 1
+        localComponent:
+          component: {fileID: 0}
+          useLocal: 0
+        delay: 0
+        type: 0
+        ID: {fileID: 11400000, guid: c0d938e24e7fe1f4a8f00633ce81a5b1, type: 2}
+        Ability: -1
+        HasCoolDown: 1
+        coolDown: 0
+        abilityStatus: 0
+        AbilityTime: 3
+        ModePower: 0

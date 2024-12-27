@@ -1,9 +1,7 @@
 ﻿using MalbersAnimations.Reactions;
 using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace MalbersAnimations.Controller
 {
@@ -157,7 +155,7 @@ namespace MalbersAnimations.Controller
         public bool FindWaterLevel2()
         {
             var UpPoint = WaterPivotPoint + (Vector3.up * (UpSearch * ScaleFactor));
-            var RayLength = (UpSearch+WaterPivot.position.y)*ScaleFactor;
+            var RayLength = (UpSearch + WaterPivot.position.y) * ScaleFactor;
             var rad = m_Radius * ScaleFactor;
 
             if (GizmoDebug)
@@ -265,7 +263,7 @@ namespace MalbersAnimations.Controller
 
             BounceEnteringWater(deltatime);
 
-             
+
             var rayColor = (Color.blue + Color.cyan) / 2;
 
             //HACK so it does not come out of the water on incline deep slopes
@@ -280,7 +278,7 @@ namespace MalbersAnimations.Controller
                 {
                     rayColor = Color.black;
                     {
-                        Position +=  WaterLine_Difference;
+                        Position += WaterLine_Difference;
                         animal.ResetUPVector();
                     }
                 }
@@ -320,7 +318,7 @@ namespace MalbersAnimations.Controller
 
                 var NextPos = WaterPivotPoint + (BounceUp) * (delta * bounceLerp);
 
-                 if (GizmoDebug)  MDebug.DrawWireSphere(NextPos, Color.green, m_Radius);
+                if (GizmoDebug) MDebug.DrawWireSphere(NextPos, Color.green, m_Radius);
 
                 Vector3 PointAvobe = NextPos - WaterLevel;
                 PivotAboveWater = Vector3.Dot(PointAvobe, Gravity) < 0; //Check if the next position will be above water

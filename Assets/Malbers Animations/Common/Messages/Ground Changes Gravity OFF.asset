@@ -51,7 +51,7 @@ MonoBehaviour:
     ComponentValue: {fileID: 0}
     time: 0
     sent: 0
-    Active: 1
+    Active: 0
   UseSendMessage: 0
   SendToChildren: 0
   debug: 0

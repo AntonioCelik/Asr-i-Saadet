@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MalbersAnimations.Reactions
 {
     [System.Serializable]
-    [AddTypeMenu("Malbers/Stats Enable-Disable")]
+    [AddTypeMenu("Malbers/Stats/Enable-Disable")]
     public class StatEnableReaction : Reaction
     {
         public IDEnable<StatID>[] stats;

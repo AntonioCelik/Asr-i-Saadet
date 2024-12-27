@@ -41,6 +41,7 @@ MonoBehaviour:
   arcsCount: 12
   LookAtTarget: 1
   FleeForever: 1
+  StopOnArrive: 1
   debugColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.25}
 --- !u!114 &-7254236280633116046
 MonoBehaviour:
@@ -78,11 +79,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 0
     Variable: {fileID: 0}
   AssignTarget: 1
   MoveToTarget: 1
-  RemoveTarget: 0
   ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 
@@ -158,3 +158,5 @@ MonoBehaviour:
   GizmoStateColor: {r: 0, g: 1, b: 0.1323154, a: 1}
   CreateTaskAsset: 1
   CreateDecisionAsset: 1
+  TasksIndex: -1
+  DecisionIndex: 0

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MalbersAnimations.Scriptables;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,18 @@ namespace MalbersAnimations
 {
     public static class MalbersAnimationsExtensions
     {
+        #region Dictionary Extensions
+        public static T Get<T>(this Dictionary<string, object> instance, string key)
+        {
+            return (T)instance[key];
+        }
+
+        //public static void Add<T>(this Dictionary<string, object> instance, string key, object newValue)
+        //{
+        //    instance.Add(key, (T)newValue);
+        //}
+        #endregion
+
         #region Types
         public static bool IsSubclassDeep(this Type type, Type parenType)
         {
@@ -77,35 +90,25 @@ namespace MalbersAnimations
         #region Float Int
         public static bool CompareFloat(this float current, float newValue, ComparerInt comparer)
         {
-            switch (comparer)
+            return comparer switch
             {
-                case ComparerInt.Equal:
-                    return (current == newValue);
-                case ComparerInt.Greater:
-                    return (current > newValue);
-                case ComparerInt.Less:
-                    return (current < newValue);
-                case ComparerInt.NotEqual:
-                    return (current != newValue);
-                default:
-                    return false;
-            }
+                ComparerInt.Equal => (current == newValue),
+                ComparerInt.Greater => (current > newValue),
+                ComparerInt.Less => (current < newValue),
+                ComparerInt.NotEqual => (current != newValue),
+                _ => false,
+            };
         }
         public static bool CompareInt(this int current, int newValue, ComparerInt comparer)
         {
-            switch (comparer)
+            return comparer switch
             {
-                case ComparerInt.Equal:
-                    return (current == newValue);
-                case ComparerInt.Greater:
-                    return (current > newValue);
-                case ComparerInt.Less:
-                    return (current < newValue);
-                case ComparerInt.NotEqual:
-                    return (current != newValue);
-                default:
-                    return false;
-            }
+                ComparerInt.Equal => (current == newValue),
+                ComparerInt.Greater => (current > newValue),
+                ComparerInt.Less => (current < newValue),
+                ComparerInt.NotEqual => (current != newValue),
+                _ => false,
+            };
         }
         public static bool InRange(this float current, float min, float max) => current >= min && current <= max;
         public static bool InRange(this int current, float min, float max) => current >= min && current <= max;
@@ -141,6 +144,12 @@ namespace MalbersAnimations
                 Mathf.Round(vector3.z * multiplier) / multiplier);
         }
 
+
+        public static Vector3 FlattenY(this Vector3 origin)
+        {
+            return new Vector3(origin.x, 0, origin.z);
+        }
+
         /// <summary>Checks if a vector is close to Vector3.zero</summary>
         public static bool CloseToZero(this Vector3 v, float threshold = 0.0001f) => v.sqrMagnitude < threshold * threshold;
 
@@ -161,6 +170,40 @@ namespace MalbersAnimations
             return a + (aB * t);
         }
 
+
+        public static Vector3 ProjectPointOnPlane(this Vector3 point, Vector3 planeNormal, Vector3 planePoint)
+        {
+            float distance;
+            Vector3 translationVector;
+
+            //First calculate the distance from the point to the plane:
+            distance = SignedDistancePlanePoint(planeNormal, planePoint, point);
+
+            //Reverse the sign of the distance
+            distance *= -1;
+
+            //Get a translation vector
+            translationVector = SetVectorLength(planeNormal, distance);
+
+            //Translate the point to form a projection
+            return point + translationVector;
+        }
+
+        public static float SignedDistancePlanePoint(Vector3 planeNormal, Vector3 planePoint, Vector3 point)
+        {
+            return Vector3.Dot(planeNormal, (point - planePoint));
+        }
+
+        //create a vector of direction "vector" with length "size"
+        public static Vector3 SetVectorLength(Vector3 vector, float size)
+        {
+
+            //normalize the vector
+            Vector3 vectorNormalized = Vector3.Normalize(vector);
+
+            //scale the vector
+            return vectorNormalized *= size;
+        }
 
         /// <summary>Get the closest point (0-1) on a line segment</summary>
         /// <param name="p">A point in space</param>
@@ -226,6 +269,8 @@ namespace MalbersAnimations
         /// <summary> Find the first transform grandchild with this name inside this transform</summary>
         public static Transform FindGrandChild(this Transform aParent, string aName)
         {
+            if (string.IsNullOrEmpty(aName)) return null; //Do nothing if the name is empty
+
             var result = aParent.ChildContainsName(aName);
 
             if (result != null) return result;
@@ -239,7 +284,7 @@ namespace MalbersAnimations
             return null;
         }
 
-        /// <summary>  Returns the Real Transform Core   </summary> 
+        /// <summary>Returns the Real Transform Core</summary> 
         public static Transform FindObjectCore(this Transform transf)
         {
             var core = transf;
@@ -291,6 +336,45 @@ namespace MalbersAnimations
         }
 
 
+        /// <summary> Find the closest TransformReference from the origin </summary>
+        public static Transform NearestTransform(this Transform origin, params TransformReference[] transforms)
+        {
+            Transform bestTarget = null;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = origin.position;
+            foreach (Transform potentialTarget in transforms)
+            {
+                Vector3 directionToTarget = potentialTarget.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialTarget;
+                }
+            }
+
+            return bestTarget;
+        }
+
+        /// <summary> Find the closest point from a transform </summary>
+        public static Vector3 NearestPoint(this Transform origin, params Vector3[] allPoints)
+        {
+            Vector3 nearest = Vector3.zero;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = origin.position;
+            foreach (var point in allPoints)
+            {
+                float dSqrToTarget = (point - currentPosition).sqrMagnitude;
+
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    nearest = point;
+                }
+            }
+            return nearest;
+        }
+
         /// <summary> Find the farest transform from the origin </summary>
         public static Transform FarestTransform(this Transform t, params Transform[] transforms)
         {
@@ -324,8 +408,7 @@ namespace MalbersAnimations
         /// <summary>Resets the Local Position and rotation of a transform</summary>
         public static void ResetLocal(this Transform transform)
         {
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
+            transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             transform.localScale = Vector3.one;
         }
 
@@ -338,19 +421,19 @@ namespace MalbersAnimations
         }
 
         /// <summary>Resets the Local Position and rotation of a transform</summary>
-        public static void SetLocalTransform(this Transform transform, TransformOffset offset)
-        {
-            transform.localPosition = offset.Position;
-            transform.localEulerAngles = offset.Rotation;
-            transform.localScale = offset.Scale;
-        }
+        public static void SetLocalTransform(this Transform transform, TransformOffset offset) => offset.RestoreTransform(transform);
+
 
         /// <summary>Parent a transform to another Transform, and Solves the Scale problem in case the Parent has a deformed scale  </summary>
         /// <param name="parent">Transform to be the parent</param>
         /// <param name="Position">Relative position to the Parent (World Position)</param>
         public static Transform SetParentScaleFixer(this Transform transform, Transform parent, Vector3 Position)
         {
-            if (parent.lossyScale.x == parent.lossyScale.y && parent.lossyScale.x == parent.lossyScale.z) //Check if the Scale is Uniform
+
+            Vector3 parentLossyScale = parent.lossyScale;
+            Vector3 desiredUniformScale = new(parentLossyScale.x, parentLossyScale.x, parentLossyScale.x);
+
+            if (parentLossyScale == desiredUniformScale) //Check if the Scale is Uniform
             {
                 transform.SetParent(parent, true);
                 transform.position = Position;
@@ -362,7 +445,7 @@ namespace MalbersAnimations
             NewScale.y = 1f / Mathf.Max(NewScale.y, Epsilon);
             NewScale.z = 1f / Mathf.Max(NewScale.z, Epsilon);
 
-            GameObject Hlper = new GameObject { name = transform.name + "Link" };
+            GameObject Hlper = new() { name = transform.name + "Link" };
 
             //  Debug.Log("Hlper = " + Hlper);
 
@@ -375,6 +458,26 @@ namespace MalbersAnimations
             transform.localPosition = Vector3.zero;
             return Hlper.transform;
         }
+
+        #endregion
+
+
+        #region Animator
+
+
+        /// <summary>  Return the Hash value of a parameter if it exists on the Animator. If it not exists it returns 0 </summary>
+        public static int TryOptionalParameter(this Animator m_Animator, string param)
+        {
+            var AnimHash = Animator.StringToHash(param);
+
+            foreach (var p in m_Animator.parameters)
+            {
+                if (p.nameHash == AnimHash) return AnimHash;
+            }
+
+            return 0;
+        }
+
 
         #endregion
 
@@ -425,7 +528,6 @@ namespace MalbersAnimations
         #region GameObjects
         /// <summary>The GameObject is a prefab, Meaning in not in any scene</summary>
         public static bool IsPrefab(this GameObject go) => !go.scene.IsValid();
-
         #endregion
 
 
@@ -453,7 +555,7 @@ namespace MalbersAnimations
             if (action != null) mono.StopCoroutine(action);
         }
 
-   
+
 
         /// <summary>Do an action after certain time</summary>
         public static IEnumerator Delay_Action(this MonoBehaviour mono, float time, Action action)
@@ -515,10 +617,19 @@ namespace MalbersAnimations
         }
 
 
+        /// <summary>  Use on custom C# types that are Unity objects to double check if the underlying Unity object is actually null or not.
+        /// </summary>
+        public static bool IsUnityRefNull<T>(this T o) where T : class
+            => o == null || (o is UnityEngine.Object unityObj) && unityObj == null;
+
         private static IEnumerator DelayedAction(float time, Action action)
         {
+            //Debug.Log("DelayStart");
+
             yield return new WaitForSeconds(time);
             action.Invoke();
+
+            // Debug.Log("DelayEnd");
         }
 
         private static IEnumerator DelayedAction(WaitForSeconds time, Action action)
@@ -558,7 +669,7 @@ namespace MalbersAnimations
             return default;
         }
 
-     
+
 
         public static Component FindComponent(this GameObject c, Type t)
         {
@@ -589,7 +700,7 @@ namespace MalbersAnimations
         }
 
         /// <summary>Search for the Component in the root of the Object </summary>
-        public static T FindComponentInRoot<T>(this GameObject c) where T : Component
+        public static T MFindComponentInRoot<T>(this GameObject c) where T : Component
         {
             var root = c.transform.root;
 
@@ -655,7 +766,7 @@ namespace MalbersAnimations
         public static T[] FindInterfaces<T>(this Component c) => c.gameObject.FindInterfaces<T>();
 
         /// <summary>Search for the Component in the root of the Object </summary>
-        public static T FindComponentInRoot<T>(this Component c) where T : Component => c.gameObject.FindComponentInRoot<T>();
+        public static T MFindComponentInRoot<T>(this Component c) where T : Component => c.gameObject.MFindComponentInRoot<T>();
 
 
         /// <summary> Uses Getcomponent in childern but with a string</summary>
@@ -713,7 +824,7 @@ namespace MalbersAnimations
                         pinfo.SetValue(comp, pinfo.GetValue(other, null), null);
                     }
                     // In case of NotImplementedException being thrown. For some reason specifying that exception didn't seem to catch it, so I didn't catch anything specific.
-                    catch { } 
+                    catch { }
                 }
             }
             FieldInfo[] finfos = type.GetFields(flags);
@@ -759,6 +870,35 @@ namespace MalbersAnimations
 
         #region Reflections
 
+        public static T GetPropertyValue<T>(this Component component, string propertyName)
+        {
+            if (component == null) throw new ArgumentNullException(nameof(component));
+
+            Type componentType = component.GetType();
+
+            PropertyInfo propertyInfo = componentType.GetProperty(propertyName);
+
+
+            if (propertyInfo == null)
+            {
+                Debug.LogError($"Property '{propertyName}' of type '{typeof(T)}' not found on component '{componentType.FullName}'.");
+                return default;
+            }
+            else
+            {
+                var propertyType = propertyInfo.PropertyType;
+                if (propertyType != typeof(T))
+                {
+                    Debug.LogError($"Property '{propertyName}' was found, but it does not have the type '{typeof(T)}'. '{componentType.FullName}'.");
+                    return default;
+                }
+            }
+
+            return (T)propertyInfo.GetValue(component);
+        }
+
+
+        /// <summary>Converts a Method Info into a Unity Action</summary>
         public static UnityAction<T> CreateDelegate<T>(object target, MethodInfo method)
         {
             var del = (UnityAction<T>)Delegate.CreateDelegate(typeof(UnityAction<T>), target, method);
@@ -775,9 +915,7 @@ namespace MalbersAnimations
         /// <summary> Returns a Unity Action from a component and a method. Used to connect methods in the inspector </summary>
         public static UnityAction GetUnityAction(this Component c, string component, string method)
         {
-            var sender = c.GetComponent(component);
-            if (sender == null) sender = c.GetComponentInParent(Type.GetType(component));
-            if (sender == null) sender = c.GetComponentInChildren(Type.GetType(component));
+            var sender = (c.GetComponent(component) ?? c.GetComponentInParent(component)) ?? c.GetComponentInChildren(component);
 
             MethodInfo methodPtr;
 
@@ -823,9 +961,7 @@ namespace MalbersAnimations
         {
             if (string.IsNullOrEmpty(component)) return null;
 
-            var sender = c.GetComponent(component);
-            if (sender == null) sender = c.GetComponentInParent(component);
-            if (sender == null) sender = c.GetComponentInChildren(component);
+            var sender = (c.GetComponent(component) ?? c.GetComponentInParent(component)) ?? c.GetComponentInChildren(component);
             if (sender == null) return null;
 
             var methodPtr = sender.GetType().GetMethod(method, new Type[] { typeof(T) });

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MalbersAnimations.Reactions
 {
     [System.Serializable]
-    [AddTypeMenu("Malbers/Damageable/Damageable Set Profile")]
+    [AddTypeMenu("Malbers/Damage/Damageable Set Profile")]
 
     public class MDamageableReaction : Reaction
     {
@@ -29,4 +29,3 @@ namespace MalbersAnimations.Reactions
 
 
 
- 

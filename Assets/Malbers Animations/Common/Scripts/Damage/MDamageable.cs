@@ -34,9 +34,7 @@ namespace MalbersAnimations
 
         [Tooltip("Type of surface the Damageable is. (Flesh, Metal, Wood,etc)")]
         public SurfaceID surface;
-
         public Transform Transform => transform;
-
 
         [Tooltip("The Damageable will ignore the Reaction coming from the Damager. Use this when this Damager Needs to have the Default Reaction")]
         [SerializeField] private BoolReference ignoreDamagerReaction = new();
@@ -47,8 +45,11 @@ namespace MalbersAnimations
         [Tooltip("Multiplier for the Stat modifier Value. Use this to increase or decrease the final value of the Stat")]
         public FloatReference multiplier = new(1);
 
-        [Tooltip("When Enabled the animal will rotate towards the Damage direction"), UnityEngine.Serialization.FormerlySerializedAs("AlingToDamage")]
+        [Tooltip("When Enabled the animal will rotate towards the Damage direction")]
         public BoolReference AlignToDamage = new();
+
+        [Tooltip("Only Align to Damage when Movement is Not Detected")]
+        public BoolReference OnlyOnMovementZero = new(true);
 
         [Tooltip("Time to align to the damage direction")]
         public FloatReference AlignTime = new(0.25f);
@@ -77,7 +78,7 @@ namespace MalbersAnimations
         public List<ElementMultiplier> elements = new();
 
         public MDamageableProfile Default { get; set; }
-        private string currentProfileName = "Default";
+        protected string currentProfileName = "Default";
 
 
         [Tooltip("The Damageable can Change profiles to Change the way the Animal React to the Damage")]
@@ -86,7 +87,9 @@ namespace MalbersAnimations
 
         [HideInInspector] public int Editor_Tabs1;
 
-        private void Start()
+        private ICharacterMove characterMove;
+
+        protected void Start()
         {
             if (stats != null)
             {
@@ -106,9 +109,13 @@ namespace MalbersAnimations
                 multiplier, AlignToDamage, elements);
 
             profiles ??= new();
+
+            //Check if we have a Character Move in the Animal
+            if (character != null)
+                characterMove = character.GetComponent<ICharacterMove>();
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             StopAllCoroutines();
         }
@@ -190,7 +197,7 @@ namespace MalbersAnimations
             HitPosition = Position;   //Store the Last Position
 
             var stat = stats.Stat_Get(damage.ID);
-            if (stat == null || !stat.Active || stat.IsEmpty || stat.IsInmune) return; //Do nothing if the stat is empty, null or disabled
+            if (stat == null || !stat.Active || stat.IsEmpty || stat.IsImmune) return; //Do nothing if the stat is empty, null or disabled
 
             ReactionLogic(isCritical, react, customReaction);
 
@@ -244,15 +251,17 @@ namespace MalbersAnimations
             AlignmentLogic(Damager);
         }
 
-        private void AlignmentLogic(GameObject Damager)
+        protected virtual void AlignmentLogic(GameObject Damager)
         {
             if (AlignToDamage.Value)
             {
+                if (OnlyOnMovementZero.Value && characterMove != null && characterMove.MovementDetected) return; //Do not Align if the Animal is moving
+
                 AlignToDamageDirection(Damager);
             }
         }
 
-        private void ReactionLogic(bool isCritical, bool react, Reaction customReaction)
+        protected virtual void ReactionLogic(bool isCritical, bool react, Reaction customReaction)
         {
             if (react)
             {
@@ -274,7 +283,7 @@ namespace MalbersAnimations
             if (Damager) damagerReaction?.React(Damager);
         }
 
-        private void DoReaction(bool isCritical)
+        protected virtual void DoReaction(bool isCritical)
         {
             if (isCritical)
                 criticalReaction?.React(character);     //if the damage is Critical then react with the critical reaction instead
@@ -282,9 +291,9 @@ namespace MalbersAnimations
                 reaction?.React(character);    //React Default
         }
 
-        private void AlignToDamageDirection(GameObject Direction)
+        protected virtual void AlignToDamageDirection(GameObject Direction)
         {
-            
+
             if (isActiveAndEnabled && !Direction.IsDestroyed())
             {
                 StopAllCoroutines();
@@ -360,7 +369,7 @@ namespace MalbersAnimations
         /// <param name="amount"> value to substact to the stat</param>
         public virtual void ReceiveDamage(Vector3 Direction, GameObject Damager, StatModifier damage,
         bool isCritical, bool react, Reaction customReaction, bool pureDamage) =>
-         ReceiveDamage(Direction, transform.position,Damager, damage, isCritical, react, customReaction, pureDamage, null);
+         ReceiveDamage(Direction, transform.position, Damager, damage, isCritical, react, customReaction, pureDamage, null);
 
         /// <summary>  Fill the Local Values of the MDamageable  </summary>
         internal void SetDamageable(Vector3 Direction, GameObject Damager)
@@ -443,6 +452,14 @@ namespace MalbersAnimations
                 First_Change = true;
                 MTools.SetDirty(this);
             }
+
+            ////CustomPatch: validate if trying to set the Root to self
+            //if (Root == this)
+            //{
+            //    Root = null;
+
+            //    Debug.LogWarning($"Not allowed for the {nameof(Root)} property to point to itself on {gameObject.name} {nameof(MDamageable)}.", this);
+            //}
         }
 
         private void OnDrawGizmosSelected()
@@ -513,7 +530,7 @@ namespace MalbersAnimations
     {
         SerializedProperty reaction, damagerReaction, criticalReaction, surface,
             stats,
-            multiplier, ignoreDamagerReaction, events, Root,
+            multiplier, ignoreDamagerReaction, events, Root, OnlyOnMovementZero,
             AlignTime, AlignCurve, AlignToDamage, AlignOffset,
             Editor_Tabs1, elements, profiles;
         MDamageable M;
@@ -534,6 +551,7 @@ namespace MalbersAnimations
             multiplier = serializedObject.FindProperty("multiplier");
             events = serializedObject.FindProperty("events");
             Root = serializedObject.FindProperty("Root");
+            OnlyOnMovementZero = serializedObject.FindProperty("OnlyOnMovementZero");
 
             AlignToDamage = serializedObject.FindProperty("AlignToDamage");
             AlignCurve = serializedObject.FindProperty("AlignCurve");
@@ -553,7 +571,7 @@ namespace MalbersAnimations
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            MalbersEditor.DrawDescription("Allows the Animal React and Receive damage from external sources");
+            MalbersEditor.DrawDescription("Connects the Damage received to the Stat and Animal components");
 
 
             Editor_Tabs1.intValue = GUILayout.Toolbar(Editor_Tabs1.intValue, Tabs1);
@@ -576,9 +594,10 @@ namespace MalbersAnimations
 
         private void DrawGeneral()
         {
-
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
+                EditorGUILayout.PropertyField(stats);
+
                 if (M.transform.parent != null)
                     EditorGUILayout.PropertyField(Root);
 
@@ -597,7 +616,6 @@ namespace MalbersAnimations
 
             using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                EditorGUILayout.PropertyField(stats);
                 EditorGUILayout.PropertyField(multiplier);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(elements);
@@ -610,6 +628,8 @@ namespace MalbersAnimations
 
                 if (M.AlignToDamage.Value)
                 {
+                    EditorGUILayout.PropertyField(OnlyOnMovementZero);
+
                     using (new GUILayout.HorizontalScope())
                     {
                         EditorGUILayout.PropertyField(AlignTime);

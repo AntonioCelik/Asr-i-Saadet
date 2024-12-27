@@ -140,6 +140,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 0}
+  Tags: []
   AttackDirection: 0
   triggerInteraction: 1
   owner: {fileID: 0}
@@ -300,7 +301,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   gravity:
     UseConstant: 1
-    ConstantValue: {x: 0, y: -9.81, z: 0}
+    ConstantValue: {x: 0, y: 0, z: 0}
     Variable: {fileID: 0}
   m_AfterDistance:
     UseConstant: 1
@@ -349,7 +350,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   m_collider: {fileID: 0}
   DragOnImpact: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 2
   references:
     version: 2
     RefIds:

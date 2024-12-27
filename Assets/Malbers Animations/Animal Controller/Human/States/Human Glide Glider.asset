@@ -17,7 +17,7 @@ MonoBehaviour:
   Input: Glide
   ExitInput:
     UseConstant: 1
-    ConstantValue: 
+    ConstantValue: Dodge
     Variable: {fileID: 0}
   m_StateProfile:
     UseConstant: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  Priority: 9
+  Priority: 14
   resetInputOnFailed: 1
   ResetLastState: 0
   General:
@@ -50,7 +50,7 @@ MonoBehaviour:
   UseSendMessage: 0
   IncludeChildren: 0
   AllowExitFromAnim: 0
-  CanTransitionToItself: 1
+  CanTransitionToItself: 0
   IncludeSleepState: 0
   SleepFromState:
   - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
@@ -95,7 +95,7 @@ MonoBehaviour:
   MovementStrafe: 1
   IdleStrafe: 1
   m_debug: 1
-  Editor_Tabs1: 3
+  Editor_Tabs1: 0
   SpeedSets:
   - name: Glide
     StartVerticalIndex:
@@ -185,7 +185,7 @@ MonoBehaviour:
         Variable: {fileID: 0}
       strafeSpeed:
         UseConstant: 1
-        ConstantValue: 2
+        ConstantValue: 6
         Variable: {fileID: 0}
       lerpStrafe:
         UseConstant: 1
@@ -210,7 +210,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   KeepForward:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   UseCameraInput:
     UseConstant: 1

@@ -1,9 +1,14 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using MalbersAnimations.Events;
-using UnityEngine.Events;
+﻿using MalbersAnimations.Events;
 using MalbersAnimations.Scriptables;
 using MalbersAnimations.Utilities;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace MalbersAnimations.Controller
 {
@@ -48,35 +53,38 @@ namespace MalbersAnimations.Controller
         [HideInInspector, SerializeField] private bool showPivots = true;
         [HideInInspector, SerializeField] private bool showModeList = true;
         [HideInInspector, SerializeField] private bool showStateList = true;
+        [HideInInspector, SerializeField] private bool ShowOnGUIData = false;
 #pragma warning restore 414
-        
+
         [HideInInspector, SerializeField] internal bool debugStates;
         [HideInInspector, SerializeField] internal bool debugStances;
         [HideInInspector, SerializeField] internal bool debugModes;
         [HideInInspector, SerializeField] internal bool debugGizmos = true;
-         
+
         [HideInInspector, SerializeField] private int Runtime_Tabs1;
         [HideInInspector, SerializeField] private int Runtime_Tabs2;
-          #endregion
+        #endregion
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (Anim == null) Anim = GetComponentInParent<Animator>();   //Cache the Animator
-            if (RB == null) RB = GetComponentInParent<Rigidbody>();      //Cache the Rigid Body  
-            if (Aimer == null) Aimer = gameObject.FindComponent<Aim>();  //Cache the Aim Component 
+            if (Anim == null) Anim = this.FindComponent<Animator>();   //Cache the Animator
+            if (RB == null) RB = this.FindComponent<Rigidbody>();      //Cache the Rigid Body  
+            if (Aimer == null) Aimer = this.FindComponent<Aim>();  //Cache the Aim Component 
             if (t == null) t = transform;
+
+
+            SetDefaultMainColliderValues();
         }
 
         void Reset()
         {
-
             MTools.SetLayer(base.transform, 20);     //Set all the Childrens to Animal Layer   .
             gameObject.tag = "Animal";                      //Set the Animal to Tag Animal
             AnimatorSpeed = 1;
 
-            Anim = GetComponentInParent<Animator>();            //Cache the Animator
-            RB = GetComponentInParent<Rigidbody>();             //Catche the Rigid Body  
+            Anim = this.FindComponent<Animator>();            //Cache the Animator
+            RB = this.FindComponent<Rigidbody>();             //Catche the Rigid Body  
 
             if (RB == null)
             {
@@ -85,6 +93,15 @@ namespace MalbersAnimations.Controller
                 RB.constraints = RigidbodyConstraints.FreezeRotation;
                 RB.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             }
+
+            if (!Anim)
+            {
+                Anim = gameObject.AddComponent<Animator>();
+            }
+
+            Anim.updateMode = AnimatorUpdateMode.AnimatePhysics; //Set the Animator to Animate Physics
+
+
 
             speedSets = new List<MSpeedSet>(1)
             {
@@ -141,7 +158,7 @@ namespace MalbersAnimations.Controller
             };
         }
 
-        [ContextMenu("Create Event Listeners")] 
+        [ContextMenu("Create Event Listeners")]
         void CreateListeners()
         {
             MEventListener listener = this.FindComponent<MEventListener>();
@@ -238,8 +255,6 @@ namespace MalbersAnimations.Controller
             SetStateListeners(listener, "Set Fly", "Fly");
             /************************/
         }
-
-
         void SetModesListeners(MEventListener listener, string EventName, string ModeName)
         {
             MEvent e = MTools.GetInstance<MEvent>(EventName);
@@ -291,19 +306,173 @@ namespace MalbersAnimations.Controller
             }
         }
 
-#if MALBERS_DEBUG
-         
+        //#if MALBERS_DEBUG
+
+
+        private void OnGUI()
+        {
+            if (!ShowOnGUIData) return;
+
+            if (Editor_Tabs2 == 3 && Application.isPlaying && Selection.gameObjects.Length == 1 && Selection.gameObjects[0] == gameObject
+#if UNITY_EDITOR
+                &&
+             UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(this)  //Show Gizmos only when the Inspector is Open
+#endif
+                )
+            {
+                GUILayout.Space(30);
+
+                GUILayout.BeginVertical("Box");
+                {
+                    GUILayout.Label($"<B>Debug</B> <color=yellow><B>[{name}]</B> </color>");
+                }
+                GUILayout.EndVertical();
+
+                GUILayout.BeginVertical("Box");
+                {
+                    string MLabel(string value) => $"<B>{value}</B>";
+                    string MValue(string value) => $"<color=yellow><B>{value}</B> </color>";
+
+                    using (new GUILayout.HorizontalScope())
+                    {
+                        //Labels
+                        using (new GUILayout.VerticalScope())
+                        {
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("[Vert,Horiz,UpDown]"));
+
+                            //using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                            //    GUILayout.Label(MLabel("Horizontal"));
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("Delta Angle"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("[Pitch,Bank]"));
+
+                            //using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                            //    GUILayout.Label(MLabel("UpDown"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("State"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("Status [Enter,Exit]"));
+
+                            //using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                            //    GUILayout.Label(MLabel("LastState"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("Mode"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel("Stance"));
+
+                            //using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                            //    GUILayout.Label(MLabel("Last Stance"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Movement [{(MovementDetected ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Free Move [{(FreeMovement ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Strafe [{(Sprint ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Additive Pos[{(UseAdditivePos ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Speed Modifier"));
+
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Horizontal Speed"));
+
+
+                        }
+
+                        using (new GUILayout.VerticalScope())
+                        {
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"[{VerticalSmooth:F2},{HorizontalSmooth:F2},{UpDownSmooth:F2}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"{DeltaAngle:F2}"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"[{PitchAngle:F2},{Bank:F2}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"[{ActiveStateID.ID}] - {ActiveStateID.name} | Last [{LastState.ID.ID}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"[{StateEnterStatus},{StateExitStatus}]"));
+
+
+                            //using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                            //    GUILayout.Label(MValue($"{LastState.ID.ID} - {LastState.ID.name}"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"{(activeMode != null ? ($"[{ModeAbility}] - [{activeMode.Name}] - [{activeMode.ActiveAbility.Name}] ") : 0)}"));
+
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"[{Stance.ID}] - {Stance.name} | Last [{LastActiveStance.ID.ID}]"));
+
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Sprint [{(Sprint ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Gravity [{(UseGravity ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Grounded [{(Grounded ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MLabel($"Additive Rot[{(UseAdditiveRot ? "●" : "  ")}]"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"{CurrentSpeedModifier.name}"));
+
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                                GUILayout.Label(MValue($"{HorizontalSpeed:F3}"));
+
+                        }
+                    }
+                }
+                GUILayout.EndVertical();
+            }
+        }
+
         private void OnDrawGizmosSelected()
         {
             if (!debugGizmos) return;
+            if (!UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(this)) return;
+
             float sc = transform.localScale.y;
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(Center, 0.02f * sc);
             Gizmos.DrawWireSphere(Center, 0.02f * sc);
+
+            //Draw Capsule Collider 
+
+            if (!Application.isPlaying && Editor_Tabs1 == 3 && MainCollider)
+            {
+                var currentStance = Stances[SelectedStance];
+                if (currentStance.OverrideCapsule)
+                {
+                    var col = currentStance.newCapsule;
+                    MDebug.DrawCapsule(transform.TransformPoint(col.center), transform.rotation, col.height, col.radius, Color.yellow, col.direction, 16);
+                }
+            }
         }
 
         void OnDrawGizmos()
         {
+            if (!UnityEditorInternal.InternalEditorUtility.GetIsInspectorExpanded(this)) return;
+
             var t = transform;
 
             float sc = t.localScale.y;
@@ -318,12 +487,14 @@ namespace MalbersAnimations.Controller
                     {
                         if (pivot.PivotColor.a == 0)
                         {
-                            pivot.PivotColor = Color.blue;
+                            pivot.PivotColor = Color.white;
                         }
 
                         Gizmos.color = pivot.PivotColor;
+
                         Gizmos.DrawWireSphere(pivot.World(t), sc * RayCastRadius);
-                        Gizmos.DrawRay(pivot.World(t), pivot.WorldDir(t) * pivot.multiplier * sc);
+                        Gizmos.DrawSphere(pivot.World(t), sc * RayCastRadius);
+                        MDebug.GizmoRay(pivot.World(t), pivot.multiplier * sc * pivot.WorldDir(t), 3);
                     }
                 }
             }
@@ -336,8 +507,8 @@ namespace MalbersAnimations.Controller
             if (Application.isPlaying)
             {
 
-               // Gizmos.color = Color.green;
-              //  MDebug.Gizmo_Arrow(pos, TargetSpeed * 5 * sc);    //Draw the Target Direction 
+                // Gizmos.color = Color.green;
+                //  MDebug.Gizmo_Arrow(pos, TargetSpeed * 5 * sc);    //Draw the Target Direction 
 
                 //Gizmos.color = Color.cyan;
                 //MDebug.Gizmo_Arrow(pos + Vector3.one*0.1f, InertiaPositionSpeed * 2 * sc);  //Draw the Intertia Direction 
@@ -357,18 +528,17 @@ namespace MalbersAnimations.Controller
                 }
                 // return;
 
-
-
                 if (CurrentExternalForce != Vector3.zero)
                 {
-                    Gizmos.color = Color.cyan;
+                    Gizmos.color = Color.cyan; //ds
                     Gizmos.DrawRay(Center, CurrentExternalForce * sc / 10);
                     Gizmos.DrawSphere(Center + (CurrentExternalForce * sc / 10), 0.05f * sc);
                 }
             }
+
         }
 #endif
-#endif
+        //#endif
     }
 
     [System.Serializable] public class AnimalEvent : UnityEvent<MAnimal> { }

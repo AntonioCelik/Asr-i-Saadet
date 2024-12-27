@@ -73,6 +73,8 @@ namespace MalbersAnimations
     /// <summary>Used for Play Animations on a Character, in case of the Animal Controller are the Modes</summary>
     public interface ICharacterAction
     {
+        public GameObject gameObject { get; }
+
         /// <summary>Play an Animation Action on a Character and returns True if it can play it</summary>
         bool PlayAction(int Set, int Index);
 
@@ -82,7 +84,18 @@ namespace MalbersAnimations
         /// <summary>Is the Character playing an Action Animation (ICharacterAction Interface) </summary>
         bool IsPlayingAction { get; }
 
-        /// <summary>Listen when the Character has changed the state</summary>
-        public IntEvent OnStateChanged { get; }
-    } 
+        /// <summary>Is the Character Moving </summary>
+        bool MovementDetected { get; }
+
+        /// <summary>Listen when the Character has changed the state. Returns the New State</summary>
+        public System.Action<int> OnState { get; set; }
+
+        /// <summary>Listen when the Character a mode Starts. Returns the  Mode Int Values. (Mode and Ability) </summary>
+        public System.Action<int, int> ModeStart { get; set; }
+        /// <summary>Listen when the Character a mode Ends. Returns the   Mode Int Values. (Mode and Ability)  </summary>
+        public System.Action<int, int> ModeEnd { get; set; }
+
+        /// <summary>Listen when the Character has changed the Stance. Returns the New Stance</summary>
+        public System.Action<int> OnStance { get; set; }
+    }
 }

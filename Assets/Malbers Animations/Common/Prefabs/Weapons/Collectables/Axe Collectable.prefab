@@ -222,6 +222,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  holder: -1
   OnFocused:
     m_PersistentCalls:
       m_Calls:
@@ -238,6 +239,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   OnFocusedBy:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnfocusedBy:
     m_PersistentCalls:
       m_Calls: []
   OnPicked:
@@ -277,11 +281,28 @@ MonoBehaviour:
   OnPreDropped:
     m_PersistentCalls:
       m_Calls: []
+  FocusedByReaction:
+    rid: -2
+  UnFocusedByReaction:
+    rid: -2
+  PickedReaction:
+    rid: -2
+  PrePickedReaction:
+    rid: -2
+  DroppedReaction:
+    rid: -2
+  PreDroppedReaction:
+    rid: -2
   rb: {fileID: 1280272531397504058}
   m_colliders:
   - {fileID: 6906300268119253409}
   - {fileID: 4405352245439151013}
   EditorTabs: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &2562336308742236939
 MonoBehaviour:
   m_ObjectHideFlags: 0

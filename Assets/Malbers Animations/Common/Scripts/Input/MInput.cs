@@ -1,19 +1,20 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Events;
+﻿using MalbersAnimations.Events;
 using MalbersAnimations.Scriptables;
-using MalbersAnimations.Events;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace MalbersAnimations
 {
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/malbers-input")]
     [AddComponentMenu("Malbers/Input/MInput")]
-    public class MInput : MonoBehaviour, IInputSource , IAnimatorListener
+    public class MInput : MonoBehaviour, IInputSource, IAnimatorListener
     {
         #region Variables
         public IInputSystem Input_System;
-       // public Dictionary<string, InputRow> DInputs = new Dictionary<string, InputRow>();        //Shame it cannot be Serialided :(
+        // public Dictionary<string, InputRow> DInputs = new Dictionary<string, InputRow>();        //Shame it cannot be Serialided :(
         /// <summary>Default Input Row Values </summary>
         public List<InputRow> inputs = new();                                     //Used to convert them to dictionary
         public List<InputRow> AllInputs = new();
@@ -32,6 +33,8 @@ namespace MalbersAnimations
         public UnityEvent OnInputEnabled = new();
         public UnityEvent OnInputDisabled = new();
 
+        public BoolEvent OnUsingGamePad = new();
+
         [Tooltip("Inputs won't work on Time.Scale = 0")]
         public BoolReference IgnoreOnPause = new(true);
 
@@ -39,7 +42,15 @@ namespace MalbersAnimations
 
         /// <summary>Send to the Character to Move using the interface ICharacterMove</summary>
         public bool MoveCharacter { set; get; }
+
+        public Action<Vector3> OnMoveAxis { get; set; } = delegate { };
+
+        public Vector3 MoveAxis { get; set; }
+        // public void SetMoveAxis(Vector3 move) => MoveAxis = move;
+
         #endregion
+
+        //public void PlayerInput(IInputSource player) { }
 
         void Awake()
         {
@@ -57,7 +68,7 @@ namespace MalbersAnimations
             {
                 var index = Mathf.Clamp(map - 1, 0, actionMaps.Count);
                 ActiveMap = actionMaps[index];
-                ActiveMapIndex = index+1; 
+                ActiveMapIndex = index + 1;
             }
         }
 
@@ -66,11 +77,11 @@ namespace MalbersAnimations
         /// </summary>
         /// <param name="name"></param>
         /// <param name="newKeyCode"></param>
-        public virtual void RemapInput(string name, KeyCode newKeyCode )
+        public virtual void RemapInput(string name, KeyCode newKeyCode)
         {
             var foundInput = ActiveMap.inputs.Find(inputs => inputs.name == name);
 
-            if (foundInput != null && foundInput.type== InputType.Key)
+            if (foundInput != null && foundInput.type == InputType.Key)
             {
                 foundInput.key = newKeyCode;
             }
@@ -103,7 +114,7 @@ namespace MalbersAnimations
                 var nextMap = actionMaps.FindIndex(x => x.name == map);
 
                 if (nextMap != -1)
-                { 
+                {
                     ActiveMap = actionMaps[nextMap];
                     ActiveMapIndex = nextMap + 1;
                 }
@@ -135,9 +146,9 @@ namespace MalbersAnimations
 
             //Update to all the Inputs the Input System
             foreach (var i in AllInputs)
-                i.InputSystem = Input_System;                           
+                i.InputSystem = Input_System;
 
-          //  List_to_Dictionary();
+            //  List_to_Dictionary();
         }
 
         public virtual void InitializeDefaultMap() => DefaultMap = new MInputMap() { name = new StringReference("Default"), inputs = this.inputs };
@@ -160,7 +171,7 @@ namespace MalbersAnimations
         /// <summary>Enable Disable the Input Script</summary>
         public virtual void Enable(bool val) => enabled = val;
 
-        protected virtual void OnEnable() 
+        protected virtual void OnEnable()
         {
             OnInputEnabled.Invoke();
             SetMap(ActiveMapIndex);
@@ -170,9 +181,9 @@ namespace MalbersAnimations
         {
             if (Application.isPlaying && gameObject.activeInHierarchy)
             {
-                OnInputDisabled.Invoke(); 
+                OnInputDisabled.Invoke();
 
-               if (ResetAllInputsOnDisable)
+                if (ResetAllInputsOnDisable)
                     ResetInputs();
             }
         }
@@ -202,18 +213,88 @@ namespace MalbersAnimations
         {
             if (IgnoreOnPause.Value && Time.timeScale == 0) return;
 
-          //   Debug.Log($"activemap [{ActiveMap.name.Value}] [{ActiveMapIndex}]");
+            //   Debug.Log($"activemap [{ActiveMap.name.Value}] [{ActiveMapIndex}]");
 
             foreach (var item in ActiveMap.inputs)
                 _ = item.GetValue;  //This will set the Current Input value to the inputs and Invoke the Values
+
+
+            CheckDevice();
         }
+
+        protected virtual void CheckDevice()
+        {
+            if (IsJoystickInput())
+            {
+                if (!usingGamePad)
+                {
+                    usingGamePad = true;
+                    OnUsingGamePad.Invoke(true);
+                }
+            }
+            else if (IsMouseAndKeyboard())
+            {
+                if (usingGamePad)
+                {
+                    usingGamePad = false;
+                    OnUsingGamePad.Invoke(false);
+                }
+            }
+
+            currentMousePosition = Input.mousePosition;
+        }
+
+        protected bool usingGamePad;
+        protected Vector3 currentMousePosition;
+
+        protected virtual bool IsJoystickInput()
+        {
+            // joystick buttons
+            if (Input.GetKey(KeyCode.Joystick1Button0) ||
+                Input.GetKey(KeyCode.Joystick1Button1) ||
+                Input.GetKey(KeyCode.Joystick1Button2) ||
+                Input.GetKey(KeyCode.Joystick1Button3) ||
+                Input.GetKey(KeyCode.Joystick1Button4) ||
+                Input.GetKey(KeyCode.Joystick1Button5) ||
+                Input.GetKey(KeyCode.Joystick1Button6) ||
+                Input.GetKey(KeyCode.Joystick1Button7) ||
+                Input.GetKey(KeyCode.Joystick1Button8) ||
+                Input.GetKey(KeyCode.Joystick1Button9) ||
+                Input.GetKey(KeyCode.Joystick1Button10) ||
+                Input.GetKey(KeyCode.Joystick1Button11) ||
+                Input.GetKey(KeyCode.Joystick1Button12) ||
+                Input.GetKey(KeyCode.Joystick1Button13) ||
+                Input.GetKey(KeyCode.Joystick1Button14) ||
+                Input.GetKey(KeyCode.Joystick1Button15) ||
+                Input.GetKey(KeyCode.Joystick1Button16) ||
+                Input.GetKey(KeyCode.Joystick1Button17) ||
+                Input.GetKey(KeyCode.Joystick1Button18) ||
+                Input.GetKey(KeyCode.Joystick1Button19))
+            {
+                return true;
+            }
+
+
+            return false;
+        }
+
+        protected virtual bool IsMouseAndKeyboard()
+        {
+            // mouse & keyboard buttons
+            if (Input.anyKey || Input.GetMouseButton(0))
+                return true;
+            // mouse movement
+            if ((Input.mousePosition - currentMousePosition).sqrMagnitude > 0.01f)
+                return true;
+
+            return false;
+        }
+
 
 
         /// <summary>Enable/Disable an Input Row</summary>
         public virtual void EnableInput(string name, bool value)
         {
-            // Debug.Log($"EnableInput {name} {value}");
-
             string[] inputsName = name.Split(',');
 
             foreach (var inp in inputsName)
@@ -222,7 +303,36 @@ namespace MalbersAnimations
                 {
                     if (AllInputs[i].name == inp) AllInputs[i].Active = value;
                 }
-                //if (DInputs.TryGetValue(inp, out InputRow input)) input.Active = value;
+            }
+        }
+
+
+
+        /// <summary>Set the value of  Reset on Disable in a Input Element</summary>
+        public virtual void ResetOnDisableInput(string name, bool value)
+        {
+            string[] inputsName = name.Split(',');
+
+            foreach (var inp in inputsName)
+            {
+                for (int i = 0; i < AllInputs.Count; i++)
+                {
+                    if (AllInputs[i].name == inp) AllInputs[i].ResetOnDisable = value;
+                }
+            }
+        }
+
+        /// <summary>Set the value of  Reset on Disable in a Input Element</summary>
+        public virtual void IgnoreOnPauseInput(string name, bool value)
+        {
+            string[] inputsName = name.Split(',');
+
+            foreach (var inp in inputsName)
+            {
+                for (int i = 0; i < AllInputs.Count; i++)
+                {
+                    if (AllInputs[i].name == inp) AllInputs[i].ignoreOnPause.Value = value;
+                }
             }
         }
 
@@ -236,7 +346,7 @@ namespace MalbersAnimations
                 }
             }
         }
- 
+
 
         /// <summary>  Resets the value and toggle of an Input to False </summary>
         public virtual void ResetInput(string name)
@@ -291,18 +401,18 @@ namespace MalbersAnimations
         {
             if (string.IsNullOrEmpty(name)) return;
             var inputs = AllInputs.FindAll(item => item.name == name);
-            
+
             foreach (var item in inputs)
                 item.InputChanged.RemoveListener(action);
         }
 
-
+        public void PlayerInput(IInputSource player) {/* Do nothing this is for the new input link*/}
         public virtual bool OnAnimatorBehaviourMessage(string message, object value) => this.InvokeWithParams(message, value);
 
         #region Create Inputs
 #if UNITY_EDITOR
 
-        [ContextMenu("Disable All", false,2000000)]
+        [ContextMenu("Disable All", false, 2000000)]
         private void DisableAllInputs()
         {
             UnityEditor.Undo.RecordObject(this, "DisableAllInputs");
@@ -363,6 +473,7 @@ namespace MalbersAnimations
         private List<InputRow> TrueInput => ActiveMapIndex == 0 ? this.inputs : actionMaps[ActiveMapIndex - 1].inputs;
 
 
+
         [ContextMenu("All Types = [Keys]", false, 2000000)]
         private void ChangeToKeys()
         {
@@ -397,7 +508,7 @@ namespace MalbersAnimations
 
         [ContextMenu("Create/Sprint")]
         private void CreateSprintInput()
-        { 
+        {
             var sprint = new InputRow(true, "Sprint", "Sprint", KeyCode.LeftShift, InputButton.Press, InputType.Key);
 
             TrueInput.Add(sprint);
@@ -422,14 +533,14 @@ namespace MalbersAnimations
 
         [ContextMenu("Create/Main Attack")]
         private void CreateMainAttackInput()
-        { 
+        {
             TrueInput.Add(new InputRow(true, "MainAttack", "Fire1", KeyCode.Mouse0, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Secondary Attack")]
         private void Create2ndAttackInput()
-        { 
+        {
             TrueInput.Add(new InputRow(true, "SecondAttack", "Fire2", KeyCode.Mouse1, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
@@ -450,7 +561,7 @@ namespace MalbersAnimations
 
         [ContextMenu("Create/Speed Up")]
         private void CreateSpeedUP()
-        { 
+        {
             var inputUp = new InputRow(true, "Speed Up", "Speed Up", KeyCode.Alpha2, InputButton.Down, InputType.Key);
 
             TrueInput.Add(inputUp);
@@ -472,7 +583,7 @@ namespace MalbersAnimations
 
             MTools.SetDirty(this);
         }
-        
+
         [ContextMenu("Create/Damage")]
         private void CreateDamage()
         {
@@ -496,7 +607,7 @@ namespace MalbersAnimations
         private void CreateSneakInput()
         {
             var sne = new InputRow(true, "Sneak", "Sneak", KeyCode.C, InputButton.Down, InputType.Key);
-            TrueInput.Add(sne); 
+            TrueInput.Add(sne);
             MTools.SetDirty(this);
         }
 
@@ -513,6 +624,11 @@ namespace MalbersAnimations
 
             MTools.SetDirty(this);
         }
+
+
+
+
+
 #endif
         #endregion
     }
@@ -677,7 +793,7 @@ namespace MalbersAnimations
                         else
                         {
                             if (InputCompleted) OnLongPressReleased.Invoke(); //Invoke when the Input Long press is completed and released
-                            
+
 
                             //If the Input was released before the LongPress was completed  
                             if (FirstInputPress)
@@ -767,11 +883,11 @@ namespace MalbersAnimations
                             if (oldValue != InputValue)
                             {
                                 if (InputValue)
-                                { 
+                                {
                                     OnInputDown.Invoke();
                                 }
                                 else
-                                { 
+                                {
                                     OnInputUp.Invoke();
                                     OnInputFloat.Invoke(0);
                                 }
@@ -961,11 +1077,11 @@ namespace MalbersAnimations
     }
     ///──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
     [System.Serializable]
-    public class MInputMap 
+    public class MInputMap
     {
         public StringReference name = new("New Map");
         public List<InputRow> inputs;
         public int selectedIndex;
-    } 
-    #endregion 
+    }
+    #endregion
 }

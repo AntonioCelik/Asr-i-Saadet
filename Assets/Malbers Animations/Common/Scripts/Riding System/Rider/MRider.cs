@@ -6,6 +6,9 @@ using MalbersAnimations.Scriptables;
 using System.Collections;
 using System.Linq;
 using System;
+using MalbersAnimations.Controller;
+
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,20 +17,23 @@ using UnityEditor;
 /// <summary>  Horse Animset Pro RIDING SYSTEM  </summary>
 namespace MalbersAnimations.HAP
 {
-    public enum DismountType { Random, Input, Last }
+    public enum DismountType { Random, MountInput, Last, RiderInput }
     [AddComponentMenu("Malbers/Riding/Rider")]
+    [DefaultExecutionOrder(-50)]
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/riding/mrider")]
     public class MRider : MonoBehaviour, IAnimatorListener, IRider
     {
         #region Public Variables
         /// <summary>Parent to mount Point </summary>
-        public BoolReference Parent = new (true);
+        public BoolReference Parent = new(true);
 
         /// <summary>This animal is the one that you can call or StartMount </summary>
-        public GameObjectReference m_MountStored = new ();
+        public GameObjectReference m_MountStored = new();
 
+        [Tooltip("The Feet will be place at the Mount IK Goals while mounting")]
+        public bool IKMounted = true;
 
-        public Mount MountStored// => m_MountStored.Value != null ? m_MountStored.Value.FindComponent<Mount>() : null;
+        public Mount MountStored
         {
             get => p_MountStored;
             protected set
@@ -51,6 +57,9 @@ namespace MalbersAnimations.HAP
         [SerializeField] private BoolReference m_CanMount = new(false);
         [SerializeField] private BoolReference m_CanDismount = new(false);
         [SerializeField] private BoolReference m_CanCallAnimal = new(false);
+
+        [Tooltip("Calculate the IK for the Feet here in this script")]
+        [SerializeField] private bool useIKFeet = true;
 
         /// <summary>Changes the Dismount animation on the Rider</summary>
         public DismountType DismountType = DismountType.Random;
@@ -97,13 +106,13 @@ namespace MalbersAnimations.HAP
         #region Call Animal
 
         [Tooltip("Ground Layer to teleport the Mount")]
-        public LayerReference Ground = new LayerReference(1);
+        public LayerReference Ground = new(1);
         [Tooltip("If the Animal is futher than this radius. It will be teleported near the Rider ")]
-        public FloatReference CallRadius = new FloatReference(30);
+        public FloatReference CallRadius = new(30);
         [Tooltip("Distance the Animal will appear near the Rider")]
-        public FloatReference TeleportDistance = new FloatReference(7);
+        public FloatReference TeleportDistance = new(7);
         [Tooltip("Height used to Cast a ray to Find Obstacles for the teleportation")]
-        public FloatReference TeleportHeight = new FloatReference(3f);
+        public FloatReference TeleportHeight = new(3f);
 
 
         public AudioClip CallAnimalA;
@@ -116,8 +125,11 @@ namespace MalbersAnimations.HAP
         #region Colliders
 
         [RequiredField] public CapsuleCollider MainCollider;
-        private OverrideCapsuleCollider Def_CollPropeties;
-        [ExposeScriptableAsset] public CapsuleColliderPreset MountCollider;
+        private OverrideCapsuleCollider DefaultCollider;
+
+
+        public OverrideCapsuleCollider MountCollider;
+        // [ExposeScriptableAsset] public CapsuleColliderPreset MountCollider;
 
         [Tooltip("Internal Rider Colliders. This needs to be disabled while mounting or it cause an error where the rider to push the horse collider")]
 
@@ -146,7 +158,10 @@ namespace MalbersAnimations.HAP
         /// <summary>Montura stored when the Riders enters a MountTrigger</summary>
         public Mount Montura { get; set; }
 
-        public virtual IInputSource MountInput { get; set; }
+        public GameObject Mount => Montura != null ? Montura.Animal.gameObject : null;
+
+        public virtual IInputSource RiderInput { get; set; }
+        public virtual MAnimal RiderAnimal { get; set; }
 
 
         /// <summary> If Null means that we are NOT Near to an Animal</summary>
@@ -190,6 +205,8 @@ namespace MalbersAnimations.HAP
         public Vector3 MountPosition { get; set; }
 
         internal int MountLayerIndex = -1;                    //Mount Layer Index
+
+        private bool startGravity;
         protected AnimatorUpdateMode Default_Anim_UpdateMode;
 
         #region Properties
@@ -261,15 +278,15 @@ namespace MalbersAnimations.HAP
 
         #region Bones
         /// <summary>Spine Bone Transform</summary>
-        public Transform Spine { get; private set; }
+        public Transform Spine { get; set; }
         //  public Transform Hips { get; private set; }
-        public Transform Chest { get; private set; }
+        public Transform Chest { get; set; }
 
         /// <summary>Ground Character Controller</summary>
         public ISleepController Character { get; protected set; }
         #endregion
 
-      
+
         #endregion
         #endregion
 
@@ -291,7 +308,7 @@ namespace MalbersAnimations.HAP
 
             if (MainCollider)
             {
-                Def_CollPropeties = new OverrideCapsuleCollider(MainCollider) { modify = (CapsuleModifier)(-1) };
+                DefaultCollider = new OverrideCapsuleCollider(MainCollider) { modify = (CapsuleModifier)(-1) };
                 colliders.Remove(MainCollider); //Remove the Main Collider from the Extra Colliders
             }
 
@@ -304,9 +321,21 @@ namespace MalbersAnimations.HAP
             if (Anim == null) Anim = this.FindComponent<Animator>();
             if (RB == null) RB = this.FindComponent<Rigidbody>();
 
+            RiderInput ??= this.FindInterface<IInputSource>();
+
             Character = GetComponent<ISleepController>(); //Find if there's a ground controller (ANIMAL CONTROLLER)
+            RiderAnimal = GetComponent<MAnimal>(); //Find  the Input Controller on the Rider
 
             animatorParams = new Hashtable();
+
+
+            if (MainCollider == null && !TryGetComponent(out MainCollider))
+            { Debug.LogWarning("The Rider needs a Main Collider on the component", this); }
+
+
+            if (MainCollider)
+                DefaultCollider = new OverrideCapsuleCollider(MainCollider) { modify = (CapsuleModifier)(-1) };
+
 
             if (Anim)
             {
@@ -350,7 +379,7 @@ namespace MalbersAnimations.HAP
             FindStoredMount();
             if (StartMounted.Value || Mounted) Start_Mounted();
 
-            UpdateCanMountDismount(); 
+            UpdateCanMountDismount();
         }
 
         void Update()
@@ -381,8 +410,13 @@ namespace MalbersAnimations.HAP
         }
 
         /// <summary>Add the Mount Rotation and Position Modifications while Mounting Dismounting called y the animator</summary>
-        public virtual void Mount_TargetTransform() => transform.SetPositionAndRotation(MountPosition, MountRotation);
+        public virtual void Mount_TargetTransform(Vector3 pos, Quaternion rot)
+        {
+            MountPosition = pos;
+            MountRotation = rot;
 
+            transform.SetPositionAndRotation(MountPosition, MountRotation);
+        }
 
         void Debbuging(string value, string color = "white")
         {
@@ -396,7 +430,17 @@ namespace MalbersAnimations.HAP
 
         public virtual void MountAnimal()
         {
-            if (!CanMount || !enabled) return; 
+            if (!CanMount || !enabled || Montura == null) return;
+
+            //Check if the Mount is already mounted by someone else
+            if (Montura.Mounted && Montura.Rider != this)
+            {
+                Montura = null;
+                MountTrigger = null;
+                Debug.Log("Mountura is already being used");
+                return;
+            }
+
 
             if (!Montura.InstantMount)                                           //If is instant Mount play it      
             {
@@ -438,9 +482,24 @@ namespace MalbersAnimations.HAP
 
                 var MT = MountTrigger;
                 End_Dismounting();
-                RiderRoot.position = MT.transform.position + (MT.transform.forward * -0.2f);   //Move the rider directly to the mounttrigger
-                RiderRoot.rotation = MT.transform.rotation;
+
+                //Move the rider directly to the mounttrigger
+                RiderRoot.SetPositionAndRotation(MT.transform.position + (MT.transform.forward * -0.2f), MT.transform.rotation);
             }
+        }
+
+
+
+        public void DismountAnimal(int dismountID)
+        {
+            if (!CanDismount || !enabled) return;
+            Debbuging("Dismount Animal force DismountID " + dismountID, "cyan");
+            Montura.Mounted = Mounted = false;
+
+            if (dismountID > 0 && dismountID < Montura.MountTriggers.Count)
+                MountTrigger = Montura.MountTriggers[dismountID];
+
+            SetMountSide(dismountID);
         }
 
 
@@ -452,38 +511,45 @@ namespace MalbersAnimations.HAP
                 case DismountType.Last:
                     if (MountTrigger == null) MountTrigger = Montura.MountTriggers[UnityEngine.Random.Range(0, Montura.MountTriggers.Count)];
                     return MountTrigger;
-                case DismountType.Input:
-                    var MoveInput = Montura.Animal.MovementAxis;
-
-                    MountTriggers close = MountTrigger;
-
-                    float Diference = Vector3.Angle(MountTrigger.Direction, MoveInput);
-
-                    foreach (var mt in Montura.MountTriggers)
-                    {
-                        var newDiff = Vector3.Angle(mt.Direction, MoveInput);
-
-                        if (newDiff < Diference)
-                        {
-                            Diference = newDiff;
-                            close = mt;
-                        }
-                    }
-
-                    return close;
+                case DismountType.MountInput:
+                    return MountTriggerByInput(Montura.Animal.RawInputAxis);
 
                 case DismountType.Random:
                     int Randomindex = UnityEngine.Random.Range(0, Montura.MountTriggers.Count);
                     return Montura.MountTriggers[Randomindex];
+
+                case DismountType.RiderInput:
+                    return MountTriggerByInput(RiderAnimal.RawInputAxis);
                 default:
                     return MountTrigger;
             }
+
+
+            //Local function to find the Mount Trigger by Input
+            MountTriggers MountTriggerByInput(Vector3 MoveInput)
+            {
+                var close = MountTrigger;
+                var Diference = Vector3.Angle(MountTrigger.Direction, MoveInput);
+
+                foreach (var mt in Montura.MountTriggers)
+                {
+                    var newDiff = Vector3.Angle(mt.Direction, MoveInput);
+
+                    if (newDiff < Diference)
+                    {
+                        Diference = newDiff;
+                        close = mt;
+                    }
+                }
+                return close;
+            }
         }
 
-        private void FindStoredMount() 
+        private void FindStoredMount()
             => MountStored = m_MountStored.Value != null ? m_MountStored.Value.FindComponent<Mount>() : null;
 
 
+        /// <summary> Set a horse with a Mount Component to be the stored mount. Necessary to call a horse using call animal</summary> 
         public virtual void Set_StoredMount(GameObject newMount)
         {
             m_MountStored.Value = newMount;
@@ -552,6 +618,8 @@ namespace MalbersAnimations.HAP
             }
         }
 
+
+
         /// <summary>CallBack at the Start of the Mount Animations</summary>
         internal virtual void Start_Mounting()
         {
@@ -559,8 +627,6 @@ namespace MalbersAnimations.HAP
 
             IsOnHorse = false;
             Mounted = true;                       //Sync Mounted Values in Animal and Rider
-
-            MountInput = Montura.MountInput;      //Get the Input of the Mount
 
             if (RB)                                                 //Deactivate stuffs for the Rider's Rigid Body
             {
@@ -573,9 +639,10 @@ namespace MalbersAnimations.HAP
             }
 
             ToogleColliders(false);            //Deactivate All Colliders on the Rider IMPORTANT ... or the Rider will try to push the animal
-            if (MainCollider)
+
+            if (MainCollider && !MountCollider.IsNull)
             {
-                MountCollider?.Modify(MainCollider); //Modify the collider properties
+                MountCollider.Modify(MainCollider); //Modify the collider properties
                 MainCollider.enabled = false;
             }
 
@@ -597,11 +664,18 @@ namespace MalbersAnimations.HAP
             RiderStatus.Invoke(RiderAction.StartMount);
 
             if (Character != null)
+            {
                 Character.Sleep = true;   //IF there's an Animal Controller send it to Sleep.
-
+                Character.Grounded = false;
+            }
             UpdateCanMountDismount();
 
             Debbuging("Start Mounting", "green");
+
+            //Sync the States to the Rider after mounting
+            SetAnimParameter(Montura.Animal.hash_Grounded, Montura.Animal.Grounded);
+            SetAnimParameter(Montura.Animal.hash_StateOn);
+            SetAnimParameter(Montura.Animal.hash_State, Montura.Animal.ActiveStateID.ID);
 
         }
 
@@ -609,12 +683,11 @@ namespace MalbersAnimations.HAP
         public virtual void End_Mounting()
         {
             IsOnHorse = true;                              //Sync Mounted Values in Animal and Rider again Double Check
-            Montura.End_Mounting();
 
             if (Parent)
             {
                 //Reset Rotation when PARENTED
-                RiderRoot.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);  
+                RiderRoot.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             }
 
             if (Anim)
@@ -632,6 +705,7 @@ namespace MalbersAnimations.HAP
             }
 
             OnEndMounting.Invoke();
+            Montura.End_Mounting();
 
             //Broadcast that Mount has finished
             RiderStatus.Invoke(RiderAction.EndMount);
@@ -639,7 +713,7 @@ namespace MalbersAnimations.HAP
 
             if (MainCollider)
             {
-                MountCollider?.Modify(MainCollider); //Modify the collider properties
+                if (!MountCollider.IsNull) MountCollider.Modify(MainCollider); //Modify the collider properties
                 MainCollider.enabled = true;
             }
 
@@ -648,13 +722,12 @@ namespace MalbersAnimations.HAP
             SendMessage("SetIgnoreTransform", Montura.Animal.transform, SendMessageOptions.DontRequireReceiver);
 
             Debbuging("End Mounting", "green");
-
         }
 
         /// <summary> CallBack at the Start of the Dismount Animations</summary>
         public virtual void Start_Dismounting()
         {
-            RiderRoot.parent = null;                //Unparent! Important!
+            if (Parent) RiderRoot.parent = null;                //Unparent! Important!
             Montura.Start_Dismounting();
             Mounted = false;
 
@@ -682,8 +755,6 @@ namespace MalbersAnimations.HAP
             Debbuging("Start Dismounting", "green");
         }
 
-        private bool startGravity;
-
         /// <summary>CallBack at the End of the Dismount Animations</summary>
         public virtual void End_Dismounting()
         {
@@ -696,7 +767,7 @@ namespace MalbersAnimations.HAP
             ToggleCall = false;                             //Reset the Call Animal
 
             //Reactivate stuffs for the Rider's Rigid Body
-            if (RB)                                         
+            if (RB)
             {
                 RB.isKinematic = false;
                 RB.useGravity = startGravity;
@@ -713,7 +784,7 @@ namespace MalbersAnimations.HAP
             //Reset the Up Vector; ****IMPORTANT 
             RiderRoot.rotation = Quaternion.FromToRotation(RiderRoot.up, -Gravity.Value) * RiderRoot.rotation;
 
-            Def_CollPropeties.Modify(MainCollider);             //Restore Main Collider
+            DefaultCollider.Modify(MainCollider);             //Restore Main Collider
             ToogleColliders(true);                              //Enabled Rider  Colliders
 
             if (DisableComponents) ToggleComponents(true);      //Enable all Monobehaviours breaking the Mount System
@@ -726,15 +797,13 @@ namespace MalbersAnimations.HAP
             if (Character != null)
             {
                 Character.Sleep = false;
-                
-                //Little Hack for the new Enchance Inputs
-                SendMessage("ResetInputAxis", SendMessageOptions.DontRequireReceiver); 
+                Character.Grounded = true;
+
+                //Little Hack for the new  Inputs
+                SendMessage("ResetInputAxis", SendMessageOptions.DontRequireReceiver);
             }
-
             Debbuging("End Dismounting", "green");
-
         }
-
 
         /// <summary>Connect the Animal Events from the Riders Methods (Grounded, State, Mode)</summary>
         protected virtual void ConnectWithMount()
@@ -750,7 +819,7 @@ namespace MalbersAnimations.HAP
         }
 
         /// <summary>Disconnect the Animal Events from the Riders Methods (Grounded, State, Mode)</summary>
-        protected void DisconnectWithMount()
+        protected virtual void DisconnectWithMount()
         {
             if (Anim)
             {
@@ -763,7 +832,7 @@ namespace MalbersAnimations.HAP
             }
         }
 
-        internal virtual void MountTriggerEnter(Mount mount, MountTriggers mountTrigger)
+        public virtual void MountTriggerEnter(Mount mount, MountTriggers mountTrigger)
         {
             Montura = mount;                                   //Set to Mount on this Rider    
             MountTrigger = mountTrigger;                       //Send the side transform to mount
@@ -779,14 +848,13 @@ namespace MalbersAnimations.HAP
             UpdateCanMountDismount();
         }
 
-        internal virtual void MountTriggerExit()
+        public virtual void MountTriggerExit()
         {
             if (Montura)
                 Montura.ExitMountTrigger();
 
             MountTrigger = null;
             Montura = null;
-            MountInput = null;
             OnFindMount.Invoke(null); ////Invoke Null Mount
             RiderStatus.Invoke(RiderAction.OutMountTrigger);
 
@@ -794,10 +862,9 @@ namespace MalbersAnimations.HAP
         }
 
         /// <summary> Update the values Can Mount Can Dismount </summary>
-        internal virtual void UpdateCanMountDismount()
+        public virtual void UpdateCanMountDismount()
         {
             CanMount = Montura && !Mounted && !IsOnHorse && Montura.CanBeMountedByState;
-
 
             OnCanMount.Invoke(CanMount);
 
@@ -864,6 +931,8 @@ namespace MalbersAnimations.HAP
                         MountStored.AI?.Stop();
                     }
 
+
+
                     MountStored = m_MountStored.Value.FindComponent<Mount>();
 
                     if (MountStored)
@@ -880,7 +949,7 @@ namespace MalbersAnimations.HAP
 
                     var InsMount = Instantiate(m_MountStored.Value, InstantiatePosition, Quaternion.identity);
 
-                    InsMount.gameObject.name = InsMount.gameObject.name.Replace("(Clone)", "");
+                    InsMount.name = InsMount.name.Replace("(Clone)", "");
 
                     m_MountStored.UseConstant = true;
                     m_MountStored.Value = InsMount;
@@ -924,8 +993,10 @@ namespace MalbersAnimations.HAP
                         MountStored.AI.SetTarget(RiderRoot, true); //Set the Rider as the Target to follow
                         MountStored.AI.Move(); //Move the Animal 
 
-                        if (CallAnimalA)
+                        if (CallAnimalA != null && RiderAudio != null)
                             RiderAudio.PlayOneShot(CallAnimalA);
+
+                        MountStored.OnCalled.Invoke(RiderRoot.gameObject);
 
                         RiderStatus.Invoke(RiderAction.CallMount);
                     }
@@ -933,7 +1004,7 @@ namespace MalbersAnimations.HAP
                     {
                         StopMountAI();
 
-                        if (StopAnimalA)
+                        if (StopAnimalA != null && RiderAudio != null)
                             RiderAudio.PlayOneShot(StopAnimalA);
 
                         RiderStatus.Invoke(RiderAction.CallMountStop);
@@ -950,7 +1021,7 @@ namespace MalbersAnimations.HAP
             var NextPoint = (HeightPoint + (-transform.forward * TeleportDistance));
 
             Debug.DrawRay(HeightPoint, -transform.forward * TeleportDistance, Color.white, 3f);
-            Debug.DrawRay(HeightPoint + (-transform.forward * TeleportDistance), (Gravity.Value * TeleportHeight * 2), Color.white, 3f);
+            Debug.DrawRay(HeightPoint + (-transform.forward * TeleportDistance), (2 * TeleportHeight * Gravity.Value), Color.white, 3f);
 
 
 
@@ -994,7 +1065,7 @@ namespace MalbersAnimations.HAP
         {
             foreach (var col in colliders)
             {
-               if (col != null) col.enabled = active;
+                if (col != null) col.enabled = active;
             }
         }
 
@@ -1016,7 +1087,7 @@ namespace MalbersAnimations.HAP
             {
                 foreach (var component in DisableList)
                 {
-                    if (component != null) 
+                    if (component != null)
                         component.enabled = enabled;
                 }
             }
@@ -1037,8 +1108,6 @@ namespace MalbersAnimations.HAP
         public void ResetAnimParameter(int hash) { if (HasParam(hash)) Anim.ResetTrigger(hash); }
         private bool HasParam(int hash) => animatorParams.ContainsKey(hash);
         #endregion
-
-
 
         /// <summary> Checks and Execute  without Input if the Rider can Mount, Dismount or Call an Animal </summary>
         public virtual void CheckMountDismount()
@@ -1141,7 +1210,7 @@ namespace MalbersAnimations.HAP
 
         private void IKFeet()
         {
-            if (Montura && Montura.HasIKFeet)
+            if (useIKFeet && Montura && Montura.HasIKFeet && IKMounted)
             {
                 //linking the weights to the animator
                 if (IsMountingDismounting)
@@ -1200,10 +1269,10 @@ namespace MalbersAnimations.HAP
         public virtual void EnableMountInput(bool value) => Montura?.EnableInput(value);
 
         /// <summary> Enable Disable an Input for the Mount</summary>
-        public void DisableMountInput(string input) => MountInput?.DisableInput(input);
+        public void DisableMountInput(string input) => Montura.MountInput?.DisableInput(input);
 
         /// <summary> Enable Disable an Input for the Mount</summary>
-        public void EnableMountInput(string input) => MountInput?.EnableInput(input);
+        public void EnableMountInput(string input) => Montura.MountInput?.EnableInput(input);
 
 
         #region IKREINS
@@ -1264,6 +1333,9 @@ namespace MalbersAnimations.HAP
         {
             //if (MountCollider == null)
             //    MountCollider = Resources.Load<CapsuleColliderPreset>("Mount_Capsule");
+
+            if (m_root == null)
+                m_root = transform;
         }
 
         private void Reset()
@@ -1273,10 +1345,8 @@ namespace MalbersAnimations.HAP
             RiderRoot = transform; //IMPORTANT
 
             MainCollider = GetComponent<CapsuleCollider>();
-            MountCollider = Resources.Load<CapsuleColliderPreset>("Mount_Capsule");
 
-            if (MainCollider)
-                Def_CollPropeties = new OverrideCapsuleCollider(MainCollider) { modify = (CapsuleModifier)(-1) };
+
 
             BoolVar CanMountV = MTools.GetInstance<BoolVar>("Can Mount");
             BoolVar CanDismountV = MTools.GetInstance<BoolVar>("Can Dismount");
@@ -1354,9 +1424,7 @@ namespace MalbersAnimations.HAP
         [ContextMenu("Create Mount Inputs")]
         void ConnectToInput()
         {
-            MInput input = GetComponent<MInput>();
-
-            if (input == null) { input = gameObject.AddComponent<MInput>(); }
+            MInput input = GetComponent<MInput>() ?? gameObject.AddComponent<MInput>();
 
 
             #region Mount Input
@@ -1452,14 +1520,9 @@ namespace MalbersAnimations.HAP
             MEvent RiderSetMount = MTools.GetInstance<MEvent>("Rider Set Mount");
             MEvent RiderSetDismount = MTools.GetInstance<MEvent>("Rider Set Dismount");
 
-            MEventListener listener = GetComponent<MEventListener>();
+            var listener = this.FindComponent<MEventListener>() ?? gameObject.AddComponent<MEventListener>();
 
-            if (listener == null)
-            {
-                listener = gameObject.AddComponent<MEventListener>();
-            }
-
-            if (listener.Events == null) listener.Events = new List<MEventItemListener>();
+            listener.Events ??= new List<MEventItemListener>();
 
             if (listener.Events.Find(item => item.Event == RiderSetMount) == null)
             {
@@ -1491,7 +1554,6 @@ namespace MalbersAnimations.HAP
 
         }
 
-
         public void FindRHand()
         {
             if (animator != null && animator.avatar.isHuman)
@@ -1509,6 +1571,7 @@ namespace MalbersAnimations.HAP
             }
         }
 
+#if MALBERS_DEBUG
         void OnDrawGizmos()
         {
             if (Anim && Application.isPlaying && Mounted && Montura.debug && Montura.Animal.ActiveStateID == StateEnum.Locomotion)
@@ -1545,6 +1608,13 @@ namespace MalbersAnimations.HAP
                 }
             }
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (MountCollider.IsNull) return;
+            MDebug.DrawCapsule(transform.TransformPoint(MountCollider.center), transform.rotation, MountCollider.height, MountCollider.radius, Color.yellow, MountCollider.direction);
+        }
+#endif
 #endif
         #endregion
     }
@@ -1554,7 +1624,7 @@ namespace MalbersAnimations.HAP
     [CustomEditor(typeof(MRider), true)]
     public class MRiderEd : Editor
     {
-        public readonly string version = "Riding System - HAP [v4.4.4b]";
+        public readonly string version = "Riding System - HAP [v4.4.7]";
 
         protected MRider M;
 
@@ -1562,11 +1632,10 @@ namespace MalbersAnimations.HAP
             MountStored, StartMounted, Parent, animator, m_rigidBody, m_root, gravity, ReSync, ResyncThreshold,
             MountLayer, LayerPath, OnCanMount, OnCanDismount, OnStartMounting, OnEndMounting, m_CanMount, m_CanDismount, m_CanCallAnimal,
             OnStartDismounting, OnEndDismounting, OnFindMount, CanCallMount, OnAlreadyMounted, DisableList, MainCollider,
-            CallAnimalA, StopAnimalA, RiderAudio, MountCollider, colliders,
+            CallAnimalA, StopAnimalA, RiderAudio, MountCollider, colliders, IKMounted, useIKFeet,
             LinkUpdate, debug, AlingMountTrigger, DismountType, DisableComponents, Editor_Tabs1,
             LeftHand, RightHand, RightReinOffset, LeftReinOffset,
             Ground, CallRadius, TeleportDistance, TeleportHeight
-
             ;
 
 
@@ -1576,6 +1645,7 @@ namespace MalbersAnimations.HAP
 
 
             Ground = serializedObject.FindProperty("Ground");
+            IKMounted = serializedObject.FindProperty("IKMounted");
             CallRadius = serializedObject.FindProperty("CallRadius");
             TeleportDistance = serializedObject.FindProperty("TeleportDistance");
             TeleportHeight = serializedObject.FindProperty("TeleportHeight");
@@ -1606,6 +1676,7 @@ namespace MalbersAnimations.HAP
             Parent = serializedObject.FindProperty("Parent");
             MountLayer = serializedObject.FindProperty("MountLayer");
             LayerPath = serializedObject.FindProperty("LayerPath");
+            useIKFeet = serializedObject.FindProperty("useIKFeet");
 
 
             Editor_Tabs1 = serializedObject.FindProperty("Editor_Tabs1");
@@ -1640,7 +1711,6 @@ namespace MalbersAnimations.HAP
 
             DisableComponents = serializedObject.FindProperty("DisableComponents");
             DisableList = serializedObject.FindProperty("DisableList");
-
         }
 
         #region GUICONTENT
@@ -1660,19 +1730,13 @@ namespace MalbersAnimations.HAP
             if (!Application.isPlaying) AddMountLayer();
 
             // EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
-
-
-
             Editor_Tabs1.intValue = GUILayout.Toolbar(Editor_Tabs1.intValue, new string[] { "General", "Events", "Advanced", "Debug" });
-
-
             int Selection = Editor_Tabs1.intValue;
 
             if (Selection == 0) DrawGeneral();
             else if (Selection == 1) DrawEvents();
             else if (Selection == 2) DrawAdvanced();
             else if (Selection == 3) DrawDebug();
-
             serializedObject.ApplyModifiedProperties();
             //EditorGUILayout.EndVertical(); 
         }
@@ -1709,7 +1773,7 @@ namespace MalbersAnimations.HAP
             }
         }
 
-         
+
         private void DrawDebug()
         {
             if (Application.isPlaying)
@@ -1748,6 +1812,7 @@ namespace MalbersAnimations.HAP
                 EditorGUILayout.PropertyField(animator);
                 EditorGUILayout.PropertyField(m_rigidBody);
                 EditorGUILayout.PropertyField(m_root, new GUIContent("Rider's Root", "Root Gameobject for the Rider Character"));
+                EditorGUILayout.PropertyField(IKMounted);
             }
 
 
@@ -1755,11 +1820,13 @@ namespace MalbersAnimations.HAP
             {
                 EditorGUILayout.PropertyField(ReSync);
                 EditorGUILayout.PropertyField(ResyncThreshold);
-                EditorGUILayout.PropertyField(AlingMountTrigger, new GUIContent("Align MTrigger Time", "Time to Align to the Mount Trigger Position while is playing the Mount Animation"));
+                EditorGUILayout.PropertyField(AlingMountTrigger,
+                    new GUIContent("Align MTrigger Time", "Time to Align to the Mount Trigger Position while is playing the Mount Animation"));
                 EditorGUILayout.PropertyField(LayerPath);
                 EditorGUILayout.PropertyField(MountLayer);
+                EditorGUILayout.PropertyField(useIKFeet);
             }
-          
+
         }
 
         private void DrawEvents()
@@ -1774,7 +1841,7 @@ namespace MalbersAnimations.HAP
                     EditorGUILayout.PropertyField(OnEndDismounting);
                 }
 
-                
+
 
                 if (m_root.isExpanded = MalbersEditor.Foldout(m_root.isExpanded, "Other"))
                 {
@@ -1783,7 +1850,7 @@ namespace MalbersAnimations.HAP
                     EditorGUILayout.PropertyField(OnFindMount);
                     EditorGUILayout.PropertyField(CanCallMount);
                 }
-            } 
+            }
         }
 
         private void DrawGeneral()
